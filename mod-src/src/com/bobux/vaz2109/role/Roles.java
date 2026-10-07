@@ -3,6 +3,7 @@ package com.bobux.vaz2109.role;
 import com.bobux.vaz2109.ModRegistry;
 import com.bobux.vaz2109.car.CarPart;
 import com.bobux.vaz2109.entity.AllyFrog;
+import com.bobux.vaz2109.entity.BloodBeamEntity;
 import com.bobux.vaz2109.entity.TurretEntity;
 import com.bobux.vaz2109.entity.VazEntity;
 import com.bobux.vaz2109.item.GunItem;
@@ -20,6 +21,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -96,6 +98,8 @@ public final class Roles {
    public static final float BLACK_FLASH_CHANCE = 0.25F;
    public static final float BLACK_FLASH_ZONE_CHANCE = 0.45F;
    private static final Map<Player, Float> SWING = new WeakHashMap<>();
+   private static final Map<UUID, BloodBeamEntity> BEAMS = new HashMap<>();
+   public static final int SLASH_TICKS = 10;
    private static final List<Roles.Impact> IMPACTS = new ArrayList<>();
    private static boolean applying;
 
@@ -212,7 +216,14 @@ public final class Roles {
 
                      player.getPersistentData().putLong("vaz2109ChargeStart", player.level().getGameTime());
                      if (a == Ability.PIERCING_BLOOD) {
-                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.HONEY_BLOCK_SLIDE, SoundSource.PLAYERS, 1.0F, 0.5F);
+                        BloodBeamEntity beam = ModRegistry.BLOOD_BEAM.get().create(player.level());
+                        if (beam != null) {
+                           beam.setup(player, 20, 140, 0.06F, 3.0F, true, true);
+                           player.level().addFreshEntity(beam);
+                           BEAMS.put(player.getUUID(), beam);
+                        }
+                     } else if (a == Ability.DISMANTLE) {
+                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.6F, 0.6F);
                      } else {
                         SukunaVessel.charge(player, 40);
                      }
@@ -249,8 +260,21 @@ public final class Roles {
       if (start > 0L) {
          player.getPersistentData().remove("vaz2109ChargeStart");
          Ability a = selected(player);
-         if (a != null && a.chargeable() && !SukunaVessel.possessed(player)) {
-            float power = Math.min(1.0F, Math.max(0.15F, (float)(player.level().getGameTime() - start) / 40.0F));
+         long held = player.level().getGameTime() - start;
+         BloodBeamEntity beam = BEAMS.remove(player.getUUID());
+         if (beam != null) {
+            int fired = beam.firedTicks();
+            beam.discard();
+            player.getPersistentData()
+               .putLong("vaz2109Cd_" + Ability.PIERCING_BLOOD.id, player.level().getGameTime() + (long)(Ability.PIERCING_BLOOD.cooldown * (0.3F + 0.7F * Math.min(1.0F, fired / 100.0F))));
+            sync(player);
+         } else if (a == Ability.DISMANTLE && !SukunaVessel.possessed(player)) {
+            int count = slashes(player, held);
+            dismantleBurst(player, count);
+            player.getPersistentData().putLong("vaz2109Cd_" + a.id, player.level().getGameTime() + (long)(a.cooldown + 25 * (count - 1)));
+            sync(player);
+         } else if (a != null && a.chargeable() && a != Ability.PIERCING_BLOOD && !SukunaVessel.possessed(player)) {
+            float power = Math.min(1.0F, Math.max(0.15F, (float)held / 40.0F));
             use(player, a, power);
             player.getPersistentData().putLong("vaz2109Cd_" + a.id, player.level().getGameTime() + (long)((float)a.cooldown * (0.4F + 0.6F * power)));
             sync(player);
@@ -438,6 +462,24 @@ public final class Roles {
       return true;
    }
 
+   /** Slashes gathered while holding Dismantle: one every half second, up to 2 + fingers / 5. */
+   public static int slashes(Player player, long held) {
+      int max = 2 + SukunaVessel.fingers(player) / 5;
+      return (int)Math.max(1L, Math.min((long)max, 1L + held / (long)SLASH_TICKS));
+   }
+
+   /** Releases every gathered slash at once in a fan along the look direction. */
+   private static void dismantleBurst(ServerPlayer player, int count) {
+      int n = SukunaVessel.fingers(player);
+      Vec3 look = player.getLookAngle();
+
+      for (int i = 0; i < count; i++) {
+         float off = count == 1 ? 0.0F : ((float)i / (count - 1) - 0.5F) * Math.min(40.0F, 9.0F * (count - 1));
+         Vec3 dir = look.yRot(off * (float)(Math.PI / 180.0));
+         SukunaVessel.dismantle(player, player.getEyePosition(), dir, 4.0F + 0.25F * (float)n, 1);
+      }
+   }
+
    /** Brewer's fire breath: strong moonshine sprayed over a lighter, a short cone of flame for 1.5 seconds. */
    private static void breathe(ServerPlayer player, ServerLevel level) {
       Vec3 eye = player.getEyePosition();
@@ -485,18 +527,16 @@ public final class Roles {
             long now = level.getGameTime();
             CompoundTag data = player.getPersistentData();
             long start = data.getLong("vaz2109ChargeStart");
-            if (start > 0L && now - start >= 100L) {
+            BloodBeamEntity beam = BEAMS.get(player.getUUID());
+            int limit = beam != null ? 170 : 100;
+            if (start > 0L && (now - start >= (long)limit || beam != null && beam.isRemoved())) {
                release(player);
-            } else if (start > 0L && selected(player) == Ability.PIERCING_BLOOD) {
+            } else if (start > 0L && selected(player) == Ability.DISMANTLE) {
                int held = (int)(now - start);
-               BloodArts.convergence(level, player, held);
-               if (held > 0 && held % 10 == 0) {
-                  if (player.getHealth() <= 2.0F) {
-                     release(player);
-                  } else {
-                     player.setHealth(player.getHealth() - 1.0F);
-                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 0.8F, 1.4F);
-                  }
+               if (held > 0 && held % SLASH_TICKS == 0 && slashes(player, held) > slashes(player, held - 1)) {
+                  int count = slashes(player, held);
+                  level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.5F, 0.8F + 0.12F * count);
+                  ModSounds.play(level, player.position(), 0.5F, ModSounds.SOUL_WHISPER);
                }
             }
 

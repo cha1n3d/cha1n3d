@@ -293,11 +293,26 @@ public final class RoleClient {
             }
 
             if (charging >= 0) {
-               float c = Math.min(1.0F, (float)charging / 40.0F);
-               int col = chosen == Ability.PIERCING_BLOOD ? (c >= 1.0F ? 16724016 : 11141120) : (c >= 1.0F ? 16764992 : 16738832);
+               float c;
+               int col;
+               Component label;
+               if (chosen == Ability.PIERCING_BLOOD) {
+                  c = Math.min(1.0F, (float)charging / 20.0F);
+                  col = c >= 1.0F ? 16724016 : 11141120;
+                  label = Component.translatable(c >= 1.0F ? "hud.vaz2109.blood.ready" : "hud.vaz2109.blood.charging");
+               } else if (chosen == Ability.DISMANTLE) {
+                  int max = 2 + fingers / 5;
+                  int count = Math.max(1, Math.min(max, 1 + charging / 10));
+                  c = (float)count / (float)max;
+                  col = count >= max ? 16737894 : 13382451;
+                  label = Component.translatable("hud.vaz2109.dismantle.charging", new Object[]{count, max});
+               } else {
+                  c = Math.min(1.0F, (float)charging / 40.0F);
+                  col = c >= 1.0F ? 16764992 : 16738832;
+                  label = Component.translatable(c >= 1.0F ? "hud.vaz2109.fuga.ready" : "hud.vaz2109.fuga.charging");
+               }
+
                HudKit.progressRing(g, (float)width / 2.0F, (float)height / 2.0F, 14.0F, 3.0F, c, col);
-               String kind = chosen == Ability.PIERCING_BLOOD ? "blood" : "fuga";
-               Component label = Component.translatable(c >= 1.0F ? "hud.vaz2109." + kind + ".ready" : "hud.vaz2109." + kind + ".charging");
                HudKit.outlined(g, font, label.getString(), width / 2, height / 2 + 20, 0xFF000000 | col);
             }
          }

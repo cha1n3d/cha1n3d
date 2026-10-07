@@ -47,6 +47,21 @@ R = {
  "chat.vaz2109.choso.armor": ("Кровь... затвердей.", "Blood... harden."),
  "chat.vaz2109.choso.scale": ("Течение красной чешуи!", "Flowing Red Scale!"),
  "chat.vaz2109.choso.death": ("Братья... простите меня...", "Brothers... forgive me..."),
+ "commands.vaz2109.test.unlock": ("Все способности открыты (тест) у игроков: %s. Перезарядки сброшены", "All abilities unlocked (test) for %s player(s); cooldowns cleared"),
+ "commands.vaz2109.test.lock": ("Тестовое открытие способностей снято у игроков: %s", "Test unlock removed for %s player(s)"),
+ "commands.vaz2109.test.cooldowns": ("Перезарядки сброшены у игроков: %s", "Cooldowns cleared for %s player(s)"),
+ "commands.vaz2109.test.trials": ("Все испытания выполнены у игроков: %s", "All trials completed for %s player(s)"),
+ "commands.vaz2109.test.bosses": ("Все боссы отмечены побеждёнными у игроков: %s", "All bosses marked as beaten for %s player(s)"),
+ "commands.vaz2109.test.fingers": ("Пальцев Сукуны: %s (игроков: %s)", "Sukuna's fingers set to %s for %s player(s)"),
+ "hud.vaz2109.blood.charging": ("Сжатие крови...", "Convergence..."),
+ "hud.vaz2109.blood.ready": ("ПРОНЗАЮЩАЯ КРОВЬ — держи и веди лучом", "PIERCING BLOOD — hold and steer the jet"),
+ "hud.vaz2109.dismantle.charging": ("Разрезов: %s / %s — отпусти", "Slashes: %s / %s — release"),
+ "tooltip.vaz2109.death_painting.2": ("Открывает «Пронзающую кровь»: зажми клавишу класса — кровь сжимается, затем бьёт струя, пока держишь (тратит здоровье)", "Unlocks Piercing Blood: hold the class key to compress blood, then the jet fires while held (costs health)"),
+ "item.vaz2109.scooter": ("Самокат", "Kick Scooter"),
+ "entity.vaz2109.scooter": ("Самокат", "Kick Scooter"),
+ "entity.vaz2109.blood_beam": ("Пронзающая кровь", "Piercing Blood"),
+ "tooltip.vaz2109.scooter.ride": ("ПКМ — встать. W — оттолкнуться, A/D — руль, S — задний тормоз, Пробел — прыжок", "Right-click to ride. W kick, A/D steer, S rear brake, Space hop"),
+ "tooltip.vaz2109.scooter.pickup": ("Shift + ПКМ по самокату — сложить и забрать", "Shift + right-click it to fold and pick up"),
 }
 for k, (r, e) in R.items():
     d[k] = r if ru else e

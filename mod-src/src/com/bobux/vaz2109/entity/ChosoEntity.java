@@ -28,15 +28,14 @@ import net.minecraft.world.phys.Vec3;
  * and Flowing Red Scale below half health.
  */
 public class ChosoEntity extends QuestBoss {
-   private static final int BEAM_WINDUP = 30;
-   private static final int BEAM_LOCK = 8;
+   private static final int BEAM_CHARGE = 30;
+   private static final int BEAM_FIRE = 34;
    private static final int NOVA_WINDUP = 14;
    private int beamCooldown = 60;
    private int novaCooldown = 40;
    private int armorCooldown;
    private int beamIn = -1;
    private int novaIn = -1;
-   private Vec3 lockedAim = Vec3.ZERO;
    private boolean scale;
 
    public ChosoEntity(EntityType<? extends Monster> type, Level level) {
@@ -59,17 +58,9 @@ public class ChosoEntity extends QuestBoss {
       ServerLevel level = (ServerLevel)this.level();
       if (this.beamIn >= 0) {
          this.getNavigation().stop();
-         this.getLookControl().setLookAt(target, 30.0F, 30.0F);
-         BloodArts.convergence(level, this, BEAM_WINDUP - this.beamIn);
-         if (this.beamIn == BEAM_LOCK) {
-            this.lockedAim = target.position().add(0.0, target.getBbHeight() * 0.5, 0.0);
-            this.playSound(SoundEvents.WARDEN_HEARTBEAT, 2.0F, 1.6F);
-         }
-
+         this.getLookControl().setLookAt(target, 6.0F, 6.0F);
          if (this.beamIn-- == 0) {
-            Vec3 from = this.getEyePosition().add(0.0, -0.25, 0.0);
-            BloodArts.piercingBlood(level, this, from, this.lockedAim.subtract(from), 0.75F, this.scale ? 18.0F : 14.0F);
-            this.beamCooldown = (this.scale ? 70 : 100) + this.random.nextInt(40);
+            this.beamCooldown = (this.scale ? 80 : 110) + this.random.nextInt(40);
          }
       } else if (this.novaIn >= 0) {
          if (this.novaIn-- == 0) {
@@ -86,9 +77,13 @@ public class ChosoEntity extends QuestBoss {
             this.say("nova");
             this.playSound(SoundEvents.HONEY_BLOCK_SLIDE, 2.0F, 0.5F);
          } else if (this.beamCooldown <= 0 && distance > 5.0 && distance < 34.0 && this.hasLineOfSight(target)) {
-            this.beamIn = BEAM_WINDUP;
+            this.beamIn = BEAM_CHARGE + BEAM_FIRE;
             this.say("pierce");
-            this.playSound(SoundEvents.HONEY_BLOCK_SLIDE, 2.0F, 0.4F);
+            BloodBeamEntity beam = ModRegistry.BLOOD_BEAM.get().create(level);
+            if (beam != null) {
+               beam.setup(this, BEAM_CHARGE, BEAM_FIRE, this.scale ? 0.06F : 0.045F, this.scale ? 4.5F : 3.5F, false, false);
+               level.addFreshEntity(beam);
+            }
          }
       }
 

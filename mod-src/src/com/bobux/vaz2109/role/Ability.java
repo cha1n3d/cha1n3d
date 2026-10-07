@@ -43,11 +43,11 @@ public enum Ability {
    }
 
    public boolean chargeable() {
-      return this == PIERCING_BLOOD;
+      return this == PIERCING_BLOOD || this == DISMANTLE;
    }
 
    public boolean unlocked(Player player) {
-      return (this.boss == null || BossQuests.beaten(player, this.boss))
+      return TestCommands.unlockedForTests(player) || (this.boss == null || BossQuests.beaten(player, this.boss))
          && SukunaVessel.fingers(player) >= this.fingers
          && (this.trial == null || this.trial.done(player));
    }

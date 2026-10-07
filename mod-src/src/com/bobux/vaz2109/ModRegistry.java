@@ -6,6 +6,9 @@ import com.bobux.vaz2109.car.Palette;
 import com.bobux.vaz2109.effect.NarcolepsyEffect;
 import com.bobux.vaz2109.effect.PowerEffect;
 import com.bobux.vaz2109.entity.AllyFrog;
+import com.bobux.vaz2109.entity.BloodBeamEntity;
+import com.bobux.vaz2109.entity.ScooterEntity;
+import com.bobux.vaz2109.item.ScooterItem;
 import com.bobux.vaz2109.entity.AndreyEntity;
 import com.bobux.vaz2109.entity.ChosoEntity;
 import com.bobux.vaz2109.entity.TurretEntity;
@@ -214,6 +217,9 @@ public final class ModRegistry {
    public static final RegistryObject<EntityType<ChosoEntity>> CHOSO;
    public static final RegistryObject<EntityType<AllyFrog>> ALLY_FROG;
    public static final RegistryObject<EntityType<TurretEntity>> TURRET;
+   public static final RegistryObject<EntityType<BloodBeamEntity>> BLOOD_BEAM;
+   public static final RegistryObject<EntityType<ScooterEntity>> SCOOTER;
+   public static final RegistryObject<Item> SCOOTER_ITEM;
    public static final RegistryObject<Item> CHOSO_SPAWN_EGG;
    public static final RegistryObject<Item> DEATH_PAINTING;
    public static final RegistryObject<Item> QUEST_BOOK;
@@ -432,6 +438,14 @@ public final class ModRegistry {
          "turret",
          () -> Builder.<TurretEntity>of((t, l) -> new TurretEntity(t, l), MobCategory.MISC).sized(0.8F, 1.1F).clientTrackingRange(10).updateInterval(2).build("turret")
       );
+      BLOOD_BEAM = ENTITIES.register(
+         "blood_beam",
+         () -> Builder.<BloodBeamEntity>of((t, l) -> new BloodBeamEntity(t, l), MobCategory.MISC).sized(0.2F, 0.2F).noSave().clientTrackingRange(10).updateInterval(1).build("blood_beam")
+      );
+      SCOOTER = ENTITIES.register(
+         "scooter", () -> Builder.<ScooterEntity>of((t, l) -> new ScooterEntity(t, l), MobCategory.MISC).sized(0.6F, 0.25F).clientTrackingRange(8).build("scooter")
+      );
+      SCOOTER_ITEM = ITEMS.register("scooter", () -> new ScooterItem(new net.minecraft.world.item.Item.Properties()));
       CHOSO_SPAWN_EGG = item("choso_spawn_egg", () -> new ForgeSpawnEggItem(CHOSO, 2759184, 9442331, new net.minecraft.world.item.Item.Properties()));
       DEATH_PAINTING = item(
          "death_painting", () -> new DeathPaintingItem(new net.minecraft.world.item.Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
@@ -550,6 +564,7 @@ public final class ModRegistry {
                   out.accept(SprayCanItem.preset(Palette.COUNT, 4));
                   out.accept(SprayCanItem.preset(0, 3));
                   out.accept((ItemLike)SKATEBOARD_ITEM.get());
+                  out.accept((ItemLike)SCOOTER_ITEM.get());
 
                   for (int color : new int[]{14, 1, 4, 5, 3, 11, 10, 6, 15, 0}) {
                      out.accept(SkateboardItem.withColor(color));

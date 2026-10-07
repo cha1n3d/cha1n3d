@@ -1,0 +1,12 @@
+{
+  "type": "vaz2109:station",
+  "station": "garage_bench",
+  "order": 41,
+  "ingredients": [
+    { "ingredient": {"item": "minecraft:iron_ingot"}, "count": 4 },
+    { "ingredient": {"item": "minecraft:iron_nugget"}, "count": 4 },
+    { "ingredient": {"item": "minecraft:slime_ball"}, "count": 2 },
+    { "ingredient": {"item": "minecraft:black_wool"}, "count": 1 }
+  ],
+  "result": {"item": "vaz2109:scooter"}
+}

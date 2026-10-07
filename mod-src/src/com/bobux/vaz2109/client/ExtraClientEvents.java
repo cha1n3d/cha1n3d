@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-/** Renderers for Choso, the mechanic's turret and the frog-man's swamp pack. */
+/** Renderers for Choso, the turret, the swamp pack, the Piercing Blood jet and the kick scooter. */
 @EventBusSubscriber(modid = "vaz2109", bus = Bus.MOD, value = Dist.CLIENT)
 public final class ExtraClientEvents {
    private ExtraClientEvents() {
@@ -23,10 +23,13 @@ public final class ExtraClientEvents {
       );
       event.registerEntityRenderer(ModRegistry.ALLY_FROG.get(), FrogRenderer::new);
       event.registerEntityRenderer(ModRegistry.TURRET.get(), TurretRenderer::new);
+      event.registerEntityRenderer(ModRegistry.BLOOD_BEAM.get(), BloodBeamRenderer::new);
+      event.registerEntityRenderer(ModRegistry.SCOOTER.get(), ScooterRenderer::new);
    }
 
    @SubscribeEvent
    public static void registerLayers(RegisterLayerDefinitions event) {
       event.registerLayerDefinition(ChosoSkin.LAYER, () -> ArthasModel.build(ChosoSkin.PARTS));
+      event.registerLayerDefinition(ScooterRenderer.LAYER, () -> ArthasModel.build(ScooterSkin.PARTS));
    }
 }
