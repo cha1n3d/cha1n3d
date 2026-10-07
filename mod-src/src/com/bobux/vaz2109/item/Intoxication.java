@@ -10,7 +10,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Alcohol and nicotine build up on the player and wear off with time (stored as a level plus the tick it was
+ * Every drink of alcohol and every cigarette makes the head spin, except for the Brewer. Alcohol and nicotine build up on the player and wear off with time (stored as a level plus the tick it was
  * last updated, decayed lazily). Too much in a short time hurts; the Brewer holds twice as much drink.
  */
 public final class Intoxication {
@@ -36,6 +36,14 @@ public final class Intoxication {
       return now;
    }
 
+   /** Nausea for at least this long (never shortens a longer one). */
+   private static void spin(Player player, int ticks) {
+      MobEffectInstance now = player.getEffect(MobEffects.CONFUSION);
+      if (now == null || now.getDuration() < ticks) {
+         player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks, 0));
+      }
+   }
+
    public static float drunk(Player player) {
       return level(player, "vaz2109Drunk", SOBER_PER_MIN, 1200);
    }
@@ -48,6 +56,11 @@ public final class Intoxication {
 
       boolean brewer = Roles.is(player, Role.BREWER);
       float total = add(player, "vaz2109Drunk", SOBER_PER_MIN, 1200, units) / (brewer ? 2.0F : 1.0F);
+      if (!brewer) {
+         // every drink spins the head (the Brewer is used to it)
+         spin(player, 100 + Math.round(units * 60.0F));
+      }
+
       if (total >= 10.0F) {
          player.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
          player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100, 0));
@@ -68,6 +81,10 @@ public final class Intoxication {
    public static void smoke(Player player) {
       float total = add(player, "vaz2109Nicotine", NICOTINE_PER_2MIN, 2400, 1.0F);
       player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 900, 0));
+      if (!Roles.is(player, Role.BREWER)) {
+         spin(player, 120);
+      }
+
       if (total >= 5.0F) {
          player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 400, 1));
          player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 600, 0));

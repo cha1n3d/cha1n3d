@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-/** A pack of 20: hold right-click to smoke one (smoke comes out of the mouth). Not under water. */
+/** One cigarette: hold right-click to smoke it (smoke comes out of the mouth, the head spins). Not under water. */
 public class CigarettesItem extends Item {
    public CigarettesItem(Properties properties) {
       super(properties);
@@ -64,7 +64,7 @@ public class CigarettesItem extends Item {
          }
 
          if (!player.getAbilities().instabuild) {
-            stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+            stack.shrink(1);
          }
 
          player.getCooldowns().addCooldown(this, 60);
@@ -74,7 +74,6 @@ public class CigarettesItem extends Item {
    }
 
    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-      tooltip.add(Component.translatable("tooltip.vaz2109.cigarettes.left", new Object[]{stack.getMaxDamage() - stack.getDamageValue()}).withStyle(ChatFormatting.GRAY));
       tooltip.add(Component.translatable("tooltip.vaz2109.cigarettes").withStyle(ChatFormatting.GRAY));
       tooltip.add(Component.translatable("tooltip.vaz2109.cigarettes.warning").withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD));
    }

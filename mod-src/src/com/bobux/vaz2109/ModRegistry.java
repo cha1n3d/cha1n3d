@@ -163,7 +163,7 @@ public final class ModRegistry {
       "banknote_1000", () -> new com.bobux.vaz2109.computer.BanknoteItem(1000, new net.minecraft.world.item.Item.Properties().rarity(Rarity.UNCOMMON))
    );
    public static final RegistryObject<Item> CIGARETTES = ITEMS.register(
-      "cigarettes", () -> new com.bobux.vaz2109.item.CigarettesItem(new net.minecraft.world.item.Item.Properties().durability(20))
+      "cigarettes", () -> new com.bobux.vaz2109.item.CigarettesItem(new net.minecraft.world.item.Item.Properties())
    );
    public static final RegistryObject<Item> RED_GLOVES = ITEMS.register(
       "red_gloves", () -> new com.bobux.vaz2109.item.RedGlovesItem(new net.minecraft.world.item.Item.Properties().durability(900).rarity(Rarity.RARE))

@@ -74,7 +74,7 @@ OFFERS = [
 
  ('bar', 'vaz2109:beer', 4, 60), ('bar', 'vaz2109:kvass', 4, 60), ('bar', 'vaz2109:wine', 1, None),
  ('bar', 'vaz2109:champagne', 1, None), ('bar', 'vaz2109:vodka', 1, None), ('bar', 'vaz2109:cognac', 1, None),
- ('bar', 'vaz2109:moonshine', 1, None), ('bar', 'vaz2109:cigarettes', 1, None),
+ ('bar', 'vaz2109:moonshine', 1, None), ('bar', 'vaz2109:cigarettes', 8, None),
 
  ('resources', 'minecraft:iron_ingot', 8, 200), ('resources', 'minecraft:gold_ingot', 4, 250), ('resources', 'minecraft:copper_ingot', 16, 96),
  ('resources', 'minecraft:diamond', 1, 400), ('resources', 'minecraft:emerald', 1, 100), ('resources', 'minecraft:netherite_scrap', 1, 900),

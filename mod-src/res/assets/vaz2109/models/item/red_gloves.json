@@ -1,1 +1,18 @@
-{"parent": "minecraft:item/handheld", "textures": {"layer0": "vaz2109:item/red_gloves"}}
+{
+ "loader": "forge:separate_transforms",
+ "gui_light": "front",
+ "base": {
+  "parent": "vaz2109:item/red_gloves_worn"
+ },
+ "perspectives": {
+  "gui": {
+   "parent": "vaz2109:item/red_gloves_icon"
+  },
+  "ground": {
+   "parent": "vaz2109:item/red_gloves_icon"
+  },
+  "fixed": {
+   "parent": "vaz2109:item/red_gloves_icon"
+  }
+ }
+}

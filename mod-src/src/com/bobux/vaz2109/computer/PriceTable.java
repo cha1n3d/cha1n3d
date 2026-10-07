@@ -241,7 +241,7 @@ final class PriceTable {
       {2, "vaz2109:vodka", 1, 35},
       {2, "vaz2109:cognac", 1, 40},
       {2, "vaz2109:moonshine", 1, 35},
-      {2, "vaz2109:cigarettes", 1, 25},
+      {2, "vaz2109:cigarettes", 8, 25},
       {3, "minecraft:iron_ingot", 8, 200},
       {3, "minecraft:gold_ingot", 4, 250},
       {3, "minecraft:copper_ingot", 16, 96},
