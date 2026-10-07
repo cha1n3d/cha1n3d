@@ -156,6 +156,12 @@ public final class ModRegistry {
    public static final RegistryObject<Item> COMPUTER_ITEM = ITEMS.register(
       "computer", () -> new BlockItem((Block)COMPUTER.get(), new net.minecraft.world.item.Item.Properties())
    );
+   public static final RegistryObject<Item> BANKNOTE_100 = ITEMS.register(
+      "banknote_100", () -> new com.bobux.vaz2109.computer.BanknoteItem(100, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final RegistryObject<Item> BANKNOTE_1000 = ITEMS.register(
+      "banknote_1000", () -> new com.bobux.vaz2109.computer.BanknoteItem(1000, new net.minecraft.world.item.Item.Properties().rarity(Rarity.UNCOMMON))
+   );
    public static final Map<Station, RegistryObject<Block>> STATION_BLOCKS = new EnumMap<>(Station.class);
    public static final Map<Station, RegistryObject<Item>> STATION_ITEMS = new EnumMap<>(Station.class);
    public static final ResourceKey<DamageType> VAZ_DAMAGE;
@@ -575,6 +581,8 @@ public final class ModRegistry {
                   out.accept((ItemLike)SKATEBOARD_ITEM.get());
                   out.accept((ItemLike)SCOOTER_ITEM.get());
                   out.accept((ItemLike)COMPUTER_ITEM.get());
+                  out.accept((ItemLike)BANKNOTE_100.get());
+                  out.accept((ItemLike)BANKNOTE_1000.get());
 
                   for (int color : new int[]{14, 1, 4, 5, 3, 11, 10, 6, 15, 0}) {
                      out.accept(SkateboardItem.withColor(color));

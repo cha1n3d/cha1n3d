@@ -11,7 +11,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 
-/** Hold the class key: a wheel of the class's abilities. Point at one with the mouse and let go of the key to pick it. */
+/**
+ * Wheel key: a wheel of the class's abilities. Hold the key, point at one with the mouse and let go to pick it.
+ * A quick tap leaves the wheel open: then click an ability, or press the key again / Esc to close.
+ */
 public class AbilityWheelScreen extends Screen {
    private static final float INNER = 26.0F;
    private static final float OUTER = 96.0F;
@@ -19,6 +22,7 @@ public class AbilityWheelScreen extends Screen {
    private int hovered = -1;
    private boolean done;
    private float open;
+   private int age;
 
    public AbilityWheelScreen() {
       super(Component.translatable("gui.vaz2109.wheel.title"));
@@ -56,9 +60,26 @@ public class AbilityWheelScreen extends Screen {
       }
    }
 
+   public void tick() {
+      this.age++;
+   }
+
+   public boolean keyPressed(int key, int scan, int modifiers) {
+      if (ExtraClientEvents.WHEEL.matches(key, scan)) {
+         this.done = true;
+         this.onClose();
+         return true;
+      } else {
+         return super.keyPressed(key, scan, modifiers);
+      }
+   }
+
    public boolean keyReleased(int key, int scan, int modifiers) {
-      if (ClientModEvents.CLASS.matches(key, scan)) {
-         this.choose();
+      if (ExtraClientEvents.WHEEL.matches(key, scan)) {
+         if (this.hovered >= 0 || this.age >= 6) {
+            this.choose();
+         }
+
          return true;
       } else {
          return super.keyReleased(key, scan, modifiers);
@@ -143,7 +164,7 @@ public class AbilityWheelScreen extends Screen {
          Component title = Component.translatable("role.vaz2109." + role.id);
          g.drawCenteredString(this.font, title, Math.round(cx), Math.round(cy) - 4, 0xFF000000 | accent);
          g.drawCenteredString(
-            this.font, Component.translatable("gui.vaz2109.wheel.hint", new Object[]{ClientModEvents.CLASS.getTranslatedKeyMessage()}), Math.round(cx), Math.round(cy - outer - 22.0F), -3355444
+            this.font, Component.translatable("gui.vaz2109.wheel.hint", new Object[]{ExtraClientEvents.WHEEL.getTranslatedKeyMessage()}), Math.round(cx), Math.round(cy - outer - 22.0F), -3355444
          );
       }
 

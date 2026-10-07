@@ -31,7 +31,6 @@ import org.jetbrains.annotations.Nullable;
 )
 public final class RoleClient {
    private static boolean known;
-   private static boolean held;
    private static int role = -1;
    private static int selected;
    private static int unlocked;
@@ -46,8 +45,6 @@ public final class RoleClient {
    private static final float[] READY_AT = new float[]{-1000.0F, -1000.0F, -1000.0F, -1000.0F, -1000.0F, -1000.0F, -1000.0F, -1000.0F};
    private static final boolean[] COOLING = new boolean[8];
    private static boolean filtered;
-   private static int holdTicks;
-   public static final int WHEEL_DELAY = 5;
 
    public static int selectedIndex() {
       return selected;
@@ -108,7 +105,6 @@ public final class RoleClient {
 
    public static void reset() {
       known = false;
-      held = false;
       role = -1;
       cooldowns = new int[0];
       possession = 0;
@@ -144,21 +140,14 @@ public final class RoleClient {
             }
 
             while (ClientModEvents.CLASS.consumeClick()) {
-               if (mc.screen == null && role >= 0 && !held) {
-                  held = true;
-                  holdTicks = 0;
+               if (mc.screen == null && role >= 0) {
+                  Network.CHANNEL.sendToServer(new RoleC2S(1, mc.player.isShiftKeyDown() ? 1 : 0));
                }
             }
 
-            if (held) {
-               if (ClientModEvents.CLASS.isDown()) {
-                  if (++holdTicks >= WHEEL_DELAY && mc.screen == null) {
-                     held = false;
-                     mc.setScreen(new AbilityWheelScreen());
-                  }
-               } else {
-                  held = false;
-                  Network.CHANNEL.sendToServer(new RoleC2S(1, mc.player.isShiftKeyDown() ? 1 : 0));
+            while (ExtraClientEvents.WHEEL.consumeClick()) {
+               if (mc.screen == null && role >= 0) {
+                  mc.setScreen(new AbilityWheelScreen());
                }
             }
          }
