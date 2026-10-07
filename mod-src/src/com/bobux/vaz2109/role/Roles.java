@@ -95,8 +95,10 @@ public final class Roles {
    private static final UUID BELLY_ID = UUID.fromString("7c3e2a10-4b1d-4e7a-9a3f-0d2b6c8e1f55");
    private static final UUID SWIM_ID = UUID.fromString("3f6b9c2e-1d4a-4c8b-9e7f-5a2d8c1b6e44");
    private static final String BREATH = "vaz2109BreathEnd";
-   public static final float BLACK_FLASH_CHANCE = 0.25F;
-   public static final float BLACK_FLASH_ZONE_CHANCE = 0.45F;
+   public static final float BLACK_FLASH_CHANCE = 0.15F;
+   public static final float BLACK_FLASH_ZONE_CHANCE = 0.3F;
+   /** Red gloves add this to the Black Flash chance. */
+   public static final float BLACK_FLASH_GLOVES = 0.05F;
    private static final Map<Player, Float> SWING = new WeakHashMap<>();
    private static final Map<UUID, BloodBeamEntity> BEAMS = new HashMap<>();
    public static final int SLASH_GAP = 4;
@@ -622,16 +624,17 @@ public final class Roles {
          && event.getSource().getDirectEntity() == player
          && is(player, Role.VESSEL)
          && player.level().getGameTime() < player.getPersistentData().getLong("vaz2109BlueEnd")
-         && player.getMainHandItem().isEmpty()) {
+         && fists(player)) {
          LivingEntity target = event.getEntity();
          ServerLevel level = player.serverLevel();
          int n = SukunaVessel.fingers(player);
          Vec3 c = target.position().add(0.0, (double)target.getBbHeight() * 0.55, 0.0);
          Vec3 push = target.position().subtract(player.position()).multiply(1.0, 0.0, 1.0).normalize();
          float swing = SWING.getOrDefault(player, 0.0F);
-         float chance = SlaughterDemonItem.inZone(player) ? BLACK_FLASH_ZONE_CHANCE : BLACK_FLASH_CHANCE;
-         if (n >= 15 && swing >= 0.95F && player.getRandom().nextFloat() < chance) {
-            event.setAmount(event.getAmount() * 2.5F);
+         float chance = (SlaughterDemonItem.inZone(player) ? BLACK_FLASH_ZONE_CHANCE : BLACK_FLASH_CHANCE)
+            + (player.getMainHandItem().getItem() instanceof com.bobux.vaz2109.item.RedGlovesItem ? BLACK_FLASH_GLOVES : 0.0F);
+         if (n >= 15 && swing >= 0.95F && SlaughterDemonItem.canFlash(player) && player.getRandom().nextFloat() < chance) {
+            event.setAmount(event.getAmount() * SlaughterDemonItem.MULTIPLIER);
             target.setDeltaMovement(target.getDeltaMovement().add(push.x * 1.8, 0.5, push.z * 1.8));
             target.hurtMarked = true;
             SlaughterDemonItem.blackFlash(level, player, target);
@@ -641,6 +644,12 @@ public final class Roles {
             level.playSound(null, c.x, c.y, c.z, SoundEvents.PLAYER_ATTACK_STRONG, SoundSource.PLAYERS, 0.8F, 0.7F);
          }
       }
+   }
+
+   /** Bare hands or Yuji's red gloves: what the Divergent Fist and the Black Flash come out of. */
+   public static boolean fists(Player player) {
+      ItemStack hand = player.getMainHandItem();
+      return hand.isEmpty() || hand.getItem() instanceof com.bobux.vaz2109.item.RedGlovesItem;
    }
 
    @SubscribeEvent

@@ -25,6 +25,17 @@ public class ComputerMenu extends AbstractContainerMenu {
    public static final int BUY = 2;
    public static final int BUY_TEN = 3;
    public static final int ORDER = 4;
+   public static final int SLOTS = 5;
+   public static final int ROULETTE = 6;
+   public static final int STOCK_BUY = 7;
+   public static final int STOCK_SELL = 8;
+   public static final int DEPOSIT = 9;
+   public static final int WITHDRAW = 10;
+   /** Stock actions carry stock * STOCK_ARG + share count. */
+   public static final int STOCK_ARG = 100000;
+   private static final int PRICES = 11;
+   private static final int HOLDINGS = PRICES + Invest.STOCKS * Invest.HISTORY;
+   private static final int SAVINGS = HOLDINGS + Invest.STOCKS;
    public static final int SELL_X = 34;
    public static final int SELL_Y = 58;
    public static final int INV_X = 9;
@@ -32,7 +43,12 @@ public class ComputerMenu extends AbstractContainerMenu {
    private final SimpleContainer sell = new SimpleContainer(1);
    private final ContainerLevelAccess access;
    private final Player player;
-   private final int[] synced = new int[7];
+   private final int[] synced = new int[SAVINGS + 2];
+   private int reels;
+   private int spins;
+   private int number;
+   private int rolls;
+   private long won;
 
    public ComputerMenu(int id, Inventory inv, FriendlyByteBuf buf) {
       this(id, inv, ContainerLevelAccess.NULL);
@@ -73,6 +89,16 @@ public class ComputerMenu extends AbstractContainerMenu {
    }
 
    private int serverValue(int slot) {
+      if (slot >= PRICES && slot < HOLDINGS && this.player.level() instanceof net.minecraft.server.level.ServerLevel level) {
+         int i = slot - PRICES;
+         return Invest.price(level, i / Invest.HISTORY, Invest.day(level) - (long)(i % Invest.HISTORY));
+      } else if (slot >= HOLDINGS && slot < SAVINGS) {
+         return Invest.shares(this.player, slot - HOLDINGS);
+      } else if (slot >= SAVINGS && this.player.level() instanceof net.minecraft.server.level.ServerLevel level) {
+         long d = Math.min((long)Integer.MAX_VALUE, Invest.deposit(level, this.player));
+         return (int)(slot == SAVINGS ? d & 65535L : d >> 16 & 65535L);
+      }
+
       return switch (slot) {
          case 0 -> (int)(ComputerShop.balance(this.player) & 65535L);
          case 1 -> (int)(ComputerShop.balance(this.player) >> 16 & 65535L);
@@ -80,7 +106,12 @@ public class ComputerMenu extends AbstractContainerMenu {
          case 3 -> ComputerShop.ordersDone(this.player);
          case 4 -> (int)(Math.min((long)Integer.MAX_VALUE, ComputerShop.quote(this.player, this.selling())) & 65535L);
          case 5 -> (int)(Math.min((long)Integer.MAX_VALUE, ComputerShop.quote(this.player, this.selling())) >> 16 & 65535L);
-         default -> ComputerShop.demand(this.player, this.selling());
+         case 6 -> ComputerShop.demand(this.player, this.selling());
+         case 7 -> this.reels | (this.spins & 127) << 9;
+         case 8 -> this.number | (this.rolls & 1023) << 6;
+         case 9 -> (int)(Math.min((long)Integer.MAX_VALUE, this.won) & 65535L);
+         case 10 -> (int)(Math.min((long)Integer.MAX_VALUE, this.won) >> 16 & 65535L);
+         default -> 0;
       };
    }
 
@@ -107,6 +138,43 @@ public class ComputerMenu extends AbstractContainerMenu {
 
    public int demand() {
       return this.client() ? this.synced[6] : ComputerShop.demand(this.player, this.selling());
+   }
+
+   // ---- client views of the casino and the investments ------------------------------------------
+
+   /** Last slot spin: reels (3 bits each) and a counter that changes with every spin. */
+   public int reels() {
+      return this.synced[7] & 511;
+   }
+
+   public int spins() {
+      return this.synced[7] >> 9 & 127;
+   }
+
+   public int number() {
+      return this.synced[8] & 63;
+   }
+
+   public int rolls() {
+      return this.synced[8] >> 6 & 1023;
+   }
+
+   /** Payout of the last casino game (0 = lost). */
+   public long won() {
+      return (long)this.synced[10] << 16 | (long)this.synced[9];
+   }
+
+   /** Price of stock s, daysAgo days ago (0 = today). */
+   public int price(int s, int daysAgo) {
+      return this.synced[PRICES + s * Invest.HISTORY + daysAgo];
+   }
+
+   public int shares(int s) {
+      return this.synced[HOLDINGS + s];
+   }
+
+   public long savings() {
+      return (long)this.synced[SAVINGS + 1] << 16 | (long)this.synced[SAVINGS];
    }
 
    public ItemStack selling() {
@@ -157,6 +225,43 @@ public class ComputerMenu extends AbstractContainerMenu {
                this.sound(player, SoundEvents.VILLAGER_YES, 0.5F, 1.3F);
             }
          }
+      } else if (action == SLOTS || action == ROULETTE) {
+         int bet = action == SLOTS ? arg : arg / 4;
+         if (Casino.validBet(bet) && ComputerShop.balance(player) >= (long)bet) {
+            int multiplier;
+            if (action == SLOTS) {
+               this.reels = Casino.spin(player.getRandom());
+               this.spins++;
+               multiplier = Casino.slotsMultiplier(this.reels);
+            } else {
+               this.number = Casino.roulette(player.getRandom());
+               this.rolls++;
+               multiplier = Casino.rouletteMultiplier(this.number, arg % 4);
+            }
+
+            this.won = (long)bet * (long)multiplier;
+            ComputerShop.setBalance(player, ComputerShop.balance(player) - (long)bet + this.won);
+            this.sound(player, action == SLOTS ? SoundEvents.NOTE_BLOCK_CHIME.value() : SoundEvents.UI_STONECUTTER_TAKE_RESULT, 0.6F, 1.2F);
+            if (multiplier >= 100 && player.getServer() != null) {
+               player.getServer()
+                  .getPlayerList()
+                  .broadcastSystemMessage(
+                     net.minecraft.network.chat.Component.translatable("message.vaz2109.casino.jackpot", new Object[]{player.getDisplayName(), this.won})
+                        .withStyle(net.minecraft.ChatFormatting.GOLD),
+                     false
+                  );
+            }
+         } else {
+            this.sound(player, SoundEvents.VILLAGER_NO, 0.6F, 1.2F);
+         }
+      } else if (action >= STOCK_BUY && action <= WITHDRAW && player.level() instanceof net.minecraft.server.level.ServerLevel level) {
+         boolean ok = switch (action) {
+            case STOCK_BUY -> Invest.buy(level, player, arg / STOCK_ARG, arg % STOCK_ARG);
+            case STOCK_SELL -> Invest.sell(level, player, arg / STOCK_ARG, arg % STOCK_ARG);
+            case DEPOSIT -> Invest.putIn(level, player, (long)arg);
+            default -> Invest.takeOut(level, player);
+         };
+         this.sound(player, ok ? SoundEvents.EXPERIENCE_ORB_PICKUP : SoundEvents.VILLAGER_NO, 0.5F, ok ? 1.6F : 1.2F);
       } else if (action == ORDER) {
          if (ComputerShop.complete(player, arg)) {
             this.sound(player, SoundEvents.PLAYER_LEVELUP, 0.5F, 1.6F);

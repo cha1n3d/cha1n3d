@@ -11,17 +11,29 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
-/** VAZ-OS market: left half sells (slot + inventory), right half has the shop tabs, today's deals and today's orders. */
+/**
+ * VAZ-OS: the left half sells (slot + inventory); the right half is one of four modes picked in the title bar —
+ * the market (shop tabs and daily deals), today's orders, the casino (slots and roulette) and investments.
+ */
 public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
-   private static final String[] TABS = new String[]{"deals", "food", "resources", "weapons", "gear", "rides", "magic", "bank", "orders"};
+   private static final String[] MODES = new String[]{"market", "orders", "casino", "invest"};
+   private static final int MARKET = 0;
+   private static final int ORDERS = 1;
+   private static final int CASINO = 2;
+   private static final int INVEST = 3;
+   private static final String[] TABS = new String[]{"deals", "food", "bar", "resources", "weapons", "misc", "rides", "magic", "bank"};
    private static final int SHOP_X = 178;
    private static final int TAB_Y = 16;
    private static final int TAB = 16;
@@ -30,6 +42,8 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
    private static final int ROW = 20;
    private static final int ROWS = 8;
    private static final int ORDER_ROW = 46;
+   private static final int SPIN_TICKS = 24;
+   private static final int ROLL_TICKS = 30;
    private static final int CASE = -2568008;
    private static final int CASE_DARK = -5462116;
    private static final int SCREEN_TOP = -15854029;
@@ -39,8 +53,18 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
    private static final int GREEN = -9379728;
    private static final int RED = -43691;
    private static final int GRAY = -7829368;
+   private static final int PANEL = 553648127;
+   private final List<ComputerScreen.Hot> hots = new ArrayList<>();
+   private int mode = MARKET;
    private int tab = 1;
    private int scroll;
+   private int bet = 0;
+   private int ticks;
+   private int seenSpins = -1;
+   private int seenRolls = -1;
+   private int spinAt = -1000;
+   private int rollAt = -1000;
+   private int lastGame = -1;
    private Button sell;
    private Button sellSame;
 
@@ -68,23 +92,45 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
       Network.CHANNEL.sendToServer(new ComputerC2S(this.menu.containerId, action, arg));
    }
 
+   private void click() {
+      if (this.minecraft != null) {
+         this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+      }
+   }
+
    protected void containerTick() {
       super.containerTick();
+      this.ticks++;
       boolean has = !this.menu.selling().isEmpty();
       this.sell.active = has;
       this.sellSame.active = has;
+      if (this.seenSpins < 0) {
+         this.seenSpins = this.menu.spins();
+         this.seenRolls = this.menu.rolls();
+      }
+
+      if (this.menu.spins() != this.seenSpins) {
+         this.seenSpins = this.menu.spins();
+         this.spinAt = this.ticks;
+         this.lastGame = 0;
+      }
+
+      if (this.menu.rolls() != this.seenRolls) {
+         this.seenRolls = this.menu.rolls();
+         this.rollAt = this.ticks;
+         this.lastGame = 1;
+      }
    }
 
    // ---- data --------------------------------------------------------------------------------------
 
-   /** Offer indices shown on the current tab. */
    private List<Integer> listed() {
       List<Integer> list = new ArrayList<>();
       if (this.tab == ComputerShop.DEALS) {
          for (int i : ComputerShop.deals(this.menu.day())) {
             list.add(i);
          }
-      } else if (this.tab != ComputerShop.ORDERS) {
+      } else {
          List<ComputerShop.Offer> offers = ComputerShop.offers();
 
          for (int i = 0; i < offers.size(); i++) {
@@ -109,41 +155,93 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
       return (this.menu.ordersDone() & 1 << i) != 0;
    }
 
-   private static ItemStack icon(int tab) {
-      ItemLike like = switch (tab) {
-         case 1 -> Items.COOKED_BEEF;
-         case 2 -> Items.IRON_INGOT;
-         case 3 -> mod("ak74");
-         case 4 -> mod("tactical_helmet");
-         case 5 -> mod("vaz2109");
-         case 6 -> Items.ENCHANTED_BOOK;
-         case 7 -> ModRegistry.BANKNOTE_1000.get();
-         case 8 -> Items.WRITABLE_BOOK;
-         default -> Items.AIR;
-      };
-      return new ItemStack(like == null ? Items.BARRIER : like);
+   private static ItemLike mod(String id) {
+      ItemLike it = ForgeRegistries.ITEMS.getValue(new ResourceLocation("vaz2109", id));
+      return it == null ? Items.BARRIER : it;
    }
 
-   private static ItemLike mod(String id) {
-      return net.minecraftforge.registries.ForgeRegistries.ITEMS.getValue(new net.minecraft.resources.ResourceLocation("vaz2109", id));
+   private static ItemStack tabIcon(int tab) {
+      ItemLike like = switch (tab) {
+         case 1 -> Items.COOKED_BEEF;
+         case 2 -> mod("vodka");
+         case 3 -> Items.IRON_INGOT;
+         case 4 -> Items.IRON_SWORD;
+         case 5 -> mod("computer");
+         case 6 -> Items.SADDLE;
+         case 7 -> Items.ENCHANTED_BOOK;
+         case 8 -> ModRegistry.BANKNOTE_1000.get();
+         default -> Items.AIR;
+      };
+      return new ItemStack(like);
+   }
+
+   private static ItemStack symbol(int s) {
+      ItemLike like = switch (s) {
+         case 0 -> Items.SWEET_BERRIES;
+         case 1 -> Items.APPLE;
+         case 2 -> Items.BELL;
+         case 3 -> Items.EMERALD;
+         case 4 -> Items.DIAMOND;
+         default -> mod("vaz2109");
+      };
+      return new ItemStack(like);
    }
 
    private int minutesToNewDay() {
       return this.minecraft != null && this.minecraft.level != null ? (int)((24000L - this.minecraft.level.getDayTime() % 24000L) / 1200L) + 1 : 0;
    }
 
+   private int betValue() {
+      return Casino.BETS[this.bet];
+   }
+
    // ---- hit testing --------------------------------------------------------------------------------
+
+   private record Hot(int x0, int y0, int x1, int y1, Runnable action) {
+      boolean contains(double mx, double my) {
+         return mx >= (double)this.x0 && mx < (double)this.x1 && my >= (double)this.y0 && my < (double)this.y1;
+      }
+   }
+
+   private static boolean over(int mouseX, int mouseY, int x0, int y0, int x1, int y1) {
+      return mouseX >= x0 && mouseX < x1 && mouseY >= y0 && mouseY < y1;
+   }
+
+   /** A flat clickable button, registered for this frame. */
+   private void button(GuiGraphics g, int x, int y, int w, int h, Component text, boolean active, boolean selected, int mouseX, int mouseY, Runnable action) {
+      boolean hot = active && over(mouseX, mouseY, x, y, x + w, y + h);
+      int fill = selected ? 1627389951 : (hot ? 822083583 : (active ? 452984831 : 285212671));
+      g.fill(x, y, x + w, y + h, fill);
+      g.fill(x, y + h - 1, x + w, y + h, active ? 1090519039 : 285212671);
+      g.drawCenteredString(this.font, text, x + w / 2, y + (h - 8) / 2, active ? -1 : GRAY);
+      if (active) {
+         this.hots.add(new ComputerScreen.Hot(x, y, x + w, y + h, () -> {
+            this.click();
+            action.run();
+         }));
+      }
+   }
+
+   private int modeX(int m) {
+      int x = 50;
+
+      for (int i = 0; i < m; i++) {
+         x += this.font.width(Component.translatable("gui.vaz2109.pc.mode." + MODES[i])) + 14;
+      }
+
+      return x;
+   }
 
    private int tabAt(double mx, double my) {
       int rx = (int)Math.floor(mx) - this.leftPos - SHOP_X;
       int ry = (int)Math.floor(my) - this.topPos - TAB_Y;
-      return rx >= 0 && rx < TAB * TABS.length && ry >= 0 && ry < TAB ? rx / TAB : -1;
+      return this.mode == MARKET && rx >= 0 && rx < TAB * TABS.length && ry >= 0 && ry < TAB ? rx / TAB : -1;
    }
 
    private int rowAt(double mx, double my) {
       int rx = (int)Math.floor(mx) - this.leftPos - SHOP_X;
       int ry = (int)Math.floor(my) - this.topPos - SHOP_Y;
-      if (this.tab != ComputerShop.ORDERS && rx >= 0 && rx < SHOP_W && ry >= 0 && ry < ROW * ROWS) {
+      if (this.mode == MARKET && rx >= 0 && rx < SHOP_W && ry >= 0 && ry < ROW * ROWS) {
          int index = ry / ROW + this.scroll;
          List<Integer> listed = this.listed();
          return index < listed.size() ? listed.get(index) : -1;
@@ -154,8 +252,8 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
 
    private int orderAt(double mx, double my) {
       int rx = (int)Math.floor(mx) - this.leftPos - SHOP_X;
-      int ry = (int)Math.floor(my) - this.topPos - SHOP_Y;
-      if (this.tab == ComputerShop.ORDERS && rx >= 0 && rx < SHOP_W && ry >= 0) {
+      int ry = (int)Math.floor(my) - this.topPos - 30;
+      if (this.mode == ORDERS && rx >= 0 && rx < SHOP_W && ry >= 0) {
          int index = ry / ORDER_ROW;
          return index < this.orders().size() ? index : -1;
       } else {
@@ -166,6 +264,7 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
    // ---- drawing ------------------------------------------------------------------------------------
 
    protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
+      this.hots.clear();
       int x = this.leftPos;
       int y = this.topPos;
       g.fill(x - 4, y - 4, x + this.imageWidth + 4, y + this.imageHeight + 4, CASE_DARK);
@@ -173,7 +272,18 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
       g.fillGradient(x, y, x + this.imageWidth, y + this.imageHeight, SCREEN_TOP, SCREEN_BOTTOM);
       g.fill(x, y, x + this.imageWidth, y + 14, -14530458);
       g.fill(x + SHOP_X - 6, y + 18, x + SHOP_X - 5, y + this.imageHeight - 6, 1090519039);
-      g.fill(x + 8, y + 40, x + 168, y + 92, 553648127);
+      g.fill(x + 8, y + 40, x + 168, y + 92, PANEL);
+
+      for (int m = 0; m < MODES.length; m++) {
+         Component label = Component.translatable("gui.vaz2109.pc.mode." + MODES[m]);
+         int mx = x + this.modeX(m);
+         int w = this.font.width(label) + 10;
+         final int pick = m;
+         this.button(g, mx, y + 1, w, 12, label, true, m == this.mode, mouseX, mouseY, () -> {
+            this.mode = pick;
+            this.scroll = 0;
+         });
+      }
 
       for (Slot slot : this.menu.slots) {
          int sx = x + slot.x;
@@ -182,6 +292,15 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
          g.fill(sx, sy, sx + 16, sy + 16, slot.index == 0 ? -14013910 : -15461356);
       }
 
+      switch (this.mode) {
+         case ORDERS -> this.renderOrders(g, x, y, mouseX, mouseY);
+         case CASINO -> this.renderCasino(g, x + SHOP_X, y, mouseX, mouseY, partialTick);
+         case INVEST -> this.renderInvest(g, x + SHOP_X, y, mouseX, mouseY);
+         default -> this.renderShop(g, x, y, mouseX, mouseY);
+      }
+   }
+
+   private void renderShop(GuiGraphics g, int x, int y, int mouseX, int mouseY) {
       int hoverTab = this.tabAt(mouseX, mouseY);
 
       for (int t = 0; t < TABS.length; t++) {
@@ -194,25 +313,17 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
             g.pose().pushPose();
             g.pose().translate((float)tx + 1.5F, (float)(y + TAB_Y) + 1.5F, 0.0F);
             g.pose().scale(0.8F, 0.8F, 1.0F);
-            g.renderItem(icon(t), 0, 0);
+            g.renderItem(tabIcon(t), 0, 0);
             g.pose().popPose();
          }
       }
 
-      if (this.tab == ComputerShop.ORDERS) {
-         this.renderOrders(g, x, y, mouseX, mouseY);
-      } else {
-         this.renderShop(g, x, y, mouseX, mouseY);
-      }
-   }
-
-   private void renderShop(GuiGraphics g, int x, int y, int mouseX, int mouseY) {
       List<ComputerShop.Offer> offers = ComputerShop.offers();
       List<Integer> listed = this.listed();
       int day = this.menu.day();
       long balance = this.menu.balance();
       int hovered = this.rowAt(mouseX, mouseY);
-      g.fill(x + SHOP_X, y + SHOP_Y, x + SHOP_X + SHOP_W, y + SHOP_Y + ROW * ROWS, 553648127);
+      g.fill(x + SHOP_X, y + SHOP_Y, x + SHOP_X + SHOP_W, y + SHOP_Y + ROW * ROWS, PANEL);
 
       for (int i = 0; i < ROWS && i + this.scroll < listed.size(); i++) {
          int index = listed.get(i + this.scroll);
@@ -245,7 +356,7 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
          int track = ROW * ROWS;
          int knob = Math.max(12, track * ROWS / listed.size());
          int top = (track - knob) * this.scroll / Math.max(1, listed.size() - ROWS);
-         g.fill(x + SHOP_X + SHOP_W + 2, y + SHOP_Y, x + SHOP_X + SHOP_W + 4, y + SHOP_Y + track, 553648127);
+         g.fill(x + SHOP_X + SHOP_W + 2, y + SHOP_Y, x + SHOP_X + SHOP_W + 4, y + SHOP_Y + track, PANEL);
          g.fill(x + SHOP_X + SHOP_W + 2, y + SHOP_Y + top, x + SHOP_X + SHOP_W + 4, y + SHOP_Y + top + knob, -3355444);
       }
    }
@@ -256,11 +367,11 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
 
       for (int i = 0; i < orders.size(); i++) {
          ComputerShop.Order o = orders.get(i);
-         int ry = y + SHOP_Y + i * ORDER_ROW;
+         int ry = y + 30 + i * ORDER_ROW;
          boolean done = this.orderDone(i);
          int have = this.have(o);
          boolean ready = !done && have >= o.count;
-         g.fill(x + SHOP_X, ry, x + SHOP_X + SHOP_W, ry + ORDER_ROW - 4, done ? 285260032 : (ready && i == hovered ? 822083583 : 553648127));
+         g.fill(x + SHOP_X, ry, x + SHOP_X + SHOP_W, ry + ORDER_ROW - 4, done ? 285260032 : (ready && i == hovered ? 822083583 : PANEL));
          ItemStack stack = new ItemStack(o.item);
          g.renderItem(stack, x + SHOP_X + 3, ry + 4);
          String name = this.font.plainSubstrByWidth("×" + o.count + " " + stack.getHoverName().getString(), SHOP_W - 26);
@@ -275,12 +386,161 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
       }
    }
 
+   private void renderCasino(GuiGraphics g, int px, int y, int mouseX, int mouseY, float partialTick) {
+      long balance = this.menu.balance();
+      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.casino.bet"), px, y + 20, TEXT, false);
+
+      for (int i = 0; i < Casino.BETS.length; i++) {
+         final int pick = i;
+         this.button(g, px + 44 + i * 33, y + 18, 30, 12, Component.literal(String.valueOf(Casino.BETS[i])), true, i == this.bet, mouseX, mouseY, () -> this.bet = pick);
+      }
+
+      // slots
+      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.casino.slots"), px, y + 35, GOLD, false);
+      float spun = (float)(this.ticks - this.spinAt) + partialTick;
+      boolean spinning = spun < (float)SPIN_TICKS;
+
+      for (int r = 0; r < 3; r++) {
+         int rx = px + 4 + r * 48;
+         int ry = y + 45;
+         g.fill(rx - 1, ry - 1, rx + 41, ry + 41, -10066330);
+         g.fill(rx, ry, rx + 40, ry + 40, -15461356);
+         boolean stopped = !spinning || spun >= (float)(10 + r * 7);
+         int s = stopped ? Casino.reel(this.menu.reels(), r) : Math.floorMod(this.ticks * 7 + r * 13, Casino.SYMBOLS);
+         g.pose().pushPose();
+         g.pose().translate((float)(rx + 4), (float)(ry + 4) + (stopped ? 0.0F : Mth.sin(spun * 2.0F) * 3.0F), 0.0F);
+         g.pose().scale(2.0F, 2.0F, 1.0F);
+         g.renderItem(symbol(s), 0, 0);
+         g.pose().popPose();
+      }
+
+      boolean canBet = balance >= (long)this.betValue();
+      this.button(
+         g, px + 4, y + 90, 136, 13, Component.translatable("gui.vaz2109.pc.casino.spin", new Object[]{this.betValue()}), canBet && !spinning, false, mouseX, mouseY,
+         () -> this.send(ComputerMenu.SLOTS, this.betValue())
+      );
+      // roulette
+      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.casino.roulette"), px, y + 110, GOLD, false);
+      float rolled = (float)(this.ticks - this.rollAt) + partialTick;
+      boolean rolling = rolled < (float)ROLL_TICKS;
+      int n = rolling ? Math.floorMod(this.ticks * 11 + 5, 37) : this.menu.number();
+      int disc = n == 0 ? -14513374 : (Casino.red(n) ? -3407872 : -15132391);
+      g.fill(px + 3, y + 119, px + 33, y + 149, -3355444);
+      g.fill(px + 4, y + 120, px + 32, y + 148, disc);
+      if (this.menu.rolls() > 0 || rolling) {
+         g.pose().pushPose();
+         g.pose().translate((float)(px + 18), (float)(y + 129), 0.0F);
+         g.pose().scale(1.5F, 1.5F, 1.0F);
+         g.drawCenteredString(this.font, String.valueOf(n), 0, 0, -1);
+         g.pose().popPose();
+      }
+
+      boolean canRoll = canBet && !rolling;
+      this.button(g, px + 38, y + 120, 64, 13, Component.translatable("gui.vaz2109.pc.casino.red"), canRoll, false, mouseX, mouseY, () -> this.send(ComputerMenu.ROULETTE, this.betValue() * 4 + Casino.RED));
+      this.button(g, px + 38, y + 135, 64, 13, Component.translatable("gui.vaz2109.pc.casino.black"), canRoll, false, mouseX, mouseY, () -> this.send(ComputerMenu.ROULETTE, this.betValue() * 4 + Casino.BLACK));
+      this.button(g, px + 106, y + 120, 36, 28, Component.translatable("gui.vaz2109.pc.casino.zero"), canRoll, false, mouseX, mouseY, () -> this.send(ComputerMenu.ROULETTE, this.betValue() * 4 + Casino.ZERO));
+      // outcome
+      if (this.lastGame >= 0 && !spinning && !rolling) {
+         long won = this.menu.won();
+         Component result = won > 0L ? Component.translatable("gui.vaz2109.pc.casino.won", new Object[]{won}) : Component.translatable("gui.vaz2109.pc.casino.lost");
+         g.drawString(this.font, result, px, y + 156, won > 0L ? GREEN : RED, false);
+      }
+
+      int ty = y + 170;
+      for (String key : new String[]{"gui.vaz2109.pc.casino.pay1", "gui.vaz2109.pc.casino.pay2", "gui.vaz2109.pc.casino.pay3"}) {
+         g.drawString(this.font, Component.translatable(key), px, ty, GRAY, false);
+         ty += 10;
+      }
+   }
+
+   private void line(GuiGraphics g, int x0, int y0, int x1, int y1, int color) {
+      int steps = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
+
+      for (int i = 0; i <= steps; i++) {
+         float t = steps == 0 ? 0.0F : (float)i / (float)steps;
+         int x = Math.round(Mth.lerp(t, (float)x0, (float)x1));
+         int y = Math.round(Mth.lerp(t, (float)y0, (float)y1));
+         g.fill(x, y, x + 1, y + 1, color);
+      }
+   }
+
+   private void renderInvest(GuiGraphics g, int px, int y, int mouseX, int mouseY) {
+      long balance = this.menu.balance();
+
+      for (int s = 0; s < Invest.STOCKS; s++) {
+         final int stock = s;
+         int ry = y + 18 + s * 48;
+         g.fill(px, ry, px + SHOP_W, ry + 45, PANEL);
+         int now = this.menu.price(s, 0);
+         int before = this.menu.price(s, 1);
+         g.drawString(this.font, Component.translatable("gui.vaz2109.pc.stock." + s), px + 3, ry + 3, TEXT, false);
+         String price = now + " ₽";
+         g.drawString(this.font, price, px + SHOP_W - 3 - this.font.width(price), ry + 3, GOLD, false);
+         float change = before > 0 ? (float)(now - before) * 100.0F / (float)before : 0.0F;
+         String delta = String.format("%+.1f%%", change);
+         int deltaColor = change > 0.05F ? GREEN : (change < -0.05F ? RED : GRAY);
+         g.drawString(this.font, delta, px + SHOP_W - 3 - this.font.width(delta), ry + 13, deltaColor, false);
+         // sparkline over the last 8 days
+         int lo = Integer.MAX_VALUE;
+         int hi = 0;
+
+         for (int k = 0; k < Invest.HISTORY; k++) {
+            lo = Math.min(lo, this.menu.price(s, k));
+            hi = Math.max(hi, this.menu.price(s, k));
+         }
+
+         int gx = px + 3;
+         int gy = ry + 12;
+         int gw = 56;
+         int gh = 16;
+         g.fill(gx, gy, gx + gw, gy + gh, 285212671);
+         int prevX = -1;
+         int prevY = -1;
+
+         for (int k = Invest.HISTORY - 1; k >= 0; k--) {
+            int cx = gx + (Invest.HISTORY - 1 - k) * (gw - 1) / (Invest.HISTORY - 1);
+            int cy = gy + gh - 1 - (hi == lo ? gh / 2 : (this.menu.price(s, k) - lo) * (gh - 1) / (hi - lo));
+            if (prevX >= 0) {
+               this.line(g, prevX, prevY, cx, cy, deltaColor);
+            }
+
+            prevX = cx;
+            prevY = cy;
+         }
+
+         int shares = this.menu.shares(s);
+         g.drawString(this.font, Component.translatable("gui.vaz2109.pc.stock.have", new Object[]{shares}), px + 64, ry + 13, TEXT, false);
+         g.drawString(this.font, "≈ " + (long)shares * (long)now + " ₽", px + 64, ry + 22, GRAY, false);
+         long one = (long)now + Invest.fee((long)now);
+         long ten = (long)now * 10L + Invest.fee((long)now * 10L);
+         this.button(g, px + 3, ry + 31, 24, 12, Component.literal("+1"), balance >= one, false, mouseX, mouseY, () -> this.send(ComputerMenu.STOCK_BUY, stock * ComputerMenu.STOCK_ARG + 1));
+         this.button(g, px + 30, ry + 31, 28, 12, Component.literal("+10"), balance >= ten, false, mouseX, mouseY, () -> this.send(ComputerMenu.STOCK_BUY, stock * ComputerMenu.STOCK_ARG + 10));
+         this.button(g, px + 61, ry + 31, 24, 12, Component.literal("−1"), shares > 0, false, mouseX, mouseY, () -> this.send(ComputerMenu.STOCK_SELL, stock * ComputerMenu.STOCK_ARG + 1));
+         this.button(
+            g, px + 88, ry + 31, 53, 12, Component.translatable("gui.vaz2109.pc.stock.sell_all"), shares > 0, false, mouseX, mouseY, () -> this.send(ComputerMenu.STOCK_SELL, stock * ComputerMenu.STOCK_ARG)
+         );
+      }
+
+      int dy = y + 164;
+      g.fill(px, dy, px + SHOP_W, dy + 32, PANEL);
+      long savings = this.menu.savings();
+      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.deposit", new Object[]{savings}), px + 3, dy + 3, GOLD, false);
+      this.button(g, px + 3, dy + 16, 40, 13, Component.literal("+100"), balance >= 100L, false, mouseX, mouseY, () -> this.send(ComputerMenu.DEPOSIT, 100));
+      this.button(g, px + 46, dy + 16, 44, 13, Component.literal("+1000"), balance >= 1000L, false, mouseX, mouseY, () -> this.send(ComputerMenu.DEPOSIT, 1000));
+      this.button(g, px + 93, dy + 16, 48, 13, Component.translatable("gui.vaz2109.pc.deposit.take"), savings > 0L, false, mouseX, mouseY, () -> this.send(ComputerMenu.WITHDRAW, 0));
+   }
+
    protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
-      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.title"), 6, 3, -1, false);
-      String money = Component.translatable("gui.vaz2109.pc.balance", new Object[]{this.menu.balance()}).getString();
-      g.drawString(this.font, money, this.imageWidth - 6 - this.font.width(money), 3, GOLD, false);
+      g.drawString(this.font, "VAZ-OS", 6, 3, -1, false);
       g.drawString(this.font, Component.translatable("gui.vaz2109.pc.sell_title"), 10, 24, TEXT, false);
-      g.drawString(this.font, Component.translatable("gui.vaz2109.pc.tab." + TABS[this.tab]), SHOP_X, 35, TEXT, false);
+      String money = Component.translatable("gui.vaz2109.pc.balance", new Object[]{this.menu.balance()}).getString();
+      g.drawString(this.font, money, 168 - this.font.width(money), 24, GOLD, false);
+      if (this.mode == MARKET) {
+         g.drawString(this.font, Component.translatable("gui.vaz2109.pc.tab." + TABS[this.tab]), SHOP_X, 35, TEXT, false);
+      } else if (this.mode == ORDERS) {
+         g.drawString(this.font, Component.translatable("gui.vaz2109.pc.mode.orders.title"), SHOP_X, 19, TEXT, false);
+      }
+
       ItemStack stack = this.menu.selling();
       if (stack.isEmpty()) {
          g.drawString(this.font, Component.translatable("gui.vaz2109.pc.drop_here"), 14, 44, GRAY, false);
@@ -296,12 +556,14 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
       }
 
       g.drawString(this.font, Component.translatable("gui.vaz2109.pc.new_day", new Object[]{this.minutesToNewDay()}), 10, 115, GRAY, false);
-
       g.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, TEXT, false);
-      Component hint = this.tab == ComputerShop.ORDERS
-         ? Component.translatable("gui.vaz2109.pc.order_hint")
-         : (this.tab == ComputerShop.DEALS ? Component.translatable("gui.vaz2109.pc.deals_hint") : Component.translatable("gui.vaz2109.pc.shop_hint"));
-      g.drawString(this.font, hint, SHOP_X, this.imageHeight - 14, GRAY, false);
+      String hint = switch (this.mode) {
+         case ORDERS -> "gui.vaz2109.pc.order_hint";
+         case CASINO -> "gui.vaz2109.pc.casino.hint";
+         case INVEST -> "gui.vaz2109.pc.invest_hint";
+         default -> this.tab == ComputerShop.DEALS ? "gui.vaz2109.pc.deals_hint" : "gui.vaz2109.pc.shop_hint";
+      };
+      g.drawString(this.font, Component.translatable(hint), SHOP_X, this.imageHeight - 14, GRAY, false);
    }
 
    public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
@@ -332,41 +594,47 @@ public class ComputerScreen extends AbstractContainerScreen<ComputerMenu> {
    }
 
    public boolean mouseClicked(double mx, double my, int button) {
-      int tab = this.tabAt(mx, my);
-      if (tab >= 0 && button == 0) {
-         this.tab = tab;
-         this.scroll = 0;
-         this.click();
-         return true;
-      }
-
-      int row = this.rowAt(mx, my);
-      if (row >= 0 && button == 0) {
-         this.send(Screen.hasShiftDown() ? ComputerMenu.BUY_TEN : ComputerMenu.BUY, row);
-         return true;
-      }
-
-      int order = this.orderAt(mx, my);
-      if (order >= 0 && button == 0) {
-         if (!this.orderDone(order)) {
-            this.send(ComputerMenu.ORDER, order);
+      if (button == 0) {
+         for (ComputerScreen.Hot hot : this.hots) {
+            if (hot.contains(mx, my)) {
+               hot.action().run();
+               return true;
+            }
          }
 
-         return true;
+         int tab = this.tabAt(mx, my);
+         if (tab >= 0) {
+            this.tab = tab;
+            this.scroll = 0;
+            this.click();
+            return true;
+         }
+
+         int row = this.rowAt(mx, my);
+         if (row >= 0) {
+            this.send(Screen.hasShiftDown() ? ComputerMenu.BUY_TEN : ComputerMenu.BUY, row);
+            return true;
+         }
+
+         int order = this.orderAt(mx, my);
+         if (order >= 0) {
+            if (!this.orderDone(order)) {
+               this.send(ComputerMenu.ORDER, order);
+            }
+
+            return true;
+         }
       }
 
       return super.mouseClicked(mx, my, button);
    }
 
-   private void click() {
-      if (this.minecraft != null) {
-         this.minecraft.getSoundManager().play(net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(net.minecraft.sounds.SoundEvents.UI_BUTTON_CLICK, 1.0F));
-      }
-   }
-
    public boolean mouseScrolled(double mx, double my, double delta) {
-      int max = Math.max(0, this.listed().size() - ROWS);
-      this.scroll = Mth.clamp(this.scroll - (int)Math.signum(delta), 0, max);
+      if (this.mode == MARKET) {
+         int max = Math.max(0, this.listed().size() - ROWS);
+         this.scroll = Mth.clamp(this.scroll - (int)Math.signum(delta), 0, max);
+      }
+
       return true;
    }
 }

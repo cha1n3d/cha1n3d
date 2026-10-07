@@ -55,6 +55,10 @@ public class BeerItem extends Item {
             entity.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 0));
          }
 
+         if (entity instanceof Player p) {
+            Intoxication.drink(p, 1.0F);
+         }
+
          level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.8F, 0.8F);
       }
 

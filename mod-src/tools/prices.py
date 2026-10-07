@@ -21,17 +21,20 @@ dirs = [a for i, a in enumerate(args) if not a.startswith('-') and (i == 0 or ar
 
 def cost(n):
     if n in SELL: return SELL[n]
+    if n in SELL_MOD: return SELL_MOD[n]
     if n in MAT: return MAT[n]
     if n.endswith('_dye'): return 0.5
     raise SystemExit('no material cost for ' + n)
 
 material = {}
+station = set()  # mod items made on the mod's own benches: never sold in the shop
 for d_ in dirs:
     for f in sorted(glob.glob(os.path.join(d_, '**', '*.json'), recursive=True)):
         d = json.load(open(f))
         r = d.get('result', {})
         res, cnt = r.get('item', ':').split(':')[1], r.get('count', 1)
         if d.get('type') == 'vaz2109:station':
+            station.add('vaz2109:' + res)
             items = [(i['count'], (i['ingredient'].get('item') or i['ingredient'].get('tag')).split(':')[1]) for i in d['ingredients']]
         elif 'key' in d:
             c = Counter(ch for row in d['pattern'] for ch in row if ch != ' ')
@@ -56,7 +59,7 @@ for k, m in material.items():
         if v >= 1:
             sell['vaz2109:' + k] = v
 
-CATS = ['deals', 'food', 'resources', 'weapons', 'gear', 'rides', 'magic', 'bank', 'orders']
+CATS = ['deals', 'food', 'bar', 'resources', 'weapons', 'misc', 'rides', 'magic', 'bank']
 C = {n: i for i, n in enumerate(CATS)}
 
 def crafted(id_, lot=1):
@@ -66,7 +69,12 @@ def crafted(id_, lot=1):
 OFFERS = [
  ('food', 'minecraft:bread', 8, 40), ('food', 'minecraft:cooked_beef', 8, 56), ('food', 'minecraft:cooked_salmon', 8, 48),
  ('food', 'minecraft:golden_carrot', 8, 160), ('food', 'minecraft:cake', 1, 40), ('food', 'minecraft:honey_bottle', 4, 40),
- ('food', 'vaz2109:beer', 4, None), ('food', 'minecraft:golden_apple', 1, 350), ('food', 'minecraft:enchanted_golden_apple', 1, 5000),
+ ('food', 'minecraft:mushroom_stew', 1, 15), ('food', 'minecraft:rabbit_stew', 1, 30), ('food', 'minecraft:dried_kelp', 16, 32),
+ ('food', 'minecraft:golden_apple', 1, 350), ('food', 'minecraft:enchanted_golden_apple', 1, 5000),
+
+ ('bar', 'vaz2109:beer', 4, 60), ('bar', 'vaz2109:kvass', 4, 60), ('bar', 'vaz2109:wine', 1, None),
+ ('bar', 'vaz2109:champagne', 1, None), ('bar', 'vaz2109:vodka', 1, None), ('bar', 'vaz2109:cognac', 1, None),
+ ('bar', 'vaz2109:moonshine', 1, None), ('bar', 'vaz2109:cigarettes', 1, None),
 
  ('resources', 'minecraft:iron_ingot', 8, 200), ('resources', 'minecraft:gold_ingot', 4, 250), ('resources', 'minecraft:copper_ingot', 16, 96),
  ('resources', 'minecraft:diamond', 1, 400), ('resources', 'minecraft:emerald', 1, 100), ('resources', 'minecraft:netherite_scrap', 1, 900),
@@ -78,34 +86,28 @@ OFFERS = [
  ('resources', 'minecraft:gunpowder', 4, 40), ('resources', 'minecraft:slime_ball', 4, 40), ('resources', 'minecraft:ender_pearl', 2, 60),
  ('resources', 'minecraft:blaze_rod', 2, 60), ('resources', 'minecraft:tnt', 4, 140),
 
- ('weapons', 'vaz2109:pm', 1, None), ('weapons', 'vaz2109:sawed_off', 1, None), ('weapons', 'vaz2109:ak74', 1, None),
- ('weapons', 'vaz2109:svd', 1, None), ('weapons', 'vaz2109:rpg7', 1, None),
- ('weapons', 'vaz2109:ammo_9x18', 32, None), ('weapons', 'vaz2109:ammo_545', 30, None), ('weapons', 'vaz2109:ammo_12ga', 16, None),
- ('weapons', 'vaz2109:ammo_762', 10, None), ('weapons', 'vaz2109:pg7_rocket', 2, None),
- ('weapons', 'vaz2109:grenade', 4, None), ('weapons', 'vaz2109:molotov', 4, None), ('weapons', 'vaz2109:flashbang', 4, None),
- ('weapons', 'vaz2109:bat', 1, None), ('weapons', 'vaz2109:crowbar', 1, None), ('weapons', 'vaz2109:kastet', 1, None),
- ('weapons', 'vaz2109:machete', 1, None), ('weapons', 'vaz2109:chainsaw', 1, None),
- ('weapons', 'vaz2109:nichirin_water', 1, None), ('weapons', 'vaz2109:nichirin_flame', 1, None),
  ('weapons', 'minecraft:bow', 1, 40), ('weapons', 'minecraft:crossbow', 1, 50), ('weapons', 'minecraft:arrow', 32, 40),
- ('weapons', 'minecraft:shield', 1, 50), ('weapons', 'minecraft:diamond_sword', 1, 600),
+ ('weapons', 'minecraft:spectral_arrow', 16, 60), ('weapons', 'minecraft:shield', 1, 50), ('weapons', 'minecraft:iron_sword', 1, 60),
+ ('weapons', 'minecraft:iron_axe', 1, 80), ('weapons', 'minecraft:diamond_sword', 1, 600), ('weapons', 'minecraft:trident', 1, 1500),
+ ('weapons', 'minecraft:iron_helmet', 1, 120), ('weapons', 'minecraft:iron_chestplate', 1, 200), ('weapons', 'minecraft:iron_leggings', 1, 180),
+ ('weapons', 'minecraft:iron_boots', 1, 100), ('weapons', 'minecraft:chainmail_helmet', 1, 150), ('weapons', 'minecraft:chainmail_chestplate', 1, 250),
+ ('weapons', 'minecraft:chainmail_leggings', 1, 220), ('weapons', 'minecraft:chainmail_boots', 1, 120),
+ ('weapons', 'minecraft:diamond_helmet', 1, 1400), ('weapons', 'minecraft:diamond_chestplate', 1, 2200),
+ ('weapons', 'minecraft:diamond_leggings', 1, 1900), ('weapons', 'minecraft:diamond_boots', 1, 1100),
 
- ('gear', 'vaz2109:tactical_helmet', 1, None), ('gear', 'vaz2109:tactical_chestplate', 1, None),
- ('gear', 'vaz2109:tactical_leggings', 1, None), ('gear', 'vaz2109:tactical_boots', 1, None),
- ('gear', 'vaz2109:jujutsu_helmet', 1, None), ('gear', 'vaz2109:jujutsu_chestplate', 1, None),
- ('gear', 'vaz2109:jujutsu_leggings', 1, None), ('gear', 'vaz2109:jujutsu_boots', 1, None),
- ('gear', 'vaz2109:narcoleptin', 4, None), ('gear', 'vaz2109:compound_v', 1, None), ('gear', 'vaz2109:explorer_compass', 1, None),
- ('gear', 'vaz2109:fox_mask', 1, None), ('gear', 'vaz2109:mask_richard', 1, None), ('gear', 'vaz2109:mask_rasmus', 1, None),
- ('gear', 'vaz2109:mask_tony', 1, None), ('gear', 'vaz2109:mask_aubrey', 1, None), ('gear', 'vaz2109:mask_don_juan', 1, None),
- ('gear', 'vaz2109:party_hat_red', 1, None), ('gear', 'vaz2109:party_hat_blue', 1, None), ('gear', 'vaz2109:party_hat_green', 1, None),
- ('gear', 'vaz2109:party_hat_yellow', 1, None), ('gear', 'vaz2109:party_hat_pink', 1, None), ('gear', 'vaz2109:party_hat_purple', 1, None),
- ('gear', 'minecraft:name_tag', 1, 150), ('gear', 'vaz2109:morgen_phone', 1, None),
+ ('misc', 'vaz2109:computer', 1, None), ('misc', 'vaz2109:garage_bench', 1, None), ('misc', 'vaz2109:armory_bench', 1, None),
+ ('misc', 'vaz2109:mask_table', 1, None), ('misc', 'vaz2109:cursed_altar', 1, None),
+ ('misc', 'vaz2109:party_hat_red', 1, None), ('misc', 'vaz2109:party_hat_blue', 1, None), ('misc', 'vaz2109:party_hat_green', 1, None),
+ ('misc', 'vaz2109:party_hat_yellow', 1, None), ('misc', 'vaz2109:party_hat_pink', 1, None), ('misc', 'vaz2109:party_hat_purple', 1, None),
+ ('misc', 'minecraft:name_tag', 1, 150), ('misc', 'minecraft:spyglass', 1, 40), ('misc', 'minecraft:compass', 1, 120),
+ ('misc', 'minecraft:clock', 1, 150), ('misc', 'minecraft:map', 1, 150), ('misc', 'minecraft:bell', 1, 300),
+ ('misc', 'minecraft:lantern', 4, 40), ('misc', 'minecraft:jukebox', 1, 500), ('misc', 'minecraft:music_disc_cat', 1, 300),
+ ('misc', 'minecraft:music_disc_pigstep', 1, 1500),
 
- ('rides', 'vaz2109:vaz2109', 1, None), ('rides', 'vaz2109:skateboard', 1, None), ('rides', 'vaz2109:scooter', 1, None),
- ('rides', 'vaz2109:skate_ramp', 3, None), ('rides', 'vaz2109:skate_kicker', 3, None), ('rides', 'vaz2109:bull_bar', 1, None),
- ('rides', 'vaz2109:turbo', 1, None), ('rides', 'vaz2109:spoiler', 1, None), ('rides', 'vaz2109:radio', 1, None),
- ('rides', 'vaz2109:lowering_kit', 1, None), ('rides', 'vaz2109:spray_can', 1, None), ('rides', 'minecraft:saddle', 1, 150),
- ('rides', 'minecraft:lead', 1, 30), ('rides', 'minecraft:oak_boat', 1, 15), ('rides', 'minecraft:minecart', 1, 60),
- ('rides', 'minecraft:firework_rocket', 16, 48), ('rides', 'minecraft:elytra', 1, 7000),
+ ('rides', 'minecraft:saddle', 1, 150), ('rides', 'minecraft:lead', 1, 30), ('rides', 'minecraft:oak_boat', 1, 15),
+ ('rides', 'minecraft:minecart', 1, 60), ('rides', 'minecraft:rail', 16, 80), ('rides', 'minecraft:powered_rail', 6, 220),
+ ('rides', 'minecraft:iron_horse_armor', 1, 300), ('rides', 'minecraft:golden_horse_armor', 1, 400),
+ ('rides', 'minecraft:diamond_horse_armor', 1, 900), ('rides', 'minecraft:firework_rocket', 16, 48), ('rides', 'minecraft:elytra', 1, 7000),
 
  ('magic', 'book:minecraft:mending:1', 1, 2500), ('magic', 'book:minecraft:unbreaking:3', 1, 900),
  ('magic', 'book:minecraft:sharpness:5', 1, 1500), ('magic', 'book:minecraft:protection:4', 1, 1200),
@@ -149,7 +151,7 @@ for cat, id_, lot, price in OFFERS:
     rows.append((cat, id_, lot, price))
 
 # --- arbitrage checks -------------------------------------------------------------------------
-bad = []
+bad = [f'{id_}: made on a mod bench, not for the shop' for _, id_, _, _ in rows if id_ in station]
 buy_unit = {}
 for cat, id_, lot, price in rows:
     if id_.startswith(('book:', 'potion:')):

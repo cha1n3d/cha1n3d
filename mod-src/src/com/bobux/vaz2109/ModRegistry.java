@@ -162,6 +162,20 @@ public final class ModRegistry {
    public static final RegistryObject<Item> BANKNOTE_1000 = ITEMS.register(
       "banknote_1000", () -> new com.bobux.vaz2109.computer.BanknoteItem(1000, new net.minecraft.world.item.Item.Properties().rarity(Rarity.UNCOMMON))
    );
+   public static final RegistryObject<Item> CIGARETTES = ITEMS.register(
+      "cigarettes", () -> new com.bobux.vaz2109.item.CigarettesItem(new net.minecraft.world.item.Item.Properties().durability(20))
+   );
+   public static final RegistryObject<Item> RED_GLOVES = ITEMS.register(
+      "red_gloves", () -> new com.bobux.vaz2109.item.RedGlovesItem(new net.minecraft.world.item.Item.Properties().durability(900).rarity(Rarity.RARE))
+   );
+   public static final List<RegistryObject<Item>> DRINKS = List.of(
+      drink("kvass", 0.0F, 3, com.bobux.vaz2109.item.DrinkItem::kvass),
+      drink("wine", 2.0F, 1, com.bobux.vaz2109.item.DrinkItem::wine),
+      drink("champagne", 1.5F, 1, com.bobux.vaz2109.item.DrinkItem::champagne),
+      drink("vodka", 3.0F, 0, com.bobux.vaz2109.item.DrinkItem::vodka),
+      drink("cognac", 3.0F, 1, com.bobux.vaz2109.item.DrinkItem::cognac),
+      drink("moonshine", 5.0F, 0, com.bobux.vaz2109.item.DrinkItem::moonshine)
+   );
    public static final Map<Station, RegistryObject<Block>> STATION_BLOCKS = new EnumMap<>(Station.class);
    public static final Map<Station, RegistryObject<Item>> STATION_ITEMS = new EnumMap<>(Station.class);
    public static final ResourceKey<DamageType> VAZ_DAMAGE;
@@ -261,6 +275,10 @@ public final class ModRegistry {
    private ModRegistry() {
    }
 
+   private static RegistryObject<Item> drink(String id, float units, int food, java.util.function.BiConsumer<net.minecraft.world.entity.player.Player, net.minecraft.world.level.Level> fx) {
+      return ITEMS.register(id, () -> new com.bobux.vaz2109.item.DrinkItem(id, units, food, fx, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
+   }
+
    public static void register(IEventBus bus) {
       BLOCKS.register(bus);
       ENTITIES.register(bus);
@@ -357,7 +375,7 @@ public final class ModRegistry {
 
       item("bat", () -> new MeleeItem(MeleeItem.Kind.BAT, Tiers.WOOD, 4, -2.8F, new net.minecraft.world.item.Item.Properties()));
       item("crowbar", () -> new MeleeItem(MeleeItem.Kind.CROWBAR, Tiers.IRON, 3, -2.6F, new net.minecraft.world.item.Item.Properties()));
-      item("kastet", () -> new MeleeItem(MeleeItem.Kind.KASTET, Tiers.IRON, 1, -0.5F, new net.minecraft.world.item.Item.Properties()));
+      item("kastet", () -> new MeleeItem(MeleeItem.Kind.KASTET, Tiers.IRON, 0, -1.0F, new net.minecraft.world.item.Item.Properties()));
       item("machete", () -> new MeleeItem(MeleeItem.Kind.MACHETE, Tiers.IRON, 4, -2.5F, new net.minecraft.world.item.Item.Properties()));
       item("grenade", () -> new ThrowableWeaponItem(ThrowableWeaponItem.Kind.GRENADE, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
       item("molotov", () -> new ThrowableWeaponItem(ThrowableWeaponItem.Kind.MOLOTOV, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
@@ -583,6 +601,12 @@ public final class ModRegistry {
                   out.accept((ItemLike)COMPUTER_ITEM.get());
                   out.accept((ItemLike)BANKNOTE_100.get());
                   out.accept((ItemLike)BANKNOTE_1000.get());
+                  out.accept((ItemLike)CIGARETTES.get());
+                  out.accept((ItemLike)RED_GLOVES.get());
+
+                  for (RegistryObject<Item> d : DRINKS) {
+                     out.accept((ItemLike)d.get());
+                  }
 
                   for (int color : new int[]{14, 1, 4, 5, 3, 11, 10, 6, 15, 0}) {
                      out.accept(SkateboardItem.withColor(color));

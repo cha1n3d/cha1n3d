@@ -28,8 +28,7 @@ import net.minecraftforge.registries.ForgeRegistries;
  */
 public final class ComputerShop {
    public static final int DEALS = 0;
-   public static final int BANK = 7;
-   public static final int ORDERS = 8;
+   public static final int BANK = 8;
    public static final int CATEGORIES = 9;
    public static final int DEAL_COUNT = 4;
    public static final int DEAL_PERCENT = 30;

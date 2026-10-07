@@ -35,16 +35,20 @@ import org.joml.Vector3f;
    modid = "vaz2109"
 )
 public class SlaughterDemonItem extends CursedToolItem {
-   public static final float CHANCE = 0.1F;
-   public static final float ZONE_CHANCE = 0.3F;
-   public static final float MULTIPLIER = 2.5F;
-   private static final int ZONE = 300;
+   public static final float CHANCE = 0.08F;
+   public static final float ZONE_CHANCE = 0.2F;
+   /** Black Flash damage multiplier (knife crit and Vessel fists alike). */
+   public static final float MULTIPLIER = 2.0F;
+   /** "In the zone" after a Black Flash: 10 s, not extended by further flashes. */
+   public static final int ZONE = 200;
+   /** At least 2 s between two Black Flashes. */
+   public static final int GAP = 40;
    private static final DustParticleOptions BLACK = new DustParticleOptions(new Vector3f(0.02F, 0.02F, 0.03F), 1.6F);
    private static final DustParticleOptions RED = new DustParticleOptions(new Vector3f(0.85F, 0.05F, 0.08F), 1.2F);
    private static final Map<Player, Float> STRENGTH = new WeakHashMap<>();
 
    public SlaughterDemonItem(Properties properties) {
-      super(Tiers.IRON, 3, -1.6F, properties);
+      super(Tiers.IRON, 3, -2.0F, properties);
    }
 
    @Override
@@ -53,7 +57,12 @@ public class SlaughterDemonItem extends CursedToolItem {
    }
 
    public static boolean inZone(Player player) {
-      return player.level().getGameTime() - player.getPersistentData().getLong("vaz2109BlackFlash") < 300L;
+      return player.level().getGameTime() - player.getPersistentData().getLong("vaz2109BlackFlash") < (long)ZONE;
+   }
+
+   /** False right after a Black Flash, so they cannot chain hit after hit. */
+   public static boolean canFlash(Player player) {
+      return player.level().getGameTime() - player.getPersistentData().getLong("vaz2109BlackFlashLast") >= (long)GAP;
    }
 
    @SubscribeEvent
@@ -68,19 +77,23 @@ public class SlaughterDemonItem extends CursedToolItem {
          && player.getMainHandItem().getItem() instanceof SlaughterDemonItem
          && !(STRENGTH.getOrDefault(player, 0.0F) < 0.95F)
          && event.getTarget() instanceof LivingEntity target) {
-         float chance = inZone(player) ? 0.3F : 0.1F;
-         if (!(player.getRandom().nextFloat() >= chance)) {
+         float chance = inZone(player) ? ZONE_CHANCE : CHANCE;
+         if (canFlash(player) && player.getRandom().nextFloat() < chance) {
             event.setResult(Result.ALLOW);
-            event.setDamageModifier(2.5F);
+            event.setDamageModifier(MULTIPLIER);
             blackFlash((ServerLevel)player.level(), player, target);
          }
       }
    }
 
    public static void blackFlash(ServerLevel server, Player player, LivingEntity target) {
-      player.getPersistentData().putLong("vaz2109BlackFlash", server.getGameTime());
-      player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 300, 0));
-      player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300, 0));
+      long now = server.getGameTime();
+      if (!inZone(player)) {
+         player.getPersistentData().putLong("vaz2109BlackFlash", now);
+         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, ZONE, 0));
+      }
+
+      player.getPersistentData().putLong("vaz2109BlackFlashLast", now);
       double x = target.getX();
       double y = target.getY() + (double)target.getBbHeight() * 0.55;
       double z = target.getZ();
