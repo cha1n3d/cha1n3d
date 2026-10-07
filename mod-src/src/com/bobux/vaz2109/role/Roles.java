@@ -99,7 +99,8 @@ public final class Roles {
    public static final float BLACK_FLASH_ZONE_CHANCE = 0.45F;
    private static final Map<Player, Float> SWING = new WeakHashMap<>();
    private static final Map<UUID, BloodBeamEntity> BEAMS = new HashMap<>();
-   public static final int SLASH_TICKS = 10;
+   public static final int SLASH_GAP = 4;
+   private static final List<Roles.Slash> SLASHES = new ArrayList<>();
    private static final List<Roles.Impact> IMPACTS = new ArrayList<>();
    private static boolean applying;
 
@@ -218,12 +219,10 @@ public final class Roles {
                      if (a == Ability.PIERCING_BLOOD) {
                         BloodBeamEntity beam = ModRegistry.BLOOD_BEAM.get().create(player.level());
                         if (beam != null) {
-                           beam.setup(player, 20, 140, 0.06F, 3.0F, true, true);
+                           beam.setup(player, 16, 140, 1.0F, 5.0F, true, true);
                            player.level().addFreshEntity(beam);
                            BEAMS.put(player.getUUID(), beam);
                         }
-                     } else if (a == Ability.DISMANTLE) {
-                        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.6F, 0.6F);
                      } else {
                         SukunaVessel.charge(player, 40);
                      }
@@ -268,11 +267,6 @@ public final class Roles {
             player.getPersistentData()
                .putLong("vaz2109Cd_" + Ability.PIERCING_BLOOD.id, player.level().getGameTime() + (long)(Ability.PIERCING_BLOOD.cooldown * (0.3F + 0.7F * Math.min(1.0F, fired / 100.0F))));
             sync(player);
-         } else if (a == Ability.DISMANTLE && !SukunaVessel.possessed(player)) {
-            int count = slashes(player, held);
-            dismantleBurst(player, count);
-            player.getPersistentData().putLong("vaz2109Cd_" + a.id, player.level().getGameTime() + (long)(a.cooldown + 25 * (count - 1)));
-            sync(player);
          } else if (a != null && a.chargeable() && a != Ability.PIERCING_BLOOD && !SukunaVessel.possessed(player)) {
             float power = Math.min(1.0F, Math.max(0.15F, (float)held / 40.0F));
             use(player, a, power);
@@ -300,7 +294,12 @@ public final class Roles {
             player.displayClientMessage(Component.translatable("message.vaz2109.ability.blue_fists").withStyle(ChatFormatting.BLUE), true);
             break;
          case DISMANTLE:
-            SukunaVessel.dismantle(player, player.getEyePosition(), player.getLookAngle(), 4.0F + 0.25F * (float)n, 1);
+            int chain = slashes(n);
+
+            for (int i = 0; i < chain; i++) {
+               SLASHES.add(new Roles.Slash(player, level.getGameTime() + (long)(i * SLASH_GAP), 7.0F + 0.4F * (float)n));
+            }
+
             break;
          case REPAIR:
             boolean fixed = false;
@@ -462,24 +461,6 @@ public final class Roles {
       return true;
    }
 
-   /** Slashes gathered while holding Dismantle: one every half second, up to 2 + fingers / 5. */
-   public static int slashes(Player player, long held) {
-      int max = 2 + SukunaVessel.fingers(player) / 5;
-      return (int)Math.max(1L, Math.min((long)max, 1L + held / (long)SLASH_TICKS));
-   }
-
-   /** Releases every gathered slash at once in a fan along the look direction. */
-   private static void dismantleBurst(ServerPlayer player, int count) {
-      int n = SukunaVessel.fingers(player);
-      Vec3 look = player.getLookAngle();
-
-      for (int i = 0; i < count; i++) {
-         float off = count == 1 ? 0.0F : ((float)i / (count - 1) - 0.5F) * Math.min(40.0F, 9.0F * (count - 1));
-         Vec3 dir = look.yRot(off * (float)(Math.PI / 180.0));
-         SukunaVessel.dismantle(player, player.getEyePosition(), dir, 4.0F + 0.25F * (float)n, 1);
-      }
-   }
-
    /** Brewer's fire breath: strong moonshine sprayed over a lighter, a short cone of flame for 1.5 seconds. */
    private static void breathe(ServerPlayer player, ServerLevel level) {
       Vec3 eye = player.getEyePosition();
@@ -531,13 +512,6 @@ public final class Roles {
             int limit = beam != null ? 170 : 100;
             if (start > 0L && (now - start >= (long)limit || beam != null && beam.isRemoved())) {
                release(player);
-            } else if (start > 0L && selected(player) == Ability.DISMANTLE) {
-               int held = (int)(now - start);
-               if (held > 0 && held % SLASH_TICKS == 0 && slashes(player, held) > slashes(player, held - 1)) {
-                  int count = slashes(player, held);
-                  level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.5F, 0.8F + 0.12F * count);
-                  ModSounds.play(level, player.position(), 0.5F, ModSounds.SOUL_WHISPER);
-               }
             }
 
             if (data.getLong(BREATH) > now) {
@@ -642,8 +616,7 @@ public final class Roles {
             SlaughterDemonItem.blackFlash(level, player, target);
             level.sendParticles(ParticleTypes.SQUID_INK, c.x, c.y, c.z, 20, 0.3, 0.3, 0.3, 0.25);
          } else {
-            event.setAmount(event.getAmount() + 1.0F);
-            IMPACTS.add(new Roles.Impact(player, target, level.getGameTime() + 6L, 3.0F + 0.15F * (float)n));
+            IMPACTS.add(new Roles.Impact(player, target, level.getGameTime() + 6L, 1.5F + 0.1F * (float)n));
             level.playSound(null, c.x, c.y, c.z, SoundEvents.PLAYER_ATTACK_STRONG, SoundSource.PLAYERS, 0.8F, 0.7F);
          }
       }
@@ -824,6 +797,36 @@ public final class Roles {
             )
          );
       }
+   }
+
+   /** Dismantle slashes in flight: fired one by one, each along wherever the caster is looking at that moment. */
+   @SubscribeEvent
+   public static void onSlashTick(ServerTickEvent event) {
+      if (event.phase == Phase.END && !SLASHES.isEmpty()) {
+         List<Roles.Slash> due = new ArrayList<>();
+         SLASHES.removeIf(sl -> {
+            if (!sl.caster.isAlive() || sl.caster.isRemoved()) {
+               return true;
+            } else if (sl.caster.level().getGameTime() < sl.at) {
+               return false;
+            } else {
+               due.add(sl);
+               return true;
+            }
+         });
+
+         for (Roles.Slash sl : due) {
+            SukunaVessel.dismantle(sl.caster, sl.caster.getEyePosition(), sl.caster.getLookAngle(), sl.damage, 1);
+         }
+      }
+   }
+
+   /** Slashes per Dismantle cast: 2, plus one for every 5 of Sukuna's fingers. */
+   public static int slashes(int fingers) {
+      return 2 + fingers / 5;
+   }
+
+   private static record Slash(ServerPlayer caster, long at, float damage) {
    }
 
    private static record Impact(ServerPlayer attacker, LivingEntity target, long at, float damage) {

@@ -297,15 +297,9 @@ public final class RoleClient {
                int col;
                Component label;
                if (chosen == Ability.PIERCING_BLOOD) {
-                  c = Math.min(1.0F, (float)charging / 20.0F);
+                  c = Math.min(1.0F, (float)charging / 16.0F);
                   col = c >= 1.0F ? 16724016 : 11141120;
                   label = Component.translatable(c >= 1.0F ? "hud.vaz2109.blood.ready" : "hud.vaz2109.blood.charging");
-               } else if (chosen == Ability.DISMANTLE) {
-                  int max = 2 + fingers / 5;
-                  int count = Math.max(1, Math.min(max, 1 + charging / 10));
-                  c = (float)count / (float)max;
-                  col = count >= max ? 16737894 : 13382451;
-                  label = Component.translatable("hud.vaz2109.dismantle.charging", new Object[]{count, max});
                } else {
                   c = Math.min(1.0F, (float)charging / 40.0F);
                   col = c >= 1.0F ? 16764992 : 16738832;

@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -62,10 +63,10 @@ public class BloodBeamRenderer extends EntityRenderer<BloodBeamEntity> {
          float yaw = Mth.rotLerp(partialTick, beam.yawO, beam.beamYaw());
          float pitch = Mth.lerp(partialTick, beam.pitchO, beam.beamPitch());
          float length = Mth.lerp(partialTick, beam.lengthO, beam.length());
-         Vec3 dir = BloodBeamEntity.direction(yaw, pitch);
-         this.jet(buffers.getBuffer(RenderType.entityTranslucent(SHEATH)), m, n, start, dir, length, cam, 0.11F, time, 1.6F, 200, bright);
-         this.jet(buffers.getBuffer(RenderType.entityTranslucent(CORE)), m, n, start, dir, length, cam, 0.045F, time, 2.6F, 255, bright);
-         this.billboard(buffers.getBuffer(RenderType.entityTranslucent(ORB)), m, n, start.add(dir.scale(0.1)), cam, 0.16F + 0.03F * Mth.sin(time * 2.1F), time * 13.0F, 255, bright);
+         Vec3 dir = owner instanceof Player player ? player.getViewVector(partialTick) : BloodBeamEntity.direction(yaw, pitch);
+         this.jet(buffers.getBuffer(RenderType.entityTranslucent(SHEATH)), m, n, start, dir, length, cam, 0.17F, time, 1.8F, 235, bright);
+         this.jet(buffers.getBuffer(RenderType.entityTranslucent(CORE)), m, n, start, dir, length, cam, 0.075F, time, 3.2F, 255, bright);
+         this.billboard(buffers.getBuffer(RenderType.entityTranslucent(ORB)), m, n, start.add(dir.scale(0.1)), cam, 0.22F + 0.02F * Mth.sin(time * 2.1F), time * 13.0F, 255, bright);
          Vec3 hit = start.add(dir.scale(length));
          float splash = 0.45F + 0.12F * Mth.sin(time * 1.9F);
          this.billboard(buffers.getBuffer(RenderType.entityTranslucent(SPLASH)), m, n, hit, cam, splash, time * 23.0F, 235, light);
@@ -75,7 +76,7 @@ public class BloodBeamRenderer extends EntityRenderer<BloodBeamEntity> {
       super.render(beam, entityYaw, partialTick, pose, buffers, light);
    }
 
-   /** Camera-facing ribbon split into short segments that ripple slightly, texture scrolled along the flow. */
+   /** Straight camera-facing ribbon in short segments, the blood texture scrolled along the flow. */
    private void jet(VertexConsumer vc, Matrix4f m, Matrix3f n, Vec3 start, Vec3 dir, float length, Vec3 cam, float width, float time, float flow, int alpha, int light) {
       float step = 0.5F;
       Vec3 prev = start;
@@ -84,9 +85,8 @@ public class BloodBeamRenderer extends EntityRenderer<BloodBeamEntity> {
 
       for (float s = step; s < length + step; s += step) {
          float d = Math.min(s, length);
-         float ripple = 0.012F * Mth.sin(time * 1.4F + d * 2.3F);
-         Vec3 p = start.add(dir.scale(d)).add(0.0, ripple, 0.0);
-         Vec3 side = this.side(p, dir, cam, width * (1.0F + 0.15F * Mth.sin(time * 2.0F + d * 1.7F)));
+         Vec3 p = start.add(dir.scale(d));
+         Vec3 side = this.side(p, dir, cam, width);
          float v1 = v0 + (d - (s - step)) * 0.6F;
          this.vertex(vc, m, n, prev.add(prevSide), 0.0F, v0, alpha, light);
          this.vertex(vc, m, n, prev.subtract(prevSide), 1.0F, v0, alpha, light);

@@ -34,12 +34,12 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Piercing Blood as a continuous jet. First the caster compresses a ball of blood between the palms, then a
- * high-pressure stream fires for as long as it is held. The stream has real inertia: it swings toward where the
- * caster looks only slowly, pulses and shakes, pushes the caster back, erodes what it hits and drains the
- * caster's own blood every few ticks.
+ * high-pressure stream fires in a straight line for as long as it is held. It pushes the caster back, sprays blood
+ * along its length, erodes what it rests on and drains the caster's own blood every few ticks. A steer below 1
+ * makes it trail the aim (Choso), 1 keeps it locked on the caster's line of sight.
  */
 public class BloodBeamEntity extends Entity {
-   public static final double RANGE = 40.0;
+   public static final double RANGE = 64.0;
    private static final EntityDataAccessor<Integer> OWNER = SynchedEntityData.defineId(BloodBeamEntity.class, EntityDataSerializers.INT);
    private static final EntityDataAccessor<Integer> CHARGE = SynchedEntityData.defineId(BloodBeamEntity.class, EntityDataSerializers.INT);
    private static final EntityDataAccessor<Float> YAW = SynchedEntityData.defineId(BloodBeamEntity.class, EntityDataSerializers.FLOAT);
@@ -182,10 +182,7 @@ public class BloodBeamEntity extends Entity {
    private void fire(ServerLevel level, LivingEntity owner) {
       int t = this.firedTicks();
       Vec3 want = this.aim(owner);
-      double wobble = 0.018 + Math.min(0.03, t * 0.0004);
-      Vec3 shake = new Vec3(this.random.nextGaussian(), this.random.nextGaussian(), this.random.nextGaussian()).scale(wobble);
-      Vec3 pulse = new Vec3(-want.z, 0.0, want.x).scale(Math.sin(t * 0.9) * 0.012).add(0.0, Math.cos(t * 1.3) * 0.01, 0.0);
-      this.dir = this.dir.add(want.subtract(this.dir).scale(this.steer)).add(shake).add(pulse).normalize();
+      this.dir = this.steer >= 1.0F ? want : this.dir.add(want.subtract(this.dir).scale(this.steer)).normalize();
       this.setDir(this.dir);
       Vec3 from = this.position();
       Vec3 end = from.add(this.dir.scale(RANGE));
@@ -207,7 +204,7 @@ public class BloodBeamEntity extends Entity {
          this.erodeBlock(level, owner, hitBlock, end);
       }
 
-      if (t % 4 == 0) {
+      if (t % 3 == 0) {
          for (LivingEntity e : level.getEntitiesOfClass(
             LivingEntity.class, new AABB(from, end).inflate(0.6), ex -> ex != owner && ex.isAlive() && !ex.isSpectator() && !ex.isAlliedTo(owner)
          )) {
@@ -223,7 +220,13 @@ public class BloodBeamEntity extends Entity {
          }
       }
 
-      level.sendParticles(ModParticles.BLOOD.get(), end.x, end.y, end.z, 3, 0.08, 0.08, 0.08, 0.25);
+      level.sendParticles(ModParticles.BLOOD.get(), end.x, end.y, end.z, 4, 0.08, 0.08, 0.08, 0.3);
+      double length = end.distanceTo(from);
+
+      for (int i = 0; i < 2; i++) {
+         Vec3 p = from.add(this.dir.scale(this.random.nextDouble() * length));
+         level.sendParticles(ModParticles.BLOOD.get(), p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.05);
+      }
       if (owner instanceof Player player) {
          player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 6, 2, false, false, false));
          if (t % 3 == 0) {

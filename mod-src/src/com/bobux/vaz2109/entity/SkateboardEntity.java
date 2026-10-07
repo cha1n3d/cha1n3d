@@ -48,7 +48,7 @@ public class SkateboardEntity extends Entity {
    private static final EntityDataAccessor<Integer> DATA_FLIP_TIME = SynchedEntityData.defineId(SkateboardEntity.class, EntityDataSerializers.INT);
    public static final float PUSH_SPEED = 0.45F;
    private static final float PUSH = 0.1F;
-   private static final float MAX_SPEED = 0.95F;
+   private static final float MAX_SPEED = 1.25F;
    private static final float OLLIE = 0.42F;
    public static final int FLIP_TICKS = 9;
    private static final double DECK = 0.155;
@@ -235,10 +235,10 @@ public class SkateboardEntity extends Entity {
          boolean scooter = this.scooter();
          float before = this.speed;
          if (ridden) {
-            float limit = scooter ? (rough ? 0.3F : 0.55F) : (rough ? 0.3F : 0.5F);
+            float limit = scooter ? (rough ? 0.42F : 0.85F) : (rough ? 0.4F : 0.75F);
             if (this.inputForward > 0.0F && !this.grinding) {
                if (this.pushCooldown == 0 && this.speed < limit) {
-                  float kick = (scooter ? 0.09F : 0.11F) * Math.max(0.25F, 1.0F - this.speed / limit);
+                  float kick = (scooter ? 0.13F : 0.14F) * Math.max(0.3F, 1.0F - this.speed / limit);
                   this.speed = Math.min(limit, this.speed + kick);
                   this.pushCooldown = scooter ? 11 : 9;
                   this.pushTicks = 8;
@@ -298,8 +298,8 @@ public class SkateboardEntity extends Entity {
             this.slip = 0.0;
          }
 
-         this.speed = Math.min(0.95F, this.speed * roll);
-         this.speed -= 0.012F * this.speed * this.speed;
+         this.speed = Math.min(1.25F, this.speed * roll);
+         this.speed -= 0.007F * this.speed * this.speed;
          this.slip *= roll;
          if (this.isInWater()) {
             this.speed *= 0.7F;
@@ -369,7 +369,7 @@ public class SkateboardEntity extends Entity {
          this.airborne = false;
          this.airTicks = 0;
          if (this.getY() > y0 + 0.2 && vy <= 0.0 && ramp == null) {
-            if (ridden && this.speed > 0.32F) {
+            if (ridden && this.speed > 0.45F) {
                this.bail(1);
             } else {
                this.speed *= 0.45F;
@@ -410,7 +410,7 @@ public class SkateboardEntity extends Entity {
          hz = -hz;
       }
 
-      this.speed = Math.min(0.95F, this.speed);
+      this.speed = Math.min(1.25F, this.speed);
       this.velX = hx * (double)this.speed;
       this.velZ = hz * (double)this.speed;
       this.rampVy = (this.velX * fx + this.velZ * fz) * (double)ramp.rise();
@@ -474,7 +474,7 @@ public class SkateboardEntity extends Entity {
                this.setYRot(this.getYRot() + 180.0F);
             }
 
-            this.speed = (float)Math.min(0.95F, horizontal * (0.97 - Math.min(0.15, fall * 0.03)));
+            this.speed = (float)Math.min(1.25F, horizontal * (0.97 - Math.min(0.15, fall * 0.03)));
             this.slip = 0.0;
             this.sound(SoundEvents.WOOD_FALL, 0.8F, 0.9F);
             this.sound((SoundEvent)SoundEvents.NOTE_BLOCK_BASEDRUM.value(), 0.5F, 0.7F);

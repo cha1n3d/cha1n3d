@@ -753,7 +753,7 @@
   "message.vaz2109.trial.progress": "%s: %s/%s",
   "message.vaz2109.blood.too_weak": "Too little blood left to compress",
   "hud.vaz2109.blood.charging": "Convergence...",
-  "hud.vaz2109.blood.ready": "PIERCING BLOOD — hold and steer the jet",
+  "hud.vaz2109.blood.ready": "PIERCING BLOOD — hold, the jet fires where you aim",
   "message.vaz2109.turret.no_room": "No room for the turret here",
   "message.vaz2109.turret.no_ammo": "The turret is dry: it needs 9x18 rounds",
   "entity.vaz2109.turret": "Home-made Turret",

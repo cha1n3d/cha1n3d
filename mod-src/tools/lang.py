@@ -54,7 +54,7 @@ R = {
  "commands.vaz2109.test.bosses": ("Все боссы отмечены побеждёнными у игроков: %s", "All bosses marked as beaten for %s player(s)"),
  "commands.vaz2109.test.fingers": ("Пальцев Сукуны: %s (игроков: %s)", "Sukuna's fingers set to %s for %s player(s)"),
  "hud.vaz2109.blood.charging": ("Сжатие крови...", "Convergence..."),
- "hud.vaz2109.blood.ready": ("ПРОНЗАЮЩАЯ КРОВЬ — держи и веди лучом", "PIERCING BLOOD — hold and steer the jet"),
+ "hud.vaz2109.blood.ready": ("ПРОНЗАЮЩАЯ КРОВЬ — держи, луч бьёт по прицелу", "PIERCING BLOOD — hold, the jet fires where you aim"),
  "hud.vaz2109.dismantle.charging": ("Разрезов: %s / %s — отпусти", "Slashes: %s / %s — release"),
  "tooltip.vaz2109.death_painting.2": ("Открывает «Пронзающую кровь»: зажми клавишу класса — кровь сжимается, затем бьёт струя, пока держишь (тратит здоровье)", "Unlocks Piercing Blood: hold the class key to compress blood, then the jet fires while held (costs health)"),
  "item.vaz2109.scooter": ("Самокат", "Kick Scooter"),

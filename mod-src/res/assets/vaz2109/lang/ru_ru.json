@@ -753,7 +753,7 @@
   "message.vaz2109.trial.progress": "%s: %s/%s",
   "message.vaz2109.blood.too_weak": "Слишком мало крови, чтобы её сжать",
   "hud.vaz2109.blood.charging": "Сжатие крови...",
-  "hud.vaz2109.blood.ready": "ПРОНЗАЮЩАЯ КРОВЬ — держи и веди лучом",
+  "hud.vaz2109.blood.ready": "ПРОНЗАЮЩАЯ КРОВЬ — держи, луч бьёт по прицелу",
   "message.vaz2109.turret.no_room": "Здесь некуда поставить турель",
   "message.vaz2109.turret.no_ammo": "Турели нечем стрелять: нужны патроны 9×18",
   "entity.vaz2109.turret": "Самодельная турель",

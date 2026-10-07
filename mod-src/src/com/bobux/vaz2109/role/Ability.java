@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public enum Ability {
    BLUE_FISTS(Role.VESSEL, "blue_fists", 400, 3, BossQuest.IVAN, null),
-   DISMANTLE(Role.VESSEL, "dismantle", 60, 8, BossQuest.TIMOKHA, null),
+   DISMANTLE(Role.VESSEL, "dismantle", 100, 8, BossQuest.TIMOKHA, null),
    PIERCING_BLOOD(Role.VESSEL, "piercing_blood", 160, 0, BossQuest.CHOSO, Trial.PAINTING),
    REPAIR(Role.MECHANIC, "repair", 900, 0, BossQuest.IVAN, null),
    SHOCK(Role.MECHANIC, "shock", 160, 0, BossQuest.TIMOKHA, null),
@@ -43,7 +43,7 @@ public enum Ability {
    }
 
    public boolean chargeable() {
-      return this == PIERCING_BLOOD || this == DISMANTLE;
+      return this == PIERCING_BLOOD;
    }
 
    public boolean unlocked(Player player) {
