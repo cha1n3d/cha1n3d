@@ -1,0 +1,54 @@
+import json, sys
+src, out = sys.argv[1], sys.argv[2]
+ru = sys.argv[3] == 'ru'
+d = json.load(open(src, encoding='utf-8'))
+R = {
+ "role.vaz2109.mechanic.p1": ("Всегда «Спешка I»: копает и работает быстрее", "Always Haste I: digs and works faster"),
+ "role.vaz2109.mechanic.p2": ("На верстаке механика в 25% случаев выходит вторая штука (кроме ВАЗа и огнестрела)", "25% chance of a second item at the mechanic's bench (not cars or firearms)"),
+ "role.vaz2109.frog.p1": ("Всегда «Прыгучесть II»; в воде «Грация дельфина», а мокрым бегает и плавает на 15% быстрее", "Always Jump Boost II; Dolphin's Grace in water and 15% faster while wet"),
+ "role.vaz2109.vessel.p1": ("Пальцы Сукуны дают здоровье и урон (+0,3 за палец); яд и иссушение не берут", "Sukuna's fingers give health and damage (+0.3 per finger); immune to poison and wither"),
+ "role.vaz2109.vessel.p2": ("Съел палец — Сукуна овладевает телом и бьёт Фугой, а с 15 пальцев раскрывает Гробницу зла", "Eat a finger and Sukuna takes over, casting Fuga, and from 15 fingers the Malevolent Shrine"),
+ "tooltip.vaz2109.sukuna_finger.2": ("Каждый палец: +½ сердца, +0,3 урона, удары по проклятиям сильнее на 5%", "Each finger: +½ heart, +0.3 damage, 5% stronger hits on curses"),
+ "message.vaz2109.ability.black_flash": ("15 пальцев: удар Расходящимся кулаком с полного замаха может высечь Чёрную вспышку (25%, «в потоке» 45%)!", "15 fingers: a fully charged Divergent Fist can spark a Black Flash (25%, 45% in the zone)!"),
+ "ability.vaz2109.piercing_blood": ("Пронзающая кровь", "Piercing Blood"),
+ "ability.vaz2109.turret": ("Самодельная турель", "Home-made Turret"),
+ "ability.vaz2109.swamp_pack": ("Болотная стая", "Swamp Pack"),
+ "ability.vaz2109.fire_breath": ("Огненный перегар", "Fire Breath"),
+ "gui.vaz2109.ability.need_trial": ("%s; %s", "%s; %s"),
+ "gui.vaz2109.trial.painting": ("съесть Картину смерти", "eat the Death Painting"),
+ "gui.vaz2109.trial.full_tune": ("прокатиться на полностью затюнингованной девятке (все 5 деталей)", "ride a fully tuned VAZ-2109 (all 5 parts)"),
+ "gui.vaz2109.trial.jumps": ("сделать %s прыжков", "jump %s times"),
+ "gui.vaz2109.trial.beers": ("выпить %s кружек пива", "drink %s beers"),
+ "message.vaz2109.trial.progress": ("%s: %s/%s", "%s: %s/%s"),
+ "message.vaz2109.blood.too_weak": ("Слишком мало крови, чтобы её сжать", "Too little blood left to compress"),
+ "hud.vaz2109.blood.charging": ("Сжатие крови...", "Convergence..."),
+ "hud.vaz2109.blood.ready": ("Отпусти: Пронзающая кровь!", "Release: Piercing Blood!"),
+ "message.vaz2109.turret.no_room": ("Здесь некуда поставить турель", "No room for the turret here"),
+ "message.vaz2109.turret.no_ammo": ("Турели нечем стрелять: нужны патроны 9×18", "The turret is dry: it needs 9x18 rounds"),
+ "entity.vaz2109.turret": ("Самодельная турель", "Home-made Turret"),
+ "entity.vaz2109.ally_frog": ("Болотная лягушка", "Swamp Frog"),
+ "entity.vaz2109.choso": ("Чосо", "Choso"),
+ "item.vaz2109.choso_spawn_egg": ("Яйцо призыва Чосо", "Choso Spawn Egg"),
+ "item.vaz2109.death_painting": ("Картина смерти", "Death Painting"),
+ "tooltip.vaz2109.death_painting": ("Утроба Картины смерти. В ней кровь рода Камо", "A Death Painting womb. The blood of the Kamo clan"),
+ "tooltip.vaz2109.death_painting.1": ("Съесть может только Сосуд: +4 сердца, а ниже половины здоровья кровь сворачивается (Регенерация)", "Only the Vessel can eat it: +4 hearts, and its blood clots below half health (Regeneration)"),
+ "tooltip.vaz2109.death_painting.2": ("Открывает «Пронзающую кровь»: зажми и отпусти клавишу класса", "Unlocks Piercing Blood: hold and release the class key"),
+ "message.vaz2109.painting.already": ("Кровь Картины смерти уже течёт в тебе", "The Death Painting's blood already runs in you"),
+ "message.vaz2109.painting.reject": ("Это проклятая утроба. Тебя выворачивает: ты не сосуд!", "A cursed womb. Your body rejects it: you are no vessel!"),
+ "message.vaz2109.painting.eaten": ("Ты поглотил Картину смерти. Кровь рода Камо подчиняется тебе.", "You absorbed the Death Painting. The Kamo blood obeys you now."),
+ "quest.vaz2109.choso": ("Чосо", "Choso"),
+ "quest.vaz2109.choso.desc": ("Старший из братьев Картины смерти. Управляет кровью: сжимает её и бьёт Пронзающей кровью (уходи с линии, пока он целится), вблизи взрывает Сверхновую, раненым покрывается кровяной бронёй, а на половине здоровья ускоряется Течением красной чешуи.", "Eldest of the Death Painting brothers. Blood Manipulation: Piercing Blood (step off the line while he aims), Supernova up close, blood armour when hurt and Flowing Red Scale at half health."),
+ "quest.vaz2109.choso.hint": ("Полуразрушенный дом у заросшего пруда: болота, мангровые болота, тёмный и берёзовый лес.", "A half-collapsed house by an overgrown pond: swamps, mangrove swamps, dark and birch forests."),
+ "quest.vaz2109.choso.coming": ("Пахнет кровью... Чосо идёт мстить за братьев.", "The smell of blood... Choso comes to avenge his brothers."),
+ "chat.vaz2109.choso": ("<Чосо> %s", "<Choso> %s"),
+ "chat.vaz2109.choso.start": ("Ты убил моих братьев? Тогда живым ты отсюда не уйдёшь.", "You killed my brothers? Then you don't leave here alive."),
+ "chat.vaz2109.choso.pierce": ("Пронзающая кровь.", "Piercing Blood."),
+ "chat.vaz2109.choso.nova": ("Сверхновая!", "Supernova!"),
+ "chat.vaz2109.choso.armor": ("Кровь... затвердей.", "Blood... harden."),
+ "chat.vaz2109.choso.scale": ("Течение красной чешуи!", "Flowing Red Scale!"),
+ "chat.vaz2109.choso.death": ("Братья... простите меня...", "Brothers... forgive me..."),
+}
+for k, (r, e) in R.items():
+    d[k] = r if ru else e
+json.dump(d, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+print(len(d))

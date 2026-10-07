@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="vaz2109"
+version="1.1.0"
+displayName="VAZ-2109"
+authors="bobux"
+description='''Adds the legendary VAZ-2109 car and spray paint you can draw on it with.
+Девятка, баллончики с краской и тонировка.'''
+
+[[dependencies.vaz2109]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.vaz2109]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"

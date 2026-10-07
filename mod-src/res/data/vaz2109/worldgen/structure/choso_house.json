@@ -1,0 +1,7 @@
+{
+  "type": "vaz2109:choso_house",
+  "biomes": "#vaz2109:has_structure/choso_house",
+  "step": "top_layer_modification",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

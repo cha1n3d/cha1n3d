@@ -1,0 +1,11 @@
+{
+  "structures": [
+    { "structure": "vaz2109:choso_house", "weight": 1 }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 34,
+    "separation": 12,
+    "salt": 771243
+  }
+}
