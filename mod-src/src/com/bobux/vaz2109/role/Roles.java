@@ -219,7 +219,7 @@ public final class Roles {
                      if (a == Ability.PIERCING_BLOOD) {
                         BloodBeamEntity beam = ModRegistry.BLOOD_BEAM.get().create(player.level());
                         if (beam != null) {
-                           beam.setup(player, 16, 140, 1.0F, 5.0F, true, true);
+                           beam.setup(player, 16, 140, 1.0F, 4.0F, true, true);
                            player.level().addFreshEntity(beam);
                            BEAMS.put(player.getUUID(), beam);
                         }
@@ -297,7 +297,7 @@ public final class Roles {
             int chain = slashes(n);
 
             for (int i = 0; i < chain; i++) {
-               SLASHES.add(new Roles.Slash(player, level.getGameTime() + (long)(i * SLASH_GAP), 7.0F + 0.4F * (float)n));
+               SLASHES.add(new Roles.Slash(player, level.getGameTime() + (long)(i * SLASH_GAP), 5.5F + 0.3F * (float)n));
             }
 
             break;
