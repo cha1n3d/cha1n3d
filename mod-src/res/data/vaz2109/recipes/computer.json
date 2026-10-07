@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["IGI", "IRI", "SSS"],
+  "key": { "I": { "item": "minecraft:iron_ingot" }, "G": { "item": "minecraft:glass_pane" }, "R": { "item": "minecraft:redstone" }, "S": { "item": "minecraft:smooth_stone_slab" } },
+  "result": { "item": "vaz2109:computer" }
+}

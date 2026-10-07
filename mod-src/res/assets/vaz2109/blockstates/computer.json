@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "vaz2109:block/computer" },
+    "facing=east": { "model": "vaz2109:block/computer", "y": 90 },
+    "facing=south": { "model": "vaz2109:block/computer", "y": 180 },
+    "facing=west": { "model": "vaz2109:block/computer", "y": 270 }
+  }
+}

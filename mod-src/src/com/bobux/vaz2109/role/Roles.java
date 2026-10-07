@@ -195,7 +195,28 @@ public final class Roles {
       return !(result.getItem() instanceof VazItem) && !(result.getItem() instanceof GunItem) && doubles(player, station);
    }
 
+   /** Ability wheel: pick an ability of the player's class by its index, if it is unlocked. */
+   public static void select(ServerPlayer player, int index) {
+      Role role = get(player);
+      if (role != null) {
+         List<Ability> list = Ability.of(role);
+         if (index >= 0 && index < list.size() && list.get(index).unlocked(player)) {
+            player.getPersistentData().putInt("vaz2109AbilitySel", index);
+            Ability a = list.get(index);
+            player.displayClientMessage(Component.translatable("ability.vaz2109." + a.id).withStyle(s -> s.withColor(role.color)), true);
+         }
+
+         sync(player);
+      }
+   }
+
    public static void press(ServerPlayer player, boolean sneaking) {
+      BloodBeamEntity active = BEAMS.get(player.getUUID());
+      if (active != null && !active.isRemoved()) {
+         release(player);
+         return;
+      }
+
       Role role = get(player);
       if (role != null && !player.isSpectator() && player.isAlive() && !SukunaVessel.possessed(player)) {
          List<Ability> list = Ability.of(role);
@@ -297,7 +318,7 @@ public final class Roles {
             int chain = slashes(n);
 
             for (int i = 0; i < chain; i++) {
-               SLASHES.add(new Roles.Slash(player, level.getGameTime() + (long)(i * SLASH_GAP), 5.5F + 0.3F * (float)n));
+               SLASHES.add(new Roles.Slash(player, level.getGameTime() + (long)(i * SLASH_GAP), 4.5F + 0.25F * (float)n));
             }
 
             break;

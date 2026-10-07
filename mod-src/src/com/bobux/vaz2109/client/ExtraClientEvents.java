@@ -2,7 +2,10 @@ package com.bobux.vaz2109.client;
 
 import com.bobux.vaz2109.ModRegistry;
 import com.bobux.vaz2109.entity.ChosoEntity;
+import com.bobux.vaz2109.computer.ComputerScreen;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.FrogRenderer;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterLayerDefinitions;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
@@ -25,6 +28,11 @@ public final class ExtraClientEvents {
       event.registerEntityRenderer(ModRegistry.TURRET.get(), TurretRenderer::new);
       event.registerEntityRenderer(ModRegistry.BLOOD_BEAM.get(), BloodBeamRenderer::new);
       event.registerEntityRenderer(ModRegistry.SCOOTER.get(), ScooterRenderer::new);
+   }
+
+   @SubscribeEvent
+   public static void clientSetup(FMLClientSetupEvent event) {
+      event.enqueueWork(() -> MenuScreens.register(ModRegistry.COMPUTER_MENU.get(), ComputerScreen::new));
    }
 
    @SubscribeEvent

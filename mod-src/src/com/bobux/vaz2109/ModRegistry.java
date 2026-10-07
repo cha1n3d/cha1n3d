@@ -3,6 +3,8 @@ package com.bobux.vaz2109;
 import com.bobux.vaz2109.block.SkateRampBlock;
 import com.bobux.vaz2109.car.CarPart;
 import com.bobux.vaz2109.car.Palette;
+import com.bobux.vaz2109.computer.ComputerBlock;
+import com.bobux.vaz2109.computer.ComputerMenu;
 import com.bobux.vaz2109.effect.NarcolepsyEffect;
 import com.bobux.vaz2109.effect.PowerEffect;
 import com.bobux.vaz2109.entity.AllyFrog;
@@ -147,6 +149,13 @@ public final class ModRegistry {
       "station", StationRecipe.Serializer::new
    );
    public static final RegistryObject<MenuType<StationMenu>> STATION_MENU = MENUS.register("station", () -> IForgeMenuType.create(StationMenu::new));
+   public static final RegistryObject<MenuType<ComputerMenu>> COMPUTER_MENU = MENUS.register("computer", () -> IForgeMenuType.create(ComputerMenu::new));
+   public static final RegistryObject<Block> COMPUTER = BLOCKS.register(
+      "computer", () -> new ComputerBlock(Properties.copy(Blocks.IRON_BLOCK).strength(2.5F).noOcclusion().lightLevel(s -> 7))
+   );
+   public static final RegistryObject<Item> COMPUTER_ITEM = ITEMS.register(
+      "computer", () -> new BlockItem((Block)COMPUTER.get(), new net.minecraft.world.item.Item.Properties())
+   );
    public static final Map<Station, RegistryObject<Block>> STATION_BLOCKS = new EnumMap<>(Station.class);
    public static final Map<Station, RegistryObject<Item>> STATION_ITEMS = new EnumMap<>(Station.class);
    public static final ResourceKey<DamageType> VAZ_DAMAGE;
@@ -565,6 +574,7 @@ public final class ModRegistry {
                   out.accept(SprayCanItem.preset(0, 3));
                   out.accept((ItemLike)SKATEBOARD_ITEM.get());
                   out.accept((ItemLike)SCOOTER_ITEM.get());
+                  out.accept((ItemLike)COMPUTER_ITEM.get());
 
                   for (int color : new int[]{14, 1, 4, 5, 3, 11, 10, 6, 15, 0}) {
                      out.accept(SkateboardItem.withColor(color));

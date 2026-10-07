@@ -27,8 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -131,19 +129,6 @@ public class DeathPaintingItem extends Item {
    @SubscribeEvent(priority = EventPriority.HIGH)
    public static void onRespawn(PlayerRespawnEvent event) {
       apply(event.getEntity());
-   }
-
-   /** The painting's blood clots fast: regeneration whenever a vessel drops below half health. */
-   @SubscribeEvent
-   public static void onTick(PlayerTickEvent event) {
-      if (event.phase == Phase.END
-         && event.player instanceof ServerPlayer player
-         && player.tickCount % 40 == 0
-         && player.getHealth() < player.getMaxHealth() * 0.5F
-         && eaten(player)
-         && Roles.is(player, Role.VESSEL)) {
-         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 0, true, false, true));
-      }
    }
 
    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {

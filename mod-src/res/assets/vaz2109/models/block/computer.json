@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": { "case": "vaz2109:block/computer_case", "screen": "vaz2109:block/computer_screen", "keys": "vaz2109:block/computer_keyboard", "particle": "vaz2109:block/computer_case" },
+  "elements": [
+    { "from": [2, 0, 1], "to": [14, 1, 5],
+      "faces": { "up": { "uv": [0, 0, 16, 8], "texture": "#keys" }, "north": { "uv": [0, 15, 12, 16], "texture": "#case" }, "south": { "uv": [0, 15, 12, 16], "texture": "#case" },
+                 "east": { "uv": [0, 15, 4, 16], "texture": "#case" }, "west": { "uv": [0, 15, 4, 16], "texture": "#case" }, "down": { "uv": [0, 0, 12, 4], "texture": "#case" } } },
+    { "from": [1, 1, 5], "to": [15, 14, 12],
+      "faces": { "north": { "uv": [0, 0, 16, 16], "texture": "#screen" }, "south": { "uv": [1, 2, 15, 15], "texture": "#case" }, "east": { "uv": [4, 2, 11, 15], "texture": "#case" },
+                 "west": { "uv": [4, 2, 11, 15], "texture": "#case" }, "up": { "uv": [1, 4, 15, 11], "texture": "#case" }, "down": { "uv": [1, 4, 15, 11], "texture": "#case" } } },
+    { "from": [3, 3, 12], "to": [13, 12, 15],
+      "faces": { "south": { "uv": [3, 3, 13, 12], "texture": "#case" }, "east": { "uv": [0, 3, 3, 12], "texture": "#case" }, "west": { "uv": [0, 3, 3, 12], "texture": "#case" },
+                 "up": { "uv": [3, 0, 13, 3], "texture": "#case" }, "down": { "uv": [3, 0, 13, 3], "texture": "#case" } } }
+  ]
+}
