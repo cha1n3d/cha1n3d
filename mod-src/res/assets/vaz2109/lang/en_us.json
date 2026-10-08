@@ -362,8 +362,8 @@
   "item.vaz2109.timokha_parrot_spawn_egg": "Timokha's Parrot Spawn Egg",
   "tooltip.vaz2109.haruta_sword": "Haruta Shigemo's sword (Jujutsu Kaisen)",
   "tooltip.vaz2109.haruta_sword.miracles": "Miracles: %s / %s",
-  "tooltip.vaz2109.haruta_sword.desc": "Kills with this sword store miracles. A fatal blow spends a miracle instead of your life",
-  "tooltip.vaz2109.haruta_sword.use": "Right click - a dashing cut. 5 second cooldown",
+  "tooltip.vaz2109.haruta_sword.desc": "Kills of hostile mobs and players with this sword store miracles: 5 kills make one, a boss makes one at once. A killing blow spends a miracle instead of your life, but no more than once a minute",
+  "tooltip.vaz2109.haruta_sword.use": "Right-click: a slashing dash (7 damage). 8 s cooldown",
   "message.vaz2109.haruta_sword.stored": "Miracle stored: %s / %s",
   "message.vaz2109.haruta_sword.miracle": "A miracle! You are back on your feet (%s / %s left)",
   "message.vaz2109.timokha.sealed": "Timokha is meditating and does not notice you. Beat Ivan Parkour first",
@@ -991,5 +991,7 @@
   "tooltip.vaz2109.implant.gorilla_arms": "Empty hand: +3 damage, heavy knockback, breaks blocks 2.5x faster",
   "tooltip.vaz2109.implant.second_heart": "Once every 20 minutes it saves you from death: 30%% health and regeneration",
   "tooltip.vaz2109.implant.subdermal_armor": "+3 armor and +1 armor toughness",
-  "message.vaz2109.cyber.second_heart": "The second heart kicked in! (again in 20 min)"
+  "message.vaz2109.cyber.second_heart": "The second heart kicked in! (again in 20 min)",
+  "tooltip.vaz2109.haruta_sword.kills": "Next miracle: %s / %s kills",
+  "message.vaz2109.haruta_sword.progress": "A miracle is building up: %s / %s"
 }

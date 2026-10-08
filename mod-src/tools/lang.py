@@ -270,6 +270,10 @@ R = {
  "tooltip.vaz2109.implant.second_heart": ("Раз в 20 минут спасает от смерти: 30%% здоровья и регенерация", "Once every 20 minutes it saves you from death: 30%% health and regeneration"),
  "tooltip.vaz2109.implant.subdermal_armor": ("+3 брони и +1 прочности брони", "+3 armor and +1 armor toughness"),
  "message.vaz2109.cyber.second_heart": ("Второе сердце запустилось! (снова — через 20 мин)", "The second heart kicked in! (again in 20 min)"),
+ "tooltip.vaz2109.haruta_sword.desc": ("Убийства враждебных мобов и игроков этим мечом копят чудеса: 5 убийств — одно чудо, босс — сразу чудо. Смертельный удар тратит чудо вместо жизни, но не чаще раза в минуту", "Kills of hostile mobs and players with this sword store miracles: 5 kills make one, a boss makes one at once. A killing blow spends a miracle instead of your life, but no more than once a minute"),
+ "tooltip.vaz2109.haruta_sword.use": ("ПКМ — рывок с разрезом (7 урона). Перезарядка 8 секунд", "Right-click: a slashing dash (7 damage). 8 s cooldown"),
+ "tooltip.vaz2109.haruta_sword.kills": ("До следующего чуда: %s / %s убийств", "Next miracle: %s / %s kills"),
+ "message.vaz2109.haruta_sword.progress": ("Чудо копится: %s / %s", "A miracle is building up: %s / %s"),
 }
 for k, (r, e) in R.items():
     d[k] = r if ru else e

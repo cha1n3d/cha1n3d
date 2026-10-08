@@ -362,8 +362,8 @@
   "item.vaz2109.timokha_parrot_spawn_egg": "Яйцо призыва попугая Тимохи",
   "tooltip.vaz2109.haruta_sword": "Меч Харуты Сигэмо (Магическая битва)",
   "tooltip.vaz2109.haruta_sword.miracles": "Чудеса: %s / %s",
-  "tooltip.vaz2109.haruta_sword.desc": "Убийства этим мечом копят чудеса. Смертельный удар тратит чудо вместо жизни",
-  "tooltip.vaz2109.haruta_sword.use": "ПКМ — рывок с разрезом. Перезарядка 5 секунд",
+  "tooltip.vaz2109.haruta_sword.desc": "Убийства враждебных мобов и игроков этим мечом копят чудеса: 5 убийств — одно чудо, босс — сразу чудо. Смертельный удар тратит чудо вместо жизни, но не чаще раза в минуту",
+  "tooltip.vaz2109.haruta_sword.use": "ПКМ — рывок с разрезом (7 урона). Перезарядка 8 секунд",
   "message.vaz2109.haruta_sword.stored": "Чудо накоплено: %s / %s",
   "message.vaz2109.haruta_sword.miracle": "Чудо! Ты снова на ногах (осталось %s / %s)",
   "message.vaz2109.timokha.sealed": "Тимоха медитирует и не замечает тебя. Сначала победи Ивана Паркура",
@@ -991,5 +991,7 @@
   "tooltip.vaz2109.implant.gorilla_arms": "С пустой рукой: +3 урона, мощный отброс, ломаешь блоки в 2,5 раза быстрее",
   "tooltip.vaz2109.implant.second_heart": "Раз в 20 минут спасает от смерти: 30%% здоровья и регенерация",
   "tooltip.vaz2109.implant.subdermal_armor": "+3 брони и +1 прочности брони",
-  "message.vaz2109.cyber.second_heart": "Второе сердце запустилось! (снова — через 20 мин)"
+  "message.vaz2109.cyber.second_heart": "Второе сердце запустилось! (снова — через 20 мин)",
+  "tooltip.vaz2109.haruta_sword.kills": "До следующего чуда: %s / %s убийств",
+  "message.vaz2109.haruta_sword.progress": "Чудо копится: %s / %s"
 }
