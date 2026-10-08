@@ -1,0 +1,28 @@
+{
+  "type": "vaz2109:station",
+  "station": "armory_bench",
+  "order": 303,
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:iron_block"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:piston"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "vaz2109:gorilla_arms"
+  }
+}

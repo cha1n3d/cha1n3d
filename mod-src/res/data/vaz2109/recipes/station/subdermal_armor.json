@@ -1,0 +1,34 @@
+{
+  "type": "vaz2109:station",
+  "station": "armory_bench",
+  "order": 307,
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:netherite_scrap"
+      },
+      "count": 1
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      },
+      "count": 6
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:obsidian"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "vaz2109:subdermal_armor"
+  }
+}

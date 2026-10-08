@@ -1,0 +1,34 @@
+{
+  "type": "vaz2109:station",
+  "station": "armory_bench",
+  "order": 302,
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:diamond"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:netherite_scrap"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "vaz2109:mantis_blades"
+  }
+}

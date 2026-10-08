@@ -80,6 +80,13 @@ public final class TestCommands {
 
                   BossQuests.sync(p, false);
                }))
+               .then(each("awaken", "commands.vaz2109.test.awaken", p -> {
+                  if (SukunaVessel.fingers(p) < 15) {
+                     SukunaVessel.setFingers(p, 15);
+                  }
+
+                  com.bobux.vaz2109.entity.curse.SukunaAwakening.start(p);
+               }))
                .then(
                   Commands.literal("fingers")
                      .requires(s -> s.hasPermission(2))

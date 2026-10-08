@@ -70,11 +70,12 @@ OFFERS = [
  ('food', 'minecraft:bread', 8, 40), ('food', 'minecraft:cooked_beef', 8, 56), ('food', 'minecraft:cooked_salmon', 8, 48),
  ('food', 'minecraft:golden_carrot', 8, 160), ('food', 'minecraft:cake', 1, 40), ('food', 'minecraft:honey_bottle', 4, 40),
  ('food', 'minecraft:mushroom_stew', 1, 15), ('food', 'minecraft:rabbit_stew', 1, 30), ('food', 'minecraft:dried_kelp', 16, 32),
+ ('food', 'vaz2109:sunflower_seeds', 16, None), ('food', 'vaz2109:shawarma', 1, None), ('food', 'vaz2109:instant_noodles', 4, None),
  ('food', 'minecraft:golden_apple', 1, 350), ('food', 'minecraft:enchanted_golden_apple', 1, 5000),
 
  ('bar', 'vaz2109:beer', 4, 60), ('bar', 'vaz2109:kvass', 4, 60), ('bar', 'vaz2109:wine', 1, None),
  ('bar', 'vaz2109:champagne', 1, None), ('bar', 'vaz2109:vodka', 1, None), ('bar', 'vaz2109:cognac', 1, None),
- ('bar', 'vaz2109:moonshine', 1, None), ('bar', 'vaz2109:cigarettes', 8, None),
+ ('bar', 'vaz2109:moonshine', 1, None), ('bar', 'vaz2109:energy_drink', 1, None), ('bar', 'vaz2109:chapman_chocolate', 8, None), ('bar', 'vaz2109:cigarettes', 8, None),
 
  ('resources', 'minecraft:iron_ingot', 8, 200), ('resources', 'minecraft:gold_ingot', 4, 250), ('resources', 'minecraft:copper_ingot', 16, 96),
  ('resources', 'minecraft:diamond', 1, 400), ('resources', 'minecraft:emerald', 1, 100), ('resources', 'minecraft:netherite_scrap', 1, 900),
@@ -120,7 +121,7 @@ OFFERS = [
  ('magic', 'potion:minecraft:long_fire_resistance', 1, 150), ('magic', 'potion:minecraft:long_night_vision', 1, 80),
  ('magic', 'potion:minecraft:long_invisibility', 1, 150), ('magic', 'potion:minecraft:long_water_breathing', 1, 100),
  ('magic', 'potion:minecraft:long_slow_falling', 1, 100),
- ('magic', 'minecraft:experience_bottle', 8, 120), ('magic', 'minecraft:totem_of_undying', 1, 2500),
+ ('magic', 'vaz2109:neuroblocker', 2, None), ('magic', 'minecraft:experience_bottle', 8, 120), ('magic', 'minecraft:totem_of_undying', 1, 2500),
  ('magic', 'minecraft:ender_chest', 1, 300), ('magic', 'minecraft:shulker_shell', 2, 600),
  ('magic', 'vaz2109:music_disc_morgen_1', 1, 400), ('magic', 'vaz2109:music_disc_morgen_2', 1, 400), ('magic', 'vaz2109:music_disc_morgen_3', 1, 400),
 

@@ -1,0 +1,40 @@
+{
+  "type": "vaz2109:station",
+  "station": "armory_bench",
+  "order": 300,
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:diamond"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:netherite_scrap"
+      },
+      "count": 1
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 8
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:ender_eye"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:clock"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "vaz2109:sandevistan"
+  }
+}

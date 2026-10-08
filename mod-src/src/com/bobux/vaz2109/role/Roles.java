@@ -559,6 +559,12 @@ public final class Roles {
                   case MECHANIC:
                      hidden(player, MobEffects.DIG_SPEED, 0);
                      break;
+                  case VESSEL:
+                     // after Sukuna's awakening the body keeps some of his speed
+                     if (com.bobux.vaz2109.entity.curse.SukunaAwakening.awakened(player) && !SukunaVessel.possessed(player)) {
+                        hidden(player, MobEffects.MOVEMENT_SPEED, 0);
+                     }
+                     break;
                   case FROG:
                      hidden(player, MobEffects.JUMP, 1);
                      if (player.isInWater()) {

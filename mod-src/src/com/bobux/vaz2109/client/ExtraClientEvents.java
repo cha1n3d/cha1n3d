@@ -23,12 +23,22 @@ public final class ExtraClientEvents {
    /** Ability wheel: hold, point with the mouse, let go. Separate from the class key, which only casts. */
    public static final KeyMapping WHEEL = new KeyMapping("key.vaz2109.wheel", KeyConflictContext.IN_GAME, Type.KEYSYM, 90, "key.categories.vaz2109");
 
+   /** Cyberware: fires the Sandevistan. */
+   public static final KeyMapping IMPLANT = new KeyMapping("key.vaz2109.implant", KeyConflictContext.IN_GAME, Type.KEYSYM, 66, "key.categories.vaz2109");
+
    private ExtraClientEvents() {
+   }
+
+   @SubscribeEvent
+   public static void registerOverlays(net.minecraftforge.client.event.RegisterGuiOverlaysEvent event) {
+      event.registerAboveAll("awakening", AwakeningClient::render);
+      event.registerAbove(net.minecraftforge.client.gui.overlay.VanillaGuiOverlay.HOTBAR.id(), "cyberware", CyberClient::render);
    }
 
    @SubscribeEvent
    public static void registerKeys(RegisterKeyMappingsEvent event) {
       event.register(WHEEL);
+      event.register(IMPLANT);
    }
 
    @SubscribeEvent

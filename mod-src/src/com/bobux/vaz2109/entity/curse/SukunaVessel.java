@@ -112,7 +112,10 @@ public final class SukunaVessel {
    }
 
    public static void possess(ServerPlayer player) {
-      int time = 160 + 10 * fingers(player);
+      possess(player, 160 + 10 * fingers(player));
+   }
+
+   public static void possess(ServerPlayer player, int time) {
       CompoundTag data = player.getPersistentData();
       data.putInt("vaz2109_sukuna_possessed", time);
       data.putInt("vaz2109_sukuna_possessed_total", time);
@@ -177,10 +180,8 @@ public final class SukunaVessel {
       } else if (target != null && now >= b.next) {
          double dist = Math.sqrt(best);
          Vec3 aim = target.position().add(0.0, (double)target.getBbHeight() * 0.5, 0.0).subtract(eye);
-         if (n >= 15 && !b.shrine && possessionLeft(player) > 100) {
-            b.shrine = true;
-            MalevolentShrine.open(player, n);
-            b.next = now + 40L;
+         if (SukunaAwakening.busy(player)) {
+            b.next = now + 10L;
          } else if (n >= 5 && dist > 7.0 && now >= b.fugaReady && player.getRandom().nextFloat() < 0.4F) {
             b.fugaLeft = 30;
             b.fugaReady = now + 200L;

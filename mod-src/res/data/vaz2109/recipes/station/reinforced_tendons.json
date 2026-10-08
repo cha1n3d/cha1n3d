@@ -1,0 +1,34 @@
+{
+  "type": "vaz2109:station",
+  "station": "armory_bench",
+  "order": 305,
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "minecraft:iron_ingot"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:slime_ball"
+      },
+      "count": 4
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:rabbit_foot"
+      },
+      "count": 2
+    },
+    {
+      "ingredient": {
+        "item": "minecraft:redstone"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "vaz2109:reinforced_tendons"
+  }
+}

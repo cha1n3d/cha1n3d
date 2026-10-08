@@ -56,6 +56,11 @@ public class DrinkItem extends Item {
          level.playSound(null, player.getX(), player.getY(), player.getZ(), this.units > 0.0F ? SoundEvents.PLAYER_BURP : SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS, 0.7F, 0.9F);
       }
 
+      if (entity instanceof Player player && !player.getAbilities().instabuild && this.id.equals("energy_drink")) {
+         stack.shrink(1);
+         return stack;
+      }
+
       if (entity instanceof Player player && !player.getAbilities().instabuild) {
          stack.shrink(1);
          ItemStack bottle = new ItemStack(Items.GLASS_BOTTLE);
@@ -110,6 +115,12 @@ public class DrinkItem extends Item {
    public static void cognac(Player p, Level l) {
       give(p, MobEffects.DAMAGE_BOOST, 1800, 0);
       give(p, MobEffects.ABSORPTION, 1200, 0);
+   }
+
+   public static void energy(Player p, Level l) {
+      give(p, MobEffects.MOVEMENT_SPEED, 600, 1);
+      give(p, MobEffects.DIG_SPEED, 600, 0);
+      give(p, MobEffects.HUNGER, 300, 0);
    }
 
    public static void moonshine(Player p, Level l) {

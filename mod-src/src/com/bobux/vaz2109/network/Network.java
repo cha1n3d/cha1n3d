@@ -6,8 +6,8 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public final class Network {
-   private static final String VERSION = "12";
-   public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation("vaz2109", "main"), () -> "12", "12"::equals, "12"::equals);
+   private static final String VERSION = "13";
+   public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(new ResourceLocation("vaz2109", "main"), () -> "13", "13"::equals, "13"::equals);
 
    private Network() {
    }
@@ -153,6 +153,21 @@ public final class Network {
          .encoder(QuestC2S::encode)
          .decoder(QuestC2S::new)
          .consumerMainThread(QuestC2S::handle)
+         .add();
+      CHANNEL.messageBuilder(AwakeningS2C.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+         .encoder(AwakeningS2C::encode)
+         .decoder(AwakeningS2C::new)
+         .consumerMainThread(AwakeningS2C::handle)
+         .add();
+      CHANNEL.messageBuilder(CyberS2C.class, id++, NetworkDirection.PLAY_TO_CLIENT)
+         .encoder(CyberS2C::encode)
+         .decoder(CyberS2C::new)
+         .consumerMainThread(CyberS2C::handle)
+         .add();
+      CHANNEL.messageBuilder(CyberC2S.class, id++, NetworkDirection.PLAY_TO_SERVER)
+         .encoder(CyberC2S::encode)
+         .decoder(CyberC2S::new)
+         .consumerMainThread(CyberC2S::handle)
          .add();
       CHANNEL.messageBuilder(ComputerC2S.class, id++, NetworkDirection.PLAY_TO_SERVER)
          .encoder(ComputerC2S::encode)

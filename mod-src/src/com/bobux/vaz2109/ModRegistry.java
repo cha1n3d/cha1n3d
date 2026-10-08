@@ -174,7 +174,20 @@ public final class ModRegistry {
       drink("champagne", 1.5F, 1, com.bobux.vaz2109.item.DrinkItem::champagne),
       drink("vodka", 3.0F, 0, com.bobux.vaz2109.item.DrinkItem::vodka),
       drink("cognac", 3.0F, 1, com.bobux.vaz2109.item.DrinkItem::cognac),
-      drink("moonshine", 5.0F, 0, com.bobux.vaz2109.item.DrinkItem::moonshine)
+      drink("moonshine", 5.0F, 0, com.bobux.vaz2109.item.DrinkItem::moonshine),
+      drink("energy_drink", 0.0F, 1, com.bobux.vaz2109.item.DrinkItem::energy)
+   );
+   public static final java.util.Map<com.bobux.vaz2109.cyber.Implant, RegistryObject<Item>> IMPLANTS = implants();
+   public static final RegistryObject<Item> NEUROBLOCKER = ITEMS.register(
+      "neuroblocker", () -> new com.bobux.vaz2109.cyber.NeuroblockerItem(new net.minecraft.world.item.Item.Properties().stacksTo(16))
+   );
+   public static final RegistryObject<Item> CHAPMAN = ITEMS.register(
+      "chapman_chocolate", () -> new com.bobux.vaz2109.item.CigarettesItem(true, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final List<RegistryObject<Item>> SNACKS = List.of(
+      snack("sunflower_seeds", 12, 1, 0.1F, true),
+      snack("shawarma", 40, 9, 0.8F, false),
+      snack("instant_noodles", 32, 5, 0.5F, false)
    );
    public static final Map<Station, RegistryObject<Block>> STATION_BLOCKS = new EnumMap<>(Station.class);
    public static final Map<Station, RegistryObject<Item>> STATION_ITEMS = new EnumMap<>(Station.class);
@@ -275,6 +288,24 @@ public final class ModRegistry {
    private ModRegistry() {
    }
 
+   private static java.util.Map<com.bobux.vaz2109.cyber.Implant, RegistryObject<Item>> implants() {
+      java.util.Map<com.bobux.vaz2109.cyber.Implant, RegistryObject<Item>> map = new java.util.EnumMap<>(com.bobux.vaz2109.cyber.Implant.class);
+      for (com.bobux.vaz2109.cyber.Implant i : com.bobux.vaz2109.cyber.Implant.values()) {
+         map.put(i, ITEMS.register(i.id, () -> new com.bobux.vaz2109.cyber.ImplantItem(i, new net.minecraft.world.item.Item.Properties().stacksTo(1).rarity(Rarity.RARE))));
+      }
+
+      return map;
+   }
+
+   private static RegistryObject<Item> snack(String id, int ticks, int food, float saturation, boolean fast) {
+      net.minecraft.world.food.FoodProperties.Builder f = new net.minecraft.world.food.FoodProperties.Builder().nutrition(food).saturationMod(saturation);
+      if (fast) {
+         f.fast().alwaysEat();
+      }
+
+      return ITEMS.register(id, () -> new com.bobux.vaz2109.item.SnackItem(id, ticks, new net.minecraft.world.item.Item.Properties().food(f.build())));
+   }
+
    private static RegistryObject<Item> drink(String id, float units, int food, java.util.function.BiConsumer<net.minecraft.world.entity.player.Player, net.minecraft.world.level.Level> fx) {
       return ITEMS.register(id, () -> new com.bobux.vaz2109.item.DrinkItem(id, units, food, fx, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
    }
@@ -289,6 +320,7 @@ public final class ModRegistry {
       RECIPE_SERIALIZERS.register(bus);
       ModStructures.register(bus);
       TABS.register(bus);
+      com.bobux.vaz2109.entity.curse.SukunaAwakening.SOUNDS.register(bus);
    }
 
    static {
@@ -606,6 +638,18 @@ public final class ModRegistry {
 
                   for (RegistryObject<Item> d : DRINKS) {
                      out.accept((ItemLike)d.get());
+                  }
+
+                  out.accept((ItemLike)CHAPMAN.get());
+
+                  for (RegistryObject<Item> i : IMPLANTS.values()) {
+                     out.accept((ItemLike)i.get());
+                  }
+
+                  out.accept((ItemLike)NEUROBLOCKER.get());
+
+                  for (RegistryObject<Item> s : SNACKS) {
+                     out.accept((ItemLike)s.get());
                   }
 
                   for (int color : new int[]{14, 1, 4, 5, 3, 11, 10, 6, 15, 0}) {

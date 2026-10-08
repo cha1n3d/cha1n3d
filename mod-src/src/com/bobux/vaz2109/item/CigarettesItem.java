@@ -21,8 +21,16 @@ import org.jetbrains.annotations.Nullable;
 
 /** One cigarette: hold right-click to smoke it (smoke comes out of the mouth, the head spins). Not under water. */
 public class CigarettesItem extends Item {
+   /** Chocolate Chapman: sweeter smoke, a little Speed on top of the Haste. */
+   public final boolean chocolate;
+
    public CigarettesItem(Properties properties) {
+      this(false, properties);
+   }
+
+   public CigarettesItem(boolean chocolate, Properties properties) {
       super(properties);
+      this.chocolate = chocolate;
    }
 
    public int getUseDuration(ItemStack stack) {
@@ -60,6 +68,9 @@ public class CigarettesItem extends Item {
       if (entity instanceof Player player) {
          if (!level.isClientSide) {
             Intoxication.smoke(player);
+            if (this.chocolate) {
+               player.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.MOVEMENT_SPEED, 600, 0));
+            }
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.25F, 1.8F);
          }
 
@@ -74,7 +85,7 @@ public class CigarettesItem extends Item {
    }
 
    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-      tooltip.add(Component.translatable("tooltip.vaz2109.cigarettes").withStyle(ChatFormatting.GRAY));
+      tooltip.add(Component.translatable(this.chocolate ? "tooltip.vaz2109.chapman_chocolate" : "tooltip.vaz2109.cigarettes").withStyle(ChatFormatting.GRAY));
       tooltip.add(Component.translatable("tooltip.vaz2109.cigarettes.warning").withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD));
    }
 }
