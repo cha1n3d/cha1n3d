@@ -11,7 +11,7 @@ javac -nowarn -proc:none -encoding UTF-8 --release 17 -g -cp "$CP" -d $S/work/cl
 cd $S/work/classes && jar cf $S/work/out.jar .
 LIBS=""; for j in $S/moj/mc.jar $S/moj/forge-client.jar $S/moj/forge-universal.jar $S/moj/mod.jar $(echo $OTHERS | tr ':' ' '); do LIBS="$LIBS --lib $j"; done
 java -jar $ART --input $S/work/out.jar --output $S/work/srg.jar --map $S/moj2srg.tsrg $LIBS --log $S/work/art.log >/dev/null
-rm -rf $S/work/merge && mkdir $S/work/merge && cd $S/work/merge && unzip -q $S/jar.orig.jar && unzip -oq $S/work/srg.jar -x 'META-INF/MANIFEST.MF'
+rm -rf $S/work/merge && mkdir $S/work/merge && cd $S/work/merge && unzip -q $S/jar.orig.jar && { [ ! -f $S/work/delete.txt ] || xargs -a $S/work/delete.txt rm -f; } && unzip -oq $S/work/srg.jar -x 'META-INF/MANIFEST.MF'
 [ -d $S/work/res ] && cp -r $S/work/res/. $S/work/merge/
 rm -f "$1"; cd $S/work/merge && zip -qr -X "$1" META-INF/MANIFEST.MF . 
 echo "built $1: $(unzip -l "$1" | tail -1)"

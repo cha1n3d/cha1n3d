@@ -47,13 +47,11 @@ import com.bobux.vaz2109.item.ChainsawItem;
 import com.bobux.vaz2109.item.CompoundVItem;
 import com.bobux.vaz2109.item.DragonBoneItem;
 import com.bobux.vaz2109.item.ExplorerCompassItem;
-import com.bobux.vaz2109.item.FoxMaskItem;
 import com.bobux.vaz2109.item.FrostmourneItem;
 import com.bobux.vaz2109.item.GunItem;
 import com.bobux.vaz2109.item.HarutaSwordItem;
 import com.bobux.vaz2109.item.InvertedSpearItem;
 import com.bobux.vaz2109.item.IvanWatchItem;
-import com.bobux.vaz2109.item.KatanaItem;
 import com.bobux.vaz2109.item.MaskItem;
 import com.bobux.vaz2109.item.MeleeItem;
 import com.bobux.vaz2109.item.MorgenPhoneItem;
@@ -77,7 +75,6 @@ import com.bobux.vaz2109.station.Station;
 import com.bobux.vaz2109.station.StationBlock;
 import com.bobux.vaz2109.station.StationMenu;
 import com.bobux.vaz2109.station.StationRecipe;
-import com.bobux.vaz2109.weapon.Breathing;
 import com.bobux.vaz2109.weapon.GunType;
 import com.bobux.vaz2109.weapon.Mask;
 import com.bobux.vaz2109.world.ModStructures;
@@ -212,6 +209,16 @@ public final class ModRegistry {
             .clientTrackingRange(10)
             .build("cyberpsycho")
    );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.DzhiganEntity>> DZHIGAN = ENTITIES.register(
+      "dzhigan",
+      () -> Builder.<com.bobux.vaz2109.entity.DzhiganEntity>of((t, l) -> new com.bobux.vaz2109.entity.DzhiganEntity(t, l), MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build("dzhigan")
+   );
+   public static final RegistryObject<Item> DZHIGAN_SPAWN_EGG = ITEMS.register(
+      "dzhigan_spawn_egg", () -> new ForgeSpawnEggItem(DZHIGAN, 1315860, 14329120, new net.minecraft.world.item.Item.Properties())
+   );
    public static final RegistryObject<Item> MAHITO_SPAWN_EGG = ITEMS.register(
       "mahito_spawn_egg", () -> new ForgeSpawnEggItem(MAHITO, 8229800, 4864312, new net.minecraft.world.item.Item.Properties())
    );
@@ -274,7 +281,6 @@ public final class ModRegistry {
    public static final DeferredRegister<MobEffect> EFFECTS;
    public static final RegistryObject<MobEffect> NARCOLEPSY;
    public static final Map<Power, RegistryObject<MobEffect>> POWERS;
-   public static final RegistryObject<Item> FOX_MASK;
    public static final RegistryObject<Item> FROSTMOURNE;
    public static final RegistryObject<Item> COMPOUND_V;
    public static final RegistryObject<Item> IVAN_WATCH;
@@ -469,8 +475,6 @@ public final class ModRegistry {
       item("grenade", () -> new ThrowableWeaponItem(ThrowableWeaponItem.Kind.GRENADE, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
       item("molotov", () -> new ThrowableWeaponItem(ThrowableWeaponItem.Kind.MOLOTOV, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
       item("flashbang", () -> new ThrowableWeaponItem(ThrowableWeaponItem.Kind.FLASHBANG, new net.minecraft.world.item.Item.Properties().stacksTo(16)));
-      item("nichirin_water", () -> new KatanaItem(Breathing.WATER, new net.minecraft.world.item.Item.Properties().rarity(Rarity.RARE)));
-      item("nichirin_flame", () -> new KatanaItem(Breathing.FLAME, new net.minecraft.world.item.Item.Properties().rarity(Rarity.RARE)));
       item("chainsaw", () -> new ChainsawItem(new net.minecraft.world.item.Item.Properties().durability(1200).rarity(Rarity.UNCOMMON)));
       item("narcoleptin", () -> new NarcoleptinItem(new net.minecraft.world.item.Item.Properties()));
       EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, "vaz2109");
@@ -481,7 +485,6 @@ public final class ModRegistry {
          POWERS.put(power, EFFECTS.register("v_" + power.id, () -> new PowerEffect(power)));
       }
 
-      FOX_MASK = item("fox_mask", () -> new FoxMaskItem(new net.minecraft.world.item.Item.Properties()));
       FROSTMOURNE = item("frostmourne", () -> new FrostmourneItem(new net.minecraft.world.item.Item.Properties().rarity(Rarity.EPIC).fireResistant()));
       COMPOUND_V = item("compound_v", () -> new CompoundVItem(new net.minecraft.world.item.Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
       IVAN_WATCH = item("ivan_watch", () -> new IvanWatchItem(new net.minecraft.world.item.Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
@@ -708,6 +711,7 @@ public final class ModRegistry {
                   out.accept((ItemLike)MEDKIT.get());
                   out.accept((ItemLike)GOPNIK_SPAWN_EGG.get());
                   out.accept((ItemLike)MAHITO_SPAWN_EGG.get());
+                  out.accept((ItemLike)DZHIGAN_SPAWN_EGG.get());
                   out.accept((ItemLike)TRANSFIGURED_SPAWN_EGG.get());
                   out.accept((ItemLike)CYBERPSYCHO_SPAWN_EGG.get());
                   out.accept((ItemLike)MAHITO_HAND.get());

@@ -11,7 +11,8 @@ public enum BossArena {
    SHIBUYA_RUINS("shibuya_ruins", ModRegistry.MAHORAGA::get, 17),
    JUJUTSU_HIGH("jujutsu_high", ModRegistry.GOJO::get, 18),
    CHOSO_HOUSE("choso_house", ModRegistry.CHOSO::get, 15),
-   MAHITO_SEWER("mahito_sewer", ModRegistry.MAHITO::get, 14);
+   MAHITO_SEWER("mahito_sewer", ModRegistry.MAHITO::get, 14),
+   DZHIGAN_CLUB("dzhigan_club", ModRegistry.DZHIGAN::get, 15);
 
    public final String id;
    public final Supplier<EntityType<?>> boss;

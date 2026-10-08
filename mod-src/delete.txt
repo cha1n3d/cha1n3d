@@ -1,0 +1,11 @@
+assets/vaz2109/models/item/fox_mask.json
+assets/vaz2109/models/item/nichirin_flame.json
+assets/vaz2109/models/item/nichirin_water.json
+com/bobux/vaz2109/item/FoxMaskItem.class
+com/bobux/vaz2109/item/KatanaItem.class
+com/bobux/vaz2109/weapon/Breathing$1.class
+com/bobux/vaz2109/weapon/Breathing$2.class
+com/bobux/vaz2109/weapon/Breathing.class
+data/vaz2109/recipes/station/fox_mask.json
+data/vaz2109/recipes/station/nichirin_flame.json
+data/vaz2109/recipes/station/nichirin_water.json

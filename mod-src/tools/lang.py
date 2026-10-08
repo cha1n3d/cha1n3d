@@ -274,7 +274,28 @@ R = {
  "tooltip.vaz2109.haruta_sword.use": ("ПКМ — рывок с разрезом (7 урона). Перезарядка 8 секунд", "Right-click: a slashing dash (7 damage). 8 s cooldown"),
  "tooltip.vaz2109.haruta_sword.kills": ("До следующего чуда: %s / %s убийств", "Next miracle: %s / %s kills"),
  "message.vaz2109.haruta_sword.progress": ("Чудо копится: %s / %s", "A miracle is building up: %s / %s"),
+ "entity.vaz2109.dzhigan": ("Джиган", "Dzhigan"),
+ "item.vaz2109.dzhigan_spawn_egg": ("Яйцо призыва Джигана", "Dzhigan Spawn Egg"),
+ "item.vaz2109.pm.dzhigan": ("ПМ Джигана", "Dzhigan's Makarov"),
+ "quest.vaz2109.dzhigan": ("Джиган", "Dzhigan"),
+ "quest.vaz2109.dzhigan.desc": ("Рэпер с района, который не выходит из дома без двух пистолетов Макарова. Держит дистанцию и стреляет попеременно с обеих рук; после 16 выстрелов уходит на перезарядку — это твоё окно. Целится туда, где ты был мгновение назад: беги вбок и прячься за блоками — пули их не пробивают. Подойдёшь вплотную — получишь рукоятью, и он отпрыгнет. Иногда заводит «припев» — веер пуль, дважды зовёт братву с района, а на трети здоровья начинает последний куплет: стреляет и бегает быстрее.", "A rapper from the block who never leaves home without two Makarov pistols. He keeps his distance and fires from both hands in turn; after 16 shots he has to reload — that's your window. He aims where you were a moment ago: run sideways and hide behind blocks — bullets don't go through them. Get up close and you'll take the grip to the face as he jumps back. Now and then he starts a \"chorus\" — a fan of bullets — twice he calls his crew from the block, and at a third of his health the last verse begins: faster shooting, faster feet."),
+ "quest.vaz2109.dzhigan.hint": ("Чёрный ночной клуб с неоновой вывеской и светящимся танцполом: равнины, саванна, пустыня, пляж.", "A black night club with a neon sign and a glowing dance floor: plains, savanna, desert, beach."),
+ "quest.vaz2109.dzhigan.coming": ("Где-то гремит бас... Джиган ждёт тебя в клубе.", "Bass is booming somewhere... Dzhigan is waiting for you at the club."),
+ "chat.vaz2109.dzhigan": ("<Джиган> %s", "<Dzhigan> %s"),
+ "chat.vaz2109.dzhigan.start": ("Опа, гости на районе! Ну что, потанцуем под два ствола?", "Well, well, guests on my block! Shall we dance to two barrels?"),
+ "chat.vaz2109.dzhigan.reload": ("Перезаряжаюсь — не расслабляйся!", "Reloading — don't relax!"),
+ "chat.vaz2109.dzhigan.spray": ("Припев! Все вместе!", "Chorus! Everybody now!"),
+ "chat.vaz2109.dzhigan.crew": ("Пацаны, сюда! Тут один борзый!", "Boys, over here! This one's getting cocky!"),
+ "chat.vaz2109.dzhigan.back": ("Дистанцию держи, братан.", "Keep your distance, bro."),
+ "chat.vaz2109.dzhigan.phase2": ("Последний куплет — самый громкий!", "The last verse is the loudest!"),
+ "chat.vaz2109.dzhigan.death": ("Ладно... ты лучший на этом районе...", "Fine... you're the best on this block..."),
 }
+# removed content: the Demon Slayer katanas and the fox mask (2.1.0)
+DEL = ["item.vaz2109.nichirin_water", "item.vaz2109.nichirin_flame", "item.vaz2109.fox_mask", "tooltip.vaz2109.breathing.water",
+       "tooltip.vaz2109.breathing.water.desc", "tooltip.vaz2109.breathing.flame", "tooltip.vaz2109.breathing.flame.desc",
+       "tooltip.vaz2109.nichirin", "tooltip.vaz2109.fox_mask", "message.vaz2109.role.breath"]
+for k in DEL:
+    d.pop(k, None)
 for k, (r, e) in R.items():
     d[k] = r if ru else e
 json.dump(d, open(out, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)

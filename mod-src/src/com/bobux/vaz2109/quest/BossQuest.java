@@ -9,6 +9,7 @@ public enum BossQuest {
    IVAN("ivan", "ivan_dungeon", "vaz2109_ivan_beaten", ModRegistry.IVAN::get, 15),
    GAISHNIK("gaishnik", "gaishnik_post", "vaz2109_gaishnik_beaten", ModRegistry.GAISHNIK::get, 18),
    JACKET("jacket", "jacket_hideout", "vaz2109_jacket_beaten", ModRegistry.JACKET::get, 20),
+   DZHIGAN("dzhigan", "dzhigan_club", "vaz2109_dzhigan_beaten", ModRegistry.DZHIGAN::get, 22),
    TIMOKHA("timokha", "timokha_dojo", "vaz2109_timokha_beaten", ModRegistry.TIMOKHA::get, 25),
    ANDREY("andrey", "andrey_brewery", "vaz2109_andrey_beaten", ModRegistry.ANDREY::get, 30),
    TOJI("toji", "toji_warehouse", "vaz2109_toji_beaten", ModRegistry.TOJI::get, 35),

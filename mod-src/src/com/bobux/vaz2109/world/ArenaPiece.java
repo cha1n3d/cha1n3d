@@ -110,6 +110,9 @@ public class ArenaPiece extends StructurePiece {
             break;
          case MAHITO_SEWER:
             this.sewer();
+            break;
+         case DZHIGAN_CLUB:
+            this.club();
       }
 
       this.level = null;
@@ -723,6 +726,94 @@ public class ArenaPiece extends StructurePiece {
       this.spawnBoss(-1, 1, 1, 180.0F);
    }
 
+
+   /** Dzhigan's club: a black box with a neon sign, a glowing dance floor, a stage with speakers, a bar and sofas. */
+   private void club() {
+      this.yard((xx, zx) -> {
+         double n = this.noise(xx, 0, zx);
+         return n < 0.55 ? Blocks.GRAY_CONCRETE.defaultBlockState() : (n < 0.85 ? Blocks.BLACK_CONCRETE_POWDER.defaultBlockState() : Blocks.GRAVEL.defaultBlockState());
+      });
+      int r = 9;
+      for (int x = -r; x <= r; x++) {
+         for (int z = -r; z <= r; z++) {
+            boolean wall = Math.abs(x) == r || Math.abs(z) == r;
+            this.put(x, 0, z, Blocks.POLISHED_BLACKSTONE);
+            for (int y = 1; y <= 5; y++) {
+               boolean door = z == r && Math.abs(x) <= 1 && y <= 3;
+               this.put(x, y, z, wall && !door ? Blocks.BLACK_CONCRETE.defaultBlockState() : Blocks.AIR.defaultBlockState());
+            }
+
+            boolean light = !wall && Math.floorMod(x, 4) == 0 && Math.floorMod(z, 4) == 0;
+            this.put(x, 6, z, light ? Blocks.SEA_LANTERN : Blocks.BLACK_CONCRETE);
+            if (light && Math.abs(x) <= 5 && z >= -3 && z <= 5) {
+               this.put(x, 5, z, Blocks.END_ROD);
+            }
+         }
+      }
+      // the neon sign over the door
+      for (int x = -4; x <= 4; x++) {
+         this.put(x, 4, r, x % 2 == 0 ? Blocks.MAGENTA_STAINED_GLASS : Blocks.LIGHT_BLUE_STAINED_GLASS);
+         this.put(x, 5, r, Math.floorMod(x, 3) == 0 ? Blocks.PURPLE_STAINED_GLASS : Blocks.BLACK_CONCRETE);
+         this.put(x, 4, r - 1, Blocks.SEA_LANTERN);
+      }
+      // the dance floor: coloured glass over lights
+      net.minecraft.world.level.block.Block[] floor = {
+         Blocks.MAGENTA_STAINED_GLASS, Blocks.CYAN_STAINED_GLASS, Blocks.PURPLE_STAINED_GLASS, Blocks.YELLOW_STAINED_GLASS
+      };
+      for (int x = -5; x <= 5; x++) {
+         for (int z = -3; z <= 5; z++) {
+            this.put(x, -1, z, Blocks.SEA_LANTERN);
+            this.put(x, 0, z, floor[Math.floorMod(x + z * 3 + (int)(this.noise(x, 0, z) * 2.0), floor.length)]);
+         }
+      }
+      // the stage with speakers and the DJ's jukebox
+      for (int x = -5; x <= 5; x++) {
+         for (int z = -8; z <= -5; z++) {
+            this.put(x, 1, z, z == -5 ? Blocks.POLISHED_BLACKSTONE_SLAB : Blocks.POLISHED_BLACKSTONE);
+         }
+      }
+
+      for (int sx : new int[]{-5, 5}) {
+         for (int y = 2; y <= 4; y++) {
+            this.put(sx, y, -8, y == 3 ? Blocks.NOTE_BLOCK : Blocks.BLACK_WOOL);
+            this.put(sx, y, -7, y == 4 ? Blocks.NOTE_BLOCK : Blocks.BLACK_WOOL);
+         }
+      }
+
+      this.put(0, 2, -8, Blocks.JUKEBOX);
+      this.put(-1, 2, -8, Blocks.NOTE_BLOCK);
+      this.put(1, 2, -8, Blocks.NOTE_BLOCK);
+      // the bar on the east side
+      for (int z = -4; z <= 4; z++) {
+         this.put(6, 1, z, Blocks.DARK_OAK_PLANKS);
+         this.put(8, 1, z, Blocks.DARK_OAK_PLANKS);
+         this.put(8, 2, z, Math.floorMod(z, 2) == 0 ? Blocks.BREWING_STAND : Blocks.AIR);
+         if (Math.floorMod(z, 3) == 0) {
+            this.put(6, 2, z, Blocks.BREWING_STAND);
+         }
+      }
+      // sofas along the west wall
+      for (int z = -4; z <= 4; z++) {
+         if (z != 0) {
+            this.put(-8, 1, z, Blocks.RED_WOOL);
+            this.put(-8, 2, z, Blocks.RED_CARPET);
+            this.put(-7, 1, z, Blocks.RED_CARPET);
+         } else {
+            this.put(-7, 1, z, Blocks.FLOWER_POT);
+         }
+      }
+      // two lamp posts outside
+      for (int sx : new int[]{-4, 4}) {
+         for (int y = 1; y <= 3; y++) {
+            this.put(sx, y, r + 3, Blocks.BLACKSTONE_WALL);
+         }
+
+         this.put(sx, 4, r + 3, Blocks.LANTERN);
+      }
+
+      this.chest(7, 1, -7, Direction.WEST);
+      this.spawnBoss(0, 2, -6, 0.0F);
+   }
 
    /** Mahito's lair: a cracked concrete booth over a manhole; below, a sewer hall overgrown with reshaped flesh. */
    private void sewer() {

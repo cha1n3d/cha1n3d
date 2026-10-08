@@ -1,6 +1,6 @@
-# VAZ-2109 2.0.2 — изменённые исходники
+# VAZ-2109 2.1.0 — изменённые исходники
 
-Готовый мод: `../vaz2109-2.0.2.jar` (Minecraft 1.20.1, Forge 47+). Он включает все правки,
+Готовый мод: `../vaz2109-2.1.0.jar` (Minecraft 1.20.1, Forge 47+). Он включает все правки,
 в том числе полоски боссов только после удара.
 
 Исходников оригинала нет, поэтому здесь только **изменённые и новые** классы, декомпилированные
@@ -17,13 +17,14 @@
 2. `tools/mkmap.py` + `tools/mktsrg.py` — таблица Mojang→SRG из маппингов установщика (`$WORK/moj2srg.tsrg`).
 3. ForgeAutoRenamingTool `--reverse`: перевести в Mojang-имена `client-srg.jar`, `forge-*-client.jar`,
    `forge-*-universal.jar` и исходный JAR мода → `$WORK/moj/{mc,forge-client,forge-universal,mod}.jar`.
-4. Положить исходный JAR в `$WORK/jar.orig.jar`, `src/` → `$WORK/work/src`, `res/` → `$WORK/work/res`.
+4. Положить исходный JAR в `$WORK/jar.orig.jar`, `src/` → `$WORK/work/src`, `res/` → `$WORK/work/res`,
+   `delete.txt` → `$WORK/work/delete.txt` (файлы, которые убираются из исходного JAR: катаны ничирин и маска лисицы).
 5. `WORK=... tools/build.sh out.jar` — javac → обратное переименование в SRG → слияние с оригиналом.
 6. `tools/RefCheck.java` (ASM) — проверить, что все ссылки на Minecraft/Forge существуют в рантайме.
 7. `tools/partorder.py src` — в каждом скине (BoxSkin.PARTS) деталь должна идти после своего родителя,
    иначе игра падает при загрузке моделей (`ArthasModel.build`).
 
-Цены компьютера: `tools/prices_base.py` (базовые цены сырья) → `tools/prices.py <рецепты>... -o
+Цены компьютера: `tools/prices_base.py` (базовые цены сырья) → `tools/prices.py <рецепты>... --delete delete.txt -o
 src/com/bobux/vaz2109/computer/PriceTable.java`. Скрипт считает стоимость материалов по рецептам мода
 (магазин: материалы ×3 + 20 ₽, выкуп: половина материалов) и падает, если что-то можно купить и
 продать (или сдать в заказ) с выгодой — в том числе по скидке дня, — и если в магазин попал предмет

@@ -57,6 +57,12 @@ public final class ExtraClientEvents {
          ModRegistry.MAHITO.get(), ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.MahitoEntity>(ctx, MahitoSkin.LAYER, "vaz2109_mahito", MahitoSkin::new, 1.0F)
       );
       event.registerEntityRenderer(
+         ModRegistry.DZHIGAN.get(),
+         ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.DzhiganEntity>(
+            ctx, new DzhiganModel<>(ctx.bakeLayer(DzhiganSkin.LAYER)), "vaz2109_dzhigan", DzhiganSkin::new, 1.0F
+         )
+      );
+      event.registerEntityRenderer(
          ModRegistry.TRANSFIGURED.get(),
          ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.TransfiguredEntity>(ctx, TransfiguredSkin.LAYER, "vaz2109_transfigured", TransfiguredSkin::new, 0.88F)
       );
@@ -78,6 +84,7 @@ public final class ExtraClientEvents {
       event.registerLayerDefinition(ScooterRenderer.LAYER, () -> ArthasModel.build(ScooterSkin.PARTS));
       event.registerLayerDefinition(GopnikSkin.LAYER, () -> ArthasModel.build(GopnikSkin.PARTS));
       event.registerLayerDefinition(MahitoSkin.LAYER, () -> ArthasModel.build(MahitoSkin.PARTS));
+      event.registerLayerDefinition(DzhiganSkin.LAYER, () -> ArthasModel.build(DzhiganSkin.PARTS));
       event.registerLayerDefinition(TransfiguredSkin.LAYER, () -> ArthasModel.build(TransfiguredSkin.PARTS));
       event.registerLayerDefinition(CyberpsychoSkin.LAYER, () -> ArthasModel.build(CyberpsychoSkin.PARTS));
    }

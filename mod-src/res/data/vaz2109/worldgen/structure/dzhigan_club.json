@@ -1,0 +1,7 @@
+{
+  "type": "vaz2109:dzhigan_club",
+  "biomes": "#vaz2109:has_structure/dzhigan_club",
+  "step": "top_layer_modification",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

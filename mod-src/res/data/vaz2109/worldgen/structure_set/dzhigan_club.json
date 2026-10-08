@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "vaz2109:dzhigan_club",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 38,
+    "separation": 12,
+    "salt": 552019
+  }
+}

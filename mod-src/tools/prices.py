@@ -17,7 +17,9 @@ LABOR = 20           # ... plus 20 rubles of work per lot
 args = sys.argv[1:]
 out = args[args.index('-o') + 1]
 md = args[args.index('--md') + 1] if '--md' in args else None
-dirs = [a for i, a in enumerate(args) if not a.startswith('-') and (i == 0 or args[i - 1] not in ('-o', '--md'))]
+dirs = [a for i, a in enumerate(args) if not a.startswith('-') and (i == 0 or args[i - 1] not in ('-o', '--md', '--delete'))]
+# files removed from the original jar at build time (build.sh: work/delete.txt)
+deleted = [l.strip() for l in open(args[args.index('--delete') + 1])] if '--delete' in args else []
 
 def cost(n):
     if n in SELL: return SELL[n]
@@ -30,6 +32,7 @@ material = {}
 station = set()  # mod items made on the mod's own benches: never sold in the shop
 for d_ in dirs:
     for f in sorted(glob.glob(os.path.join(d_, '**', '*.json'), recursive=True)):
+        if any(x and f.replace(os.sep, '/').endswith('/' + x) for x in deleted): continue
         d = json.load(open(f))
         r = d.get('result', {})
         res, cnt = r.get('item', ':').split(':')[1], r.get('count', 1)

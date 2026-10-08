@@ -19,6 +19,7 @@ public final class ExtraModEvents {
       event.put(ModRegistry.ALLY_FROG.get(), AllyFrog.createAttributes().build());
       event.put(ModRegistry.GOPNIK.get(), com.bobux.vaz2109.entity.GopnikEntity.createAttributes().build());
       event.put(ModRegistry.MAHITO.get(), com.bobux.vaz2109.entity.MahitoEntity.createAttributes().build());
+      event.put(ModRegistry.DZHIGAN.get(), com.bobux.vaz2109.entity.DzhiganEntity.createAttributes().build());
       event.put(ModRegistry.TRANSFIGURED.get(), com.bobux.vaz2109.entity.TransfiguredEntity.createAttributes().build());
       event.put(ModRegistry.CYBERPSYCHO.get(), com.bobux.vaz2109.entity.CyberpsychoEntity.createAttributes().build());
    }
