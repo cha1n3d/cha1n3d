@@ -181,6 +181,30 @@ public final class ModRegistry {
    public static final RegistryObject<Item> NEUROBLOCKER = ITEMS.register(
       "neuroblocker", () -> new com.bobux.vaz2109.cyber.NeuroblockerItem(new net.minecraft.world.item.Item.Properties().stacksTo(16))
    );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.GopnikEntity>> GOPNIK = ENTITIES.register(
+      "gopnik",
+      () -> Builder.<com.bobux.vaz2109.entity.GopnikEntity>of((t, l) -> new com.bobux.vaz2109.entity.GopnikEntity(t, l), MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build("gopnik")
+   );
+   public static final RegistryObject<Item> GOPNIK_SPAWN_EGG = ITEMS.register(
+      "gopnik_spawn_egg", () -> new ForgeSpawnEggItem(GOPNIK, 1909566, 15329769, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.FirecrackerEntity>> FIRECRACKER_ENTITY = ENTITIES.register(
+      "firecracker",
+      () -> Builder.<com.bobux.vaz2109.entity.FirecrackerEntity>of((t, l) -> new com.bobux.vaz2109.entity.FirecrackerEntity(t, l), MobCategory.MISC)
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build("firecracker")
+   );
+   public static final RegistryObject<Item> FIRECRACKER = ITEMS.register(
+      "firecracker", () -> new com.bobux.vaz2109.item.ThrowItem(new net.minecraft.world.item.Item.Properties().stacksTo(16))
+   );
+   public static final RegistryObject<Item> MEDKIT = ITEMS.register(
+      "medkit", () -> new com.bobux.vaz2109.item.MedkitItem(new net.minecraft.world.item.Item.Properties().stacksTo(8))
+   );
    public static final RegistryObject<Item> CHAPMAN = ITEMS.register(
       "chapman_chocolate", () -> new com.bobux.vaz2109.item.CigarettesItem(true, new net.minecraft.world.item.Item.Properties())
    );
@@ -647,6 +671,9 @@ public final class ModRegistry {
                   }
 
                   out.accept((ItemLike)NEUROBLOCKER.get());
+                  out.accept((ItemLike)FIRECRACKER.get());
+                  out.accept((ItemLike)MEDKIT.get());
+                  out.accept((ItemLike)GOPNIK_SPAWN_EGG.get());
 
                   for (RegistryObject<Item> s : SNACKS) {
                      out.accept((ItemLike)s.get());

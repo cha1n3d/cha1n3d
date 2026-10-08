@@ -17,5 +17,17 @@ public final class ExtraModEvents {
    public static void attributes(EntityAttributeCreationEvent event) {
       event.put(ModRegistry.CHOSO.get(), ChosoEntity.createAttributes().build());
       event.put(ModRegistry.ALLY_FROG.get(), AllyFrog.createAttributes().build());
+      event.put(ModRegistry.GOPNIK.get(), com.bobux.vaz2109.entity.GopnikEntity.createAttributes().build());
+   }
+
+   @SubscribeEvent
+   public static void spawns(net.minecraftforge.event.entity.SpawnPlacementRegisterEvent event) {
+      event.register(
+         ModRegistry.GOPNIK.get(),
+         net.minecraft.world.entity.SpawnPlacements.Type.ON_GROUND,
+         net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+         com.bobux.vaz2109.entity.GopnikEntity::canSpawn,
+         net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE
+      );
    }
 }

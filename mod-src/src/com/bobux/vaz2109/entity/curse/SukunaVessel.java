@@ -59,6 +59,8 @@ import net.minecraftforge.network.PacketDistributor;
 )
 public final class SukunaVessel {
    public static final int MAX_FINGERS = 20;
+   /** Damage multiplier against bosses while Sukuna is in control. */
+   public static final float BOSS_DAMAGE = 0.35F;
    private static final String FINGERS = "vaz2109_sukuna_fingers";
    private static final String POSSESSED = "vaz2109_sukuna_possessed";
    private static final String POSSESSED_TOTAL = "vaz2109_sukuna_possessed_total";
@@ -182,7 +184,7 @@ public final class SukunaVessel {
          Vec3 aim = target.position().add(0.0, (double)target.getBbHeight() * 0.5, 0.0).subtract(eye);
          if (SukunaAwakening.busy(player)) {
             b.next = now + 10L;
-         } else if (n >= 5 && dist > 7.0 && now >= b.fugaReady && player.getRandom().nextFloat() < 0.4F) {
+         } else if (n >= 5 && n < 15 && dist > 7.0 && now >= b.fugaReady && player.getRandom().nextFloat() < 0.4F) {
             b.fugaLeft = 30;
             b.fugaReady = now + 200L;
             charge(player, 30);
@@ -191,8 +193,9 @@ public final class SukunaVessel {
             cleave(player, target, n);
             b.next = now + 30L;
          } else {
+            // from 15 fingers he fights with slashes only, so they come faster
             dismantle(player, eye, aim, 6.0F + 0.5F * (float)n, 1 + n / 7);
-            b.next = now + 18L + (long)player.getRandom().nextInt(14);
+            b.next = now + (n >= 15 ? 12L : 18L) + (long)player.getRandom().nextInt(n >= 15 ? 8 : 14);
          }
       }
    }
@@ -394,6 +397,22 @@ public final class SukunaVessel {
                }
             }
          }
+      }
+   }
+
+   /** From 15 fingers Sukuna does not throw punches: only slashes. */
+   @SubscribeEvent
+   public static void onPunch(net.minecraftforge.event.entity.player.AttackEntityEvent event) {
+      if (event.getEntity() instanceof ServerPlayer player && possessed(player) && fingers(player) >= 15) {
+         event.setCanceled(true);
+      }
+   }
+
+   /** Bosses take a third of what a possessed Vessel deals (slashes, the shrine, Fuga alike). */
+   @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.LOW)
+   public static void onHurtBoss(LivingHurtEvent event) {
+      if (event.getSource().getEntity() instanceof ServerPlayer player && possessed(player) && BossResistance.isBoss(event.getEntity())) {
+         event.setAmount(event.getAmount() * BOSS_DAMAGE);
       }
    }
 

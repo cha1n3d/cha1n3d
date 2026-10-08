@@ -41,5 +41,5 @@ MAT = {
  "note_block": 4.0, "spyglass": 9.0, "compass": 42.0, "map": 45.0, "blue_ice": 3.0, "black_wool": 1.0, "white_wool": 1.0,
  "polished_blackstone": 0.0, "smooth_stone_slab": 0.0, "stone_button": 0.0, "bone_block": 3.0, "fire_charge": 3.7,
  "soul_soil": 0.0, "coals": 2.5, "dirt": 0.0, "snowball": 0.0, "oak_door": 0.5, "iron_pickaxe": 30.0, "shield": 11.0,
- "tropical_fish": 1.0, "cactus": 0.5, "glow_berries": 0.5, "sunflower": 0.5, "clock": 102.0, "logs": 1.0, "dried_kelp": 0.2, "red_wool": 1.0, "rotten_flesh": 0.0, "flint": 0.5, "sweet_berries": 0.5, "dyes": 0.5,
+ "tropical_fish": 1.0, "cactus": 0.5, "glow_berries": 0.5, "sunflower": 0.5, "clock": 102.0, "glistering_melon_slice": 17.0, "logs": 1.0, "dried_kelp": 0.2, "red_wool": 1.0, "rotten_flesh": 0.0, "flint": 0.5, "sweet_berries": 0.5, "dyes": 0.5,
 }

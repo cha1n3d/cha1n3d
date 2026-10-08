@@ -121,7 +121,7 @@ OFFERS = [
  ('magic', 'potion:minecraft:long_fire_resistance', 1, 150), ('magic', 'potion:minecraft:long_night_vision', 1, 80),
  ('magic', 'potion:minecraft:long_invisibility', 1, 150), ('magic', 'potion:minecraft:long_water_breathing', 1, 100),
  ('magic', 'potion:minecraft:long_slow_falling', 1, 100),
- ('magic', 'vaz2109:neuroblocker', 2, None), ('magic', 'minecraft:experience_bottle', 8, 120), ('magic', 'minecraft:totem_of_undying', 1, 2500),
+ ('magic', 'vaz2109:neuroblocker', 2, None), ('misc', 'vaz2109:medkit', 1, None), ('misc', 'vaz2109:firecracker', 8, None), ('magic', 'minecraft:experience_bottle', 8, 120), ('magic', 'minecraft:totem_of_undying', 1, 2500),
  ('magic', 'minecraft:ender_chest', 1, 300), ('magic', 'minecraft:shulker_shell', 2, 600),
  ('magic', 'vaz2109:music_disc_morgen_1', 1, 400), ('magic', 'vaz2109:music_disc_morgen_2', 1, 400), ('magic', 'vaz2109:music_disc_morgen_3', 1, 400),
 

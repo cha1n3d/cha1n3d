@@ -50,6 +50,10 @@ public final class ExtraClientEvents {
       event.registerEntityRenderer(ModRegistry.TURRET.get(), TurretRenderer::new);
       event.registerEntityRenderer(ModRegistry.BLOOD_BEAM.get(), BloodBeamRenderer::new);
       event.registerEntityRenderer(ModRegistry.SCOOTER.get(), ScooterRenderer::new);
+      event.registerEntityRenderer(
+         ModRegistry.GOPNIK.get(), ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.GopnikEntity>(ctx, GopnikSkin.LAYER, "vaz2109_gopnik", GopnikSkin::new, 0.95F)
+      );
+      event.registerEntityRenderer(ModRegistry.FIRECRACKER_ENTITY.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
    }
 
    @SubscribeEvent
@@ -61,5 +65,6 @@ public final class ExtraClientEvents {
    public static void registerLayers(RegisterLayerDefinitions event) {
       event.registerLayerDefinition(ChosoSkin.LAYER, () -> ArthasModel.build(ChosoSkin.PARTS));
       event.registerLayerDefinition(ScooterRenderer.LAYER, () -> ArthasModel.build(ScooterSkin.PARTS));
+      event.registerLayerDefinition(GopnikSkin.LAYER, () -> ArthasModel.build(GopnikSkin.PARTS));
    }
 }
