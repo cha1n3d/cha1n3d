@@ -49,6 +49,8 @@ R = {
  "commands.vaz2109.test.lock": ("Тестовое открытие способностей снято у игроков: %s", "Test unlock removed for %s player(s)"),
  "commands.vaz2109.test.cooldowns": ("Перезарядки сброшены у игроков: %s", "Cooldowns cleared for %s player(s)"),
  "commands.vaz2109.test.trials": ("Все испытания выполнены у игроков: %s", "All trials completed for %s player(s)"),
+ "commands.vaz2109.test.boss": ("Босс «%s» засчитан игрокам: %s (уже был побеждён у %s)", "Boss \"%s\" credited to %s player(s) (already beaten by %s)"),
+ "commands.vaz2109.test.boss.unknown": ("Нет такого босса: %s", "No such boss: %s"),
  "commands.vaz2109.test.bosses": ("Все боссы отмечены побеждёнными у игроков: %s", "All bosses marked as beaten for %s player(s)"),
  "commands.vaz2109.test.fingers": ("Пальцев Сукуны: %s (игроков: %s)", "Sukuna's fingers set to %s for %s player(s)"),
  "hud.vaz2109.blood.charging": ("Сжатие крови...", "Convergence..."),

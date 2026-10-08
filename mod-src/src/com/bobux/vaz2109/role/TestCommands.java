@@ -88,6 +88,17 @@ public final class TestCommands {
                   com.bobux.vaz2109.entity.curse.SukunaAwakening.start(p);
                }))
                .then(
+                  Commands.literal("boss")
+                     .requires(s -> s.hasPermission(2))
+                     .then(
+                        Commands.argument("boss", com.mojang.brigadier.arguments.StringArgumentType.word())
+                           .suggests((c, b) -> net.minecraft.commands.SharedSuggestionProvider.suggest(
+                              java.util.Arrays.stream(BossQuest.values()).map(q -> q.id), b))
+                           .executes(c -> boss(c, c.getSource().getServer().getPlayerList().getPlayers()))
+                           .then(Commands.argument("targets", EntityArgument.players()).executes(c -> boss(c, EntityArgument.getPlayers(c, "targets"))))
+                     )
+               )
+               .then(
                   Commands.literal("fingers")
                      .requires(s -> s.hasPermission(2))
                      .then(
@@ -114,6 +125,38 @@ public final class TestCommands {
 
       c.getSource().sendSuccess(() -> Component.translatable(message, new Object[]{players.size()}), true);
       return players.size();
+   }
+
+   /** The given boss counts as killed for these players (everyone online by default), with the same reward as a real kill. */
+   private static int boss(CommandContext<CommandSourceStack> c, Collection<ServerPlayer> players) throws CommandSyntaxException {
+      String id = com.mojang.brigadier.arguments.StringArgumentType.getString(c, "boss");
+      BossQuest quest = null;
+      for (BossQuest q : BossQuest.values()) {
+         if (q.id.equals(id)) {
+            quest = q;
+         }
+      }
+
+      if (quest == null) {
+         throw new com.mojang.brigadier.exceptions.SimpleCommandExceptionType(Component.translatable("commands.vaz2109.test.boss.unknown", new Object[]{id})).create();
+      }
+
+      int done = 0;
+      int already = 0;
+      for (ServerPlayer p : players) {
+         if (BossQuests.beaten(p, quest)) {
+            already++;
+         } else {
+            BossQuests.complete(p, quest);
+            done++;
+         }
+      }
+
+      Component name = Component.translatable("quest.vaz2109." + quest.id);
+      int n = done;
+      int a = already;
+      c.getSource().sendSuccess(() -> Component.translatable("commands.vaz2109.test.boss", new Object[]{name, n, a}), true);
+      return done;
    }
 
    private static int fingers(CommandContext<CommandSourceStack> c, Collection<ServerPlayer> players) throws CommandSyntaxException {

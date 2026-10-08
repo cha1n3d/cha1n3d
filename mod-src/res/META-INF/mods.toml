@@ -4,7 +4,7 @@ license="MIT"
 
 [[mods]]
 modId="vaz2109"
-version="2.1.0"
+version="2.1.1"
 displayName="VAZ-2109"
 authors="bobux"
 description='''Adds the legendary VAZ-2109 car and spray paint you can draw on it with.

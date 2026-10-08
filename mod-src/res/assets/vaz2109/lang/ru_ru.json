@@ -772,6 +772,8 @@
   "commands.vaz2109.test.lock": "Тестовое открытие способностей снято у игроков: %s",
   "commands.vaz2109.test.cooldowns": "Перезарядки сброшены у игроков: %s",
   "commands.vaz2109.test.trials": "Все испытания выполнены у игроков: %s",
+  "commands.vaz2109.test.boss": "Босс «%s» засчитан игрокам: %s (уже был побеждён у %s)",
+  "commands.vaz2109.test.boss.unknown": "Нет такого босса: %s",
   "commands.vaz2109.test.bosses": "Все боссы отмечены побеждёнными у игроков: %s",
   "commands.vaz2109.test.fingers": "Пальцев Сукуны: %s (игроков: %s)",
   "hud.vaz2109.dismantle.charging": "Разрезов: %s / %s — отпусти",

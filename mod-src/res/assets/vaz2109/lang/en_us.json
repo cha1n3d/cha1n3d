@@ -772,6 +772,8 @@
   "commands.vaz2109.test.lock": "Test unlock removed for %s player(s)",
   "commands.vaz2109.test.cooldowns": "Cooldowns cleared for %s player(s)",
   "commands.vaz2109.test.trials": "All trials completed for %s player(s)",
+  "commands.vaz2109.test.boss": "Boss \"%s\" credited to %s player(s) (already beaten by %s)",
+  "commands.vaz2109.test.boss.unknown": "No such boss: %s",
   "commands.vaz2109.test.bosses": "All bosses marked as beaten for %s player(s)",
   "commands.vaz2109.test.fingers": "Sukuna's fingers set to %s for %s player(s)",
   "hud.vaz2109.dismantle.charging": "Slashes: %s / %s — release",
