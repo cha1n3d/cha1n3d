@@ -8,7 +8,6 @@ public final class CyberpsychoSkin extends BoxSkin {
    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("vaz2109", "cyberpsycho"), "main");
    static final int[] MOHAWK = new int[]{64, 0, 2, 3, 8};
    public static final BoxSkin.Part[] PARTS = new BoxSkin.Part[]{
-      new BoxSkin.Part("mohawk", "head", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(MOHAWK, -1.0F, -11.0F, -4.0F, 0.0F)),
       new BoxSkin.Part("head", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HEAD, -4.0F, -8.0F, -4.0F, 0.0F)),
       new BoxSkin.Part("hat", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HAT, -4.0F, -8.0F, -4.0F, 0.4F)),
       new BoxSkin.Part("body", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.BODY, -4.0F, 0.0F, -2.0F, 0.0F)),
@@ -23,7 +22,8 @@ public final class CyberpsychoSkin extends BoxSkin {
          "left_leg", "", 1.9F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F,
          new BoxSkin.Box(PeopleSkins.LEG_L, -2.0F, 0.0F, -2.0F, 0.0F),
          new BoxSkin.Box(PeopleSkins.SHOE, -2.0F, 9.0F, -3.0F, 0.25F)
-      )
+      ),
+      new BoxSkin.Part("mohawk", "head", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(MOHAWK, -1.0F, -11.0F, -4.0F, 0.0F))
    };
    private static final int SKIN = 13544067;
    private static final int CHROME = 11581898;

@@ -8,7 +8,6 @@ public final class MahitoSkin extends BoxSkin {
    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("vaz2109", "mahito"), "main");
    static final int[] HAIR_BACK = new int[]{64, 0, 8, 6, 2};
    public static final BoxSkin.Part[] PARTS = new BoxSkin.Part[]{
-      new BoxSkin.Part("hair_back", "head", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(HAIR_BACK, -4.0F, -4.0F, 3.0F, 0.3F)),
       new BoxSkin.Part("head", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HEAD, -4.0F, -8.0F, -4.0F, 0.0F)),
       new BoxSkin.Part("hat", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HAT, -4.0F, -8.0F, -4.0F, 0.4F)),
       new BoxSkin.Part("body", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.BODY, -4.0F, 0.0F, -2.0F, 0.0F)),
@@ -23,7 +22,8 @@ public final class MahitoSkin extends BoxSkin {
          "left_leg", "", 1.9F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F,
          new BoxSkin.Box(PeopleSkins.LEG_L, -2.0F, 0.0F, -2.0F, 0.0F),
          new BoxSkin.Box(PeopleSkins.SHOE, -2.0F, 9.0F, -3.0F, 0.25F)
-      )
+      ),
+      new BoxSkin.Part("hair_back", "head", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(HAIR_BACK, -4.0F, -4.0F, 3.0F, 0.3F))
    };
    private static final int SKIN = 14535864;
    private static final int STITCH = 4864312;

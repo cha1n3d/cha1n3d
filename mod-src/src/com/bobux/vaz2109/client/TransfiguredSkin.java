@@ -8,7 +8,6 @@ public final class TransfiguredSkin extends BoxSkin {
    public static final ModelLayerLocation LAYER = new ModelLayerLocation(new ResourceLocation("vaz2109", "transfigured"), "main");
    static final int[] HUMP = new int[]{64, 0, 6, 4, 3};
    public static final BoxSkin.Part[] PARTS = new BoxSkin.Part[]{
-      new BoxSkin.Part("hump", "body", 0.0F, 0.0F, 0.0F, 0.3F, 0.0F, 0.0F, new BoxSkin.Box(HUMP, -3.0F, 0.5F, 1.5F, 0.0F)),
       new BoxSkin.Part("head", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HEAD, -4.0F, -8.0F, -4.0F, 0.0F)),
       new BoxSkin.Part("hat", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.HAT, -4.0F, -8.0F, -4.0F, 0.4F)),
       new BoxSkin.Part("body", "", 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new BoxSkin.Box(PeopleSkins.BODY, -4.0F, 0.0F, -2.0F, 0.0F)),
@@ -23,7 +22,8 @@ public final class TransfiguredSkin extends BoxSkin {
          "left_leg", "", 1.9F, 12.0F, 0.0F, 0.0F, 0.0F, 0.0F,
          new BoxSkin.Box(PeopleSkins.LEG_L, -2.0F, 0.0F, -2.0F, 0.0F),
          new BoxSkin.Box(PeopleSkins.SHOE, -2.0F, 9.0F, -3.0F, 0.25F)
-      )
+      ),
+      new BoxSkin.Part("hump", "body", 0.0F, 0.0F, 0.0F, 0.3F, 0.0F, 0.0F, new BoxSkin.Box(HUMP, -3.0F, 0.5F, 1.5F, 0.0F))
    };
    private static final int FLESH = 9479557;
    private static final int DARK = 5263951;
