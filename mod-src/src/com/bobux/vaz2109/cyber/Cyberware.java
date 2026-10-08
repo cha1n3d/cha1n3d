@@ -48,11 +48,11 @@ import org.joml.Vector3f;
  */
 @EventBusSubscriber(modid = "vaz2109")
 public final class Cyberware {
-   public static final int SANDE_TICKS = 160;
-   public static final int SANDE_COOLDOWN = 1200;
-   public static final float SANDE_STRAIN = 4.0F;
-   public static final double SANDE_RADIUS = 32.0;
-   public static final int HEART_COOLDOWN = 12000;
+   public static final int SANDE_TICKS = 120;
+   public static final int SANDE_COOLDOWN = 1800;
+   public static final float SANDE_STRAIN = 6.0F;
+   public static final double SANDE_RADIUS = 24.0;
+   public static final int HEART_COOLDOWN = 24000;
    public static final int PSYCHOSIS = 40;
    public static final int SEVERE = 20;
    private static final String KEY = "vaz2109_cyber";
@@ -185,8 +185,8 @@ public final class Cyberware {
    /** Attribute bonuses that must survive respawns and logins. */
    public static void apply(Player player) {
       boolean skin = has(player, Implant.SUBDERMAL_ARMOR);
-      modifier(player.getAttribute(Attributes.ARMOR), ARMOR_ID, "Subdermal armor", skin ? 5.0 : 0.0);
-      modifier(player.getAttribute(Attributes.ARMOR_TOUGHNESS), TOUGH_ID, "Subdermal armor", skin ? 2.0 : 0.0);
+      modifier(player.getAttribute(Attributes.ARMOR), ARMOR_ID, "Subdermal armor", skin ? 3.0 : 0.0);
+      modifier(player.getAttribute(Attributes.ARMOR_TOUGHNESS), TOUGH_ID, "Subdermal armor", skin ? 1.0 : 0.0);
    }
 
    private static void modifier(AttributeInstance attribute, UUID id, String name, double amount) {
@@ -320,7 +320,7 @@ public final class Cyberware {
    @SubscribeEvent(priority = EventPriority.HIGH)
    public static void onSandeHit(LivingAttackEvent event) {
       if (event.getEntity() instanceof ServerPlayer player && sandevistan(player) && event.getSource().getEntity() instanceof LivingEntity attacker
-         && attacker != player && attacker.level().getGameTime() < attacker.getPersistentData().getLong(SLOWED)) {
+         && attacker != player && attacker.level().getGameTime() < attacker.getPersistentData().getLong(SLOWED) && player.getRandom().nextFloat() < 0.7F) {
          event.setCanceled(true);
       }
    }
@@ -423,8 +423,8 @@ public final class Cyberware {
       if (event.getEntity() instanceof ServerPlayer player && has(player, Implant.KERENZIKOV) && (player.isSprinting() || !player.onGround())) {
          CompoundTag d = data(player);
          long now = player.level().getGameTime();
-         if (now >= d.getLong("dodgeReady") && event.getSource().getEntity() != null && player.getRandom().nextFloat() < 0.35F) {
-            d.putLong("dodgeReady", now + 60L);
+         if (now >= d.getLong("dodgeReady") && event.getSource().getEntity() != null && player.getRandom().nextFloat() < 0.25F) {
+            d.putLong("dodgeReady", now + 100L);
             save(player, d);
             event.setCanceled(true);
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 0.8F, 1.6F);
@@ -439,11 +439,11 @@ public final class Cyberware {
       if (event.getSource().getDirectEntity() instanceof ServerPlayer player && player.getMainHandItem().isEmpty()) {
          LivingEntity target = event.getEntity();
          if (has(player, Implant.MANTIS_BLADES)) {
-            event.setAmount(event.getAmount() + 6.0F);
+            event.setAmount(event.getAmount() + 4.0F);
             target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0));
             player.level().playSound(null, target.getX(), target.getY(), target.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.PLAYERS, 0.9F, 1.5F);
          } else if (has(player, Implant.GORILLA_ARMS)) {
-            event.setAmount(event.getAmount() + 4.0F);
+            event.setAmount(event.getAmount() + 3.0F);
             Vec3 push = target.position().subtract(player.position()).multiply(1.0, 0.0, 1.0).normalize();
             target.setDeltaMovement(target.getDeltaMovement().add(push.x * 1.2, 0.35, push.z * 1.2));
             target.hurtMarked = true;
@@ -455,7 +455,7 @@ public final class Cyberware {
    @SubscribeEvent
    public static void onBreakSpeed(BreakSpeed event) {
       if (event.getEntity().getMainHandItem().isEmpty() && has(event.getEntity(), Implant.GORILLA_ARMS)) {
-         event.setNewSpeed(event.getNewSpeed() * 4.0F);
+         event.setNewSpeed(event.getNewSpeed() * 2.5F);
       }
    }
 
@@ -476,7 +476,7 @@ public final class Cyberware {
             d.putLong("heartReady", now + (long)HEART_COOLDOWN);
             save(player, d);
             event.setCanceled(true);
-            player.setHealth(player.getMaxHealth() * 0.5F);
+            player.setHealth(player.getMaxHealth() * 0.3F);
             player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
             player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 1));
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.TOTEM_USE, SoundSource.PLAYERS, 0.7F, 1.4F);

@@ -258,6 +258,27 @@ for (x0, y0, x1, y1) in ((6, 6, 9, 12), (4, 8, 11, 10)):
 i.p(7, 13, STEEL[2]); i.p(8, 13, STEEL[2])
 i.outline((60, 64, 70, 255)); icons['medkit'] = i.save('medkit')
 
+# Mahito's hand: a pale stitched hand, fingers spread, a cold soul glow around it
+i = Icon()
+SKIN = ramp('#d8c8b6'); SOULC = ramp('#78a0c8')
+for k, x in enumerate((4, 6, 8, 10)):
+    top = (3, 1, 2, 4)[k]
+    for y in range(top, 8):
+        i.p(x, y, SKIN[3] if y == top else SKIN[2]); i.p(x + 1, y, SKIN[1])
+for y in range(7, 13):
+    for x in range(4, 12):
+        i.p(x, y, SKIN[3] if x < 6 else (SKIN[2] if x < 10 else SKIN[1]))
+for (x, y) in ((2, 8), (3, 9), (3, 10)):
+    i.p(x, y, SKIN[2]); i.p(x + 1, y, SKIN[2])
+for y in range(13, 16):
+    for x in range(5, 11): i.p(x, y, ramp('#2a2a34')[2] if x < 9 else ramp('#2a2a34')[1])
+for (x, y) in ((5, 9), (6, 10), (7, 9), (8, 10), (9, 9)): i.p(x, y, ramp('#4a3020')[1])
+for x in range(4, 12, 2): i.p(x, 7, ramp('#4a3020')[2])
+i.outline(SOULC[0])
+for (x, y) in ((1, 4), (13, 2), (14, 9), (0, 11), (12, 14)): i.p(x, y, SOULC[3])
+icons['mahito_hand'] = i.save('mahito_hand')
+
+
 prev = Image.new('RGBA', (len(icons) * 68, 64), (58, 60, 66, 255))
 for k, im in enumerate(icons.values()):
     prev.alpha_composite(im.resize((64, 64), Image.NEAREST), (k * 68, 0))

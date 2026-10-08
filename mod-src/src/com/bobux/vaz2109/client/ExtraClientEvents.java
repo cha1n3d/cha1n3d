@@ -53,6 +53,17 @@ public final class ExtraClientEvents {
       event.registerEntityRenderer(
          ModRegistry.GOPNIK.get(), ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.GopnikEntity>(ctx, GopnikSkin.LAYER, "vaz2109_gopnik", GopnikSkin::new, 0.95F)
       );
+      event.registerEntityRenderer(
+         ModRegistry.MAHITO.get(), ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.MahitoEntity>(ctx, MahitoSkin.LAYER, "vaz2109_mahito", MahitoSkin::new, 1.0F)
+      );
+      event.registerEntityRenderer(
+         ModRegistry.TRANSFIGURED.get(),
+         ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.TransfiguredEntity>(ctx, TransfiguredSkin.LAYER, "vaz2109_transfigured", TransfiguredSkin::new, 0.88F)
+      );
+      event.registerEntityRenderer(
+         ModRegistry.CYBERPSYCHO.get(),
+         ctx -> new PeopleRenderer<com.bobux.vaz2109.entity.CyberpsychoEntity>(ctx, CyberpsychoSkin.LAYER, "vaz2109_cyberpsycho", CyberpsychoSkin::new, 1.0F)
+      );
       event.registerEntityRenderer(ModRegistry.FIRECRACKER_ENTITY.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
    }
 
@@ -66,5 +77,8 @@ public final class ExtraClientEvents {
       event.registerLayerDefinition(ChosoSkin.LAYER, () -> ArthasModel.build(ChosoSkin.PARTS));
       event.registerLayerDefinition(ScooterRenderer.LAYER, () -> ArthasModel.build(ScooterSkin.PARTS));
       event.registerLayerDefinition(GopnikSkin.LAYER, () -> ArthasModel.build(GopnikSkin.PARTS));
+      event.registerLayerDefinition(MahitoSkin.LAYER, () -> ArthasModel.build(MahitoSkin.PARTS));
+      event.registerLayerDefinition(TransfiguredSkin.LAYER, () -> ArthasModel.build(TransfiguredSkin.PARTS));
+      event.registerLayerDefinition(CyberpsychoSkin.LAYER, () -> ArthasModel.build(CyberpsychoSkin.PARTS));
    }
 }

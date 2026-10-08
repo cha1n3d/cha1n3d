@@ -107,6 +107,9 @@ public class ArenaPiece extends StructurePiece {
             break;
          case CHOSO_HOUSE:
             this.bloodHouse();
+            break;
+         case MAHITO_SEWER:
+            this.sewer();
       }
 
       this.level = null;
@@ -718,6 +721,82 @@ public class ArenaPiece extends StructurePiece {
       }
 
       this.spawnBoss(-1, 1, 1, 180.0F);
+   }
+
+
+   /** Mahito's lair: a cracked concrete booth over a manhole; below, a sewer hall overgrown with reshaped flesh. */
+   private void sewer() {
+      this.yard((xx, zx) -> {
+         double n = this.noise(xx, 0, zx);
+         return n < 0.4 ? Blocks.GRAVEL.defaultBlockState() : (n < 0.7 ? Blocks.CRACKED_STONE_BRICKS.defaultBlockState() : Blocks.COARSE_DIRT.defaultBlockState());
+      });
+      // the hall below
+      for (int x = -7; x <= 7; x++) {
+         for (int z = -7; z <= 7; z++) {
+            for (int y = -8; y <= -1; y++) {
+               boolean shell = Math.abs(x) == 7 || Math.abs(z) == 7 || y == -8 || y == -1;
+               double n = this.noise(x, y, z);
+               BlockState s;
+               if (shell) {
+                  s = n < 0.25 ? Blocks.MOSSY_STONE_BRICKS.defaultBlockState() : (n < 0.45 ? Blocks.CRACKED_STONE_BRICKS.defaultBlockState() : Blocks.STONE_BRICKS.defaultBlockState());
+                  if ((Math.abs(x) == 7 || Math.abs(z) == 7) && y == -4 && Math.floorMod(x + z, 4) == 0) {
+                     s = Blocks.IRON_BARS.defaultBlockState();
+                  }
+               } else {
+                  s = Blocks.AIR.defaultBlockState();
+               }
+
+               this.put(x, y, z, s);
+            }
+
+            if (z == 0 || z == 1) {
+               this.put(x, -8, z, Blocks.WATER);
+               this.put(x, -9, z, Blocks.STONE_BRICKS);
+            }
+         }
+      }
+      // reshaped flesh on the walls and a few lights
+      for (int x = -6; x <= 6; x++) {
+         for (int z = -6; z <= 6; z++) {
+            double n = this.noise(x, 7, z);
+            if (n < 0.1 && z != 0 && z != 1) {
+               this.put(x, -7, z, n < 0.05 ? Blocks.NETHER_WART_BLOCK : Blocks.BONE_BLOCK);
+            } else if (n > 0.93) {
+               this.put(x, -2, z, Blocks.COBWEB);
+            }
+         }
+      }
+
+      for (int[] c : new int[][]{{-6, -6}, {6, -6}, {-6, 6}, {6, 6}}) {
+         this.put(c[0], -2, c[1], Blocks.SHROOMLIGHT);
+         this.put(c[0], -7, c[1], Blocks.NETHER_WART_BLOCK);
+         this.put(c[0], -6, c[1], Blocks.NETHER_WART_BLOCK);
+      }
+
+      this.put(-5, -7, 5, Blocks.SKELETON_SKULL);
+      this.chest(5, -7, -5, Direction.WEST);
+      // the booth with the manhole
+      for (int x = -2; x <= 2; x++) {
+         for (int z = -3; z <= 1; z++) {
+            boolean edge = Math.abs(x) == 2 || z == -3 || z == 1;
+            this.put(x, 0, z, Blocks.GRAY_CONCRETE);
+            for (int y = 1; y <= 3; y++) {
+               boolean door = z == 1 && x == 0 && y <= 2;
+               boolean broken = y == 3 && this.noise(x, y, z) < 0.4;
+               this.put(x, y, z, edge && !door && !broken ? (this.noise(x, y, z) < 0.3 ? Blocks.CRACKED_STONE_BRICKS : Blocks.GRAY_CONCRETE).defaultBlockState() : Blocks.AIR.defaultBlockState());
+            }
+         }
+      }
+
+      for (int y = -7; y <= 0; y++) {
+         this.put(0, y, -1, Blocks.AIR.defaultBlockState());
+         this.put(0, y, -2, Blocks.STONE_BRICKS);
+         this.put(0, y, -1, Blocks.LADDER.defaultBlockState().setValue(net.minecraft.world.level.block.LadderBlock.FACING, Direction.SOUTH));
+      }
+
+      this.put(1, 1, -2, Blocks.IRON_BARS);
+      this.put(-1, 1, -2, Blocks.IRON_BARS);
+      this.spawnBoss(0, -7, 4, 180.0F);
    }
 
    private void cherry(int x, int z) {

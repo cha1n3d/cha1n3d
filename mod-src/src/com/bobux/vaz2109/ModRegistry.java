@@ -191,6 +191,39 @@ public final class ModRegistry {
    public static final RegistryObject<Item> GOPNIK_SPAWN_EGG = ITEMS.register(
       "gopnik_spawn_egg", () -> new ForgeSpawnEggItem(GOPNIK, 1909566, 15329769, new net.minecraft.world.item.Item.Properties())
    );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.MahitoEntity>> MAHITO = ENTITIES.register(
+      "mahito",
+      () -> Builder.<com.bobux.vaz2109.entity.MahitoEntity>of((t, l) -> new com.bobux.vaz2109.entity.MahitoEntity(t, l), MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build("mahito")
+   );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.TransfiguredEntity>> TRANSFIGURED = ENTITIES.register(
+      "transfigured",
+      () -> Builder.<com.bobux.vaz2109.entity.TransfiguredEntity>of((t, l) -> new com.bobux.vaz2109.entity.TransfiguredEntity(t, l), MobCategory.MONSTER)
+            .sized(0.6F, 1.7F)
+            .clientTrackingRange(8)
+            .build("transfigured")
+   );
+   public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.CyberpsychoEntity>> CYBERPSYCHO = ENTITIES.register(
+      "cyberpsycho",
+      () -> Builder.<com.bobux.vaz2109.entity.CyberpsychoEntity>of((t, l) -> new com.bobux.vaz2109.entity.CyberpsychoEntity(t, l), MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build("cyberpsycho")
+   );
+   public static final RegistryObject<Item> MAHITO_SPAWN_EGG = ITEMS.register(
+      "mahito_spawn_egg", () -> new ForgeSpawnEggItem(MAHITO, 8229800, 4864312, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final RegistryObject<Item> TRANSFIGURED_SPAWN_EGG = ITEMS.register(
+      "transfigured_spawn_egg", () -> new ForgeSpawnEggItem(TRANSFIGURED, 9479557, 5263951, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final RegistryObject<Item> CYBERPSYCHO_SPAWN_EGG = ITEMS.register(
+      "cyberpsycho_spawn_egg", () -> new ForgeSpawnEggItem(CYBERPSYCHO, 1645083, 16721456, new net.minecraft.world.item.Item.Properties())
+   );
+   public static final RegistryObject<Item> MAHITO_HAND = ITEMS.register(
+      "mahito_hand", () -> new com.bobux.vaz2109.item.MahitoHandItem(new net.minecraft.world.item.Item.Properties().rarity(Rarity.EPIC).fireResistant())
+   );
    public static final RegistryObject<EntityType<com.bobux.vaz2109.entity.FirecrackerEntity>> FIRECRACKER_ENTITY = ENTITIES.register(
       "firecracker",
       () -> Builder.<com.bobux.vaz2109.entity.FirecrackerEntity>of((t, l) -> new com.bobux.vaz2109.entity.FirecrackerEntity(t, l), MobCategory.MISC)
@@ -674,6 +707,10 @@ public final class ModRegistry {
                   out.accept((ItemLike)FIRECRACKER.get());
                   out.accept((ItemLike)MEDKIT.get());
                   out.accept((ItemLike)GOPNIK_SPAWN_EGG.get());
+                  out.accept((ItemLike)MAHITO_SPAWN_EGG.get());
+                  out.accept((ItemLike)TRANSFIGURED_SPAWN_EGG.get());
+                  out.accept((ItemLike)CYBERPSYCHO_SPAWN_EGG.get());
+                  out.accept((ItemLike)MAHITO_HAND.get());
 
                   for (RegistryObject<Item> s : SNACKS) {
                      out.accept((ItemLike)s.get());

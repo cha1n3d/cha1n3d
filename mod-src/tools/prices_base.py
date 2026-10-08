@@ -32,7 +32,7 @@ SELL = {
 # Mod items that cannot be crafted: boss trophies and drops.
 SELL_MOD = {
  "sukuna_finger": 300, "death_painting": 1500, "frostmourne": 2500, "haruta_sword": 1000, "timokha_chain": 1000,
- "ivan_watch": 1000, "music_disc_morgen_1": 150, "music_disc_morgen_2": 150, "music_disc_morgen_3": 150,
+ "ivan_watch": 1000, "mahito_hand": 1200, "music_disc_morgen_1": 150, "music_disc_morgen_2": 150, "music_disc_morgen_3": 150,
  "banknote_100": 100, "banknote_1000": 1000,
 }
 MAT = {

@@ -1,0 +1,21 @@
+{
+ "type": "forge:add_spawns",
+ "biomes": [
+  "minecraft:plains",
+  "minecraft:sunflower_plains",
+  "minecraft:forest",
+  "minecraft:birch_forest",
+  "minecraft:taiga",
+  "minecraft:savanna",
+  "minecraft:desert",
+  "minecraft:meadow"
+ ],
+ "spawners": [
+  {
+   "type": "vaz2109:cyberpsycho",
+   "weight": 4,
+   "minCount": 1,
+   "maxCount": 1
+  }
+ ]
+}

@@ -149,6 +149,7 @@ final class PriceTable {
       {"vaz2109:kvass", 3},
       {"vaz2109:lowering_kit", 24},
       {"vaz2109:machete", 12},
+      {"vaz2109:mahito_hand", 1200},
       {"vaz2109:mantis_blades", 349},
       {"vaz2109:mask_alex_ash", 19},
       {"vaz2109:mask_aubrey", 20},

@@ -13,6 +13,7 @@ public enum BossQuest {
    ANDREY("andrey", "andrey_brewery", "vaz2109_andrey_beaten", ModRegistry.ANDREY::get, 30),
    TOJI("toji", "toji_warehouse", "vaz2109_toji_beaten", ModRegistry.TOJI::get, 35),
    CHOSO("choso", "choso_house", "vaz2109_choso_beaten", ModRegistry.CHOSO::get, 38),
+   MAHITO("mahito", "mahito_sewer", "vaz2109_mahito_beaten", ModRegistry.MAHITO::get, 39),
    TIMOKHA_CHAIN("timokha_chain", "chain_arena", "vaz2109_timokha_chain_beaten", ModRegistry.TIMOKHA_CHAIN::get, 40),
    MAHORAGA("mahoraga", "shibuya_ruins", "vaz2109_mahoraga_beaten", ModRegistry.MAHORAGA::get, 45),
    ARTHAS("arthas", "frozen_throne", "vaz2109_arthas_beaten", ModRegistry.ARTHAS::get, 50),

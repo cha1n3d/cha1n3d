@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "vaz2109:mahito_sewer",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 36,
+    "separation": 12,
+    "salt": 918273
+  }
+}

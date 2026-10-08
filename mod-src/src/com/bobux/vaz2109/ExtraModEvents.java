@@ -18,6 +18,9 @@ public final class ExtraModEvents {
       event.put(ModRegistry.CHOSO.get(), ChosoEntity.createAttributes().build());
       event.put(ModRegistry.ALLY_FROG.get(), AllyFrog.createAttributes().build());
       event.put(ModRegistry.GOPNIK.get(), com.bobux.vaz2109.entity.GopnikEntity.createAttributes().build());
+      event.put(ModRegistry.MAHITO.get(), com.bobux.vaz2109.entity.MahitoEntity.createAttributes().build());
+      event.put(ModRegistry.TRANSFIGURED.get(), com.bobux.vaz2109.entity.TransfiguredEntity.createAttributes().build());
+      event.put(ModRegistry.CYBERPSYCHO.get(), com.bobux.vaz2109.entity.CyberpsychoEntity.createAttributes().build());
    }
 
    @SubscribeEvent
@@ -27,6 +30,13 @@ public final class ExtraModEvents {
          net.minecraft.world.entity.SpawnPlacements.Type.ON_GROUND,
          net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
          com.bobux.vaz2109.entity.GopnikEntity::canSpawn,
+         net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE
+      );
+      event.register(
+         ModRegistry.CYBERPSYCHO.get(),
+         net.minecraft.world.entity.SpawnPlacements.Type.ON_GROUND,
+         net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+         com.bobux.vaz2109.entity.CyberpsychoEntity::canSpawn,
          net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE
       );
    }
