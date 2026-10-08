@@ -915,7 +915,6 @@
   "item.vaz2109.second_heart": "Second Heart",
   "item.vaz2109.subdermal_armor": "Subdermal Armor",
   "item.vaz2109.neuroblocker": "Neuroblockers",
-  "tooltip.vaz2109.implant.sandevistan": "Implant key (B): 8 s of sped-up time — you're fast, everything within 32 blocks nearly freezes, bullets slow down. 60 s cooldown; every run strains the mind",
   "tooltip.vaz2109.implant.kerenzikov": "While sprinting or airborne, a 35%% chance to slip a hit or shot",
   "tooltip.vaz2109.implant.mantis_blades": "Empty hand: +6 blade damage and the target is slowed",
   "tooltip.vaz2109.implant.gorilla_arms": "Empty hand: +4 damage, heavy knockback, breaks blocks 4x faster",
@@ -924,7 +923,6 @@
   "tooltip.vaz2109.implant.second_heart": "Once every 10 minutes it saves you from death: half health and regeneration",
   "tooltip.vaz2109.implant.subdermal_armor": "+5 armor and +2 armor toughness",
   "tooltip.vaz2109.implant.slot": "Slot: %s · humanity −%s",
-  "tooltip.vaz2109.implant.install": "Right-click to install (it hurts). The implant in the same slot comes back to your inventory",
   "tooltip.vaz2109.neuroblocker": "Ends a cyberpsychosis episode, delays the next one by 3 min and eases the strain on the mind",
   "gui.vaz2109.cyber.slot.nervous": "nervous system",
   "gui.vaz2109.cyber.slot.arms": "arms",
@@ -966,5 +964,9 @@
   "item.vaz2109.firecracker": "Firecracker",
   "tooltip.vaz2109.firecracker": "Right-click to light and throw: a loud bang that stings a little and scares mobs away. Breaks no blocks",
   "item.vaz2109.medkit": "First-Aid Kit",
-  "tooltip.vaz2109.medkit": "2 s of bandaging: +5 hearts, cures poison and wither. 10 s cooldown"
+  "tooltip.vaz2109.medkit": "2 s of bandaging: +5 hearts, cures poison and wither. 10 s cooldown",
+  "block.vaz2109.ripperdoc": "Ripperdoc's Chair",
+  "message.vaz2109.cyber.nosebleed": "A nosebleed... the Sandevistan is overloading your brain",
+  "tooltip.vaz2109.implant.install": "Made at a ripperdoc's chair. Right-click to install (it hurts); the implant in the same slot comes back to your inventory",
+  "tooltip.vaz2109.implant.sandevistan": "Implant key (B): 8 s of slowed time — enemies within 32 blocks barely move and can't land a hit, bullets and arrows hang in the air, and a colourful trail of afterimages follows you. 60 s cooldown; overuse means nosebleeds and cyberpsychosis"
 }

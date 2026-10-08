@@ -192,7 +192,6 @@ R = {
  "item.vaz2109.second_heart": ("Второе сердце", "Second Heart"),
  "item.vaz2109.subdermal_armor": ("Подкожная броня", "Subdermal Armor"),
  "item.vaz2109.neuroblocker": ("Нейроблокаторы", "Neuroblockers"),
- "tooltip.vaz2109.implant.sandevistan": ("Клавиша импланта (B): 8 сек ускоренного времени — ты быстрее, всё вокруг (32 блока) почти стоит, пули тормозят. Перезарядка 60 сек, каждый запуск давит на психику", "Implant key (B): 8 s of sped-up time — you're fast, everything within 32 blocks nearly freezes, bullets slow down. 60 s cooldown; every run strains the mind"),
  "tooltip.vaz2109.implant.kerenzikov": ("На бегу и в прыжке 35%% шанс увернуться от удара или выстрела", "While sprinting or airborne, a 35%% chance to slip a hit or shot"),
  "tooltip.vaz2109.implant.mantis_blades": ("С пустой рукой: +6 урона клинками и замедление цели", "Empty hand: +6 blade damage and the target is slowed"),
  "tooltip.vaz2109.implant.gorilla_arms": ("С пустой рукой: +4 урона, мощный отброс, ломаешь блоки в 4 раза быстрее", "Empty hand: +4 damage, heavy knockback, breaks blocks 4x faster"),
@@ -201,7 +200,6 @@ R = {
  "tooltip.vaz2109.implant.second_heart": ("Раз в 10 минут спасает от смерти: половина здоровья и регенерация", "Once every 10 minutes it saves you from death: half health and regeneration"),
  "tooltip.vaz2109.implant.subdermal_armor": ("+5 брони и +2 прочности брони", "+5 armor and +2 armor toughness"),
  "tooltip.vaz2109.implant.slot": ("Слот: %s · человечность −%s", "Slot: %s · humanity −%s"),
- "tooltip.vaz2109.implant.install": ("ПКМ — установить (больно). Имплант из того же слота вернётся в инвентарь", "Right-click to install (it hurts). The implant in the same slot comes back to your inventory"),
  "tooltip.vaz2109.neuroblocker": ("Снимает приступ киберпсихоза, откладывает следующий на 3 мин и снижает нагрузку на психику", "Ends a cyberpsychosis episode, delays the next one by 3 min and eases the strain on the mind"),
  "gui.vaz2109.cyber.slot.nervous": ("нервная система", "nervous system"),
  "gui.vaz2109.cyber.slot.arms": ("руки", "arms"),
@@ -245,6 +243,10 @@ R = {
  "tooltip.vaz2109.firecracker": ("ПКМ — поджечь и бросить: громкий хлопок, немного жжёт и распугивает мобов. Блоки не ломает", "Right-click to light and throw: a loud bang that stings a little and scares mobs away. Breaks no blocks"),
  "item.vaz2109.medkit": ("Аптечка", "First-Aid Kit"),
  "tooltip.vaz2109.medkit": ("2 сек перевязки: +5 сердец, снимает яд и иссушение. Перезарядка 10 сек", "2 s of bandaging: +5 hearts, cures poison and wither. 10 s cooldown"),
+ "block.vaz2109.ripperdoc": ("Кресло риппердока", "Ripperdoc's Chair"),
+ "message.vaz2109.cyber.nosebleed": ("Кровь из носа... Сандевистан перегружает мозг", "A nosebleed... the Sandevistan is overloading your brain"),
+ "tooltip.vaz2109.implant.install": ("Делается в кресле риппердока. ПКМ — установить (больно); имплант из того же слота вернётся в инвентарь", "Made at a ripperdoc's chair. Right-click to install (it hurts); the implant in the same slot comes back to your inventory"),
+ "tooltip.vaz2109.implant.sandevistan": ("Клавиша импланта (B): 8 сек замедленного времени — враги вокруг (32 блока) еле двигаются и не успевают по тебе попасть, пули и стрелы зависают в воздухе, а за тобой тянется цветной шлейф копий. Перезарядка 60 сек; частые запуски — кровь из носа и киберпсихоз", "Implant key (B): 8 s of slowed time — enemies within 32 blocks barely move and can't land a hit, bullets and arrows hang in the air, and a colourful trail of afterimages follows you. 60 s cooldown; overuse means nosebleeds and cyberpsychosis"),
 }
 for k, (r, e) in R.items():
     d[k] = r if ru else e

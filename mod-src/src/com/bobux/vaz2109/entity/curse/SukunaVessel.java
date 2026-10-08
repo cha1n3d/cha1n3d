@@ -189,9 +189,9 @@ public final class SukunaVessel {
             b.fugaReady = now + 200L;
             charge(player, 30);
             b.next = now + 45L;
-         } else if (dist < 4.5) {
+         } else if (dist < 4.5 && (n < 15 || player.getRandom().nextBoolean())) {
             cleave(player, target, n);
-            b.next = now + 30L;
+            b.next = now + (n >= 15 ? 22L : 30L);
          } else {
             // from 15 fingers he fights with slashes only, so they come faster
             dismantle(player, eye, aim, 6.0F + 0.5F * (float)n, 1 + n / 7);

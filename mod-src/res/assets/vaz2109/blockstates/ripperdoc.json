@@ -1,0 +1,19 @@
+{
+ "variants": {
+  "facing=north": {
+   "model": "vaz2109:block/ripperdoc"
+  },
+  "facing=east": {
+   "model": "vaz2109:block/ripperdoc",
+   "y": 90
+  },
+  "facing=south": {
+   "model": "vaz2109:block/ripperdoc",
+   "y": 180
+  },
+  "facing=west": {
+   "model": "vaz2109:block/ripperdoc",
+   "y": 270
+  }
+ }
+}

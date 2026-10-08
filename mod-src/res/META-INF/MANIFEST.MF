@@ -3,6 +3,6 @@ Specification-Title: vaz2109
 Specification-Vendor: bobux
 Specification-Version: 1
 Implementation-Title: vaz2109
-Implementation-Version: 1.8.0
+Implementation-Version: 1.9.0
 Implementation-Vendor: bobux
 

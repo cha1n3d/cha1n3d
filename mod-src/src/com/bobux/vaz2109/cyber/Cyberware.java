@@ -56,6 +56,12 @@ public final class Cyberware {
    public static final int PSYCHOSIS = 40;
    public static final int SEVERE = 20;
    private static final String KEY = "vaz2109_cyber";
+   /** Strain above which a Sandevistan run makes the nose bleed. */
+   public static final float OVERUSE = 30.0F;
+   private static final double SLOWMO = 0.2;
+   private static final String SLOWED = "vaz2109Slowed";
+   private static final String FROZEN = "vaz2109Frozen";
+   private static final java.util.Set<Projectile> FROZEN_PROJECTILES = java.util.Collections.newSetFromMap(new java.util.WeakHashMap<>());
    private static final UUID ARMOR_ID = UUID.fromString("0c9b4a71-5e2d-4f13-a7b0-3d61e8f2c904");
    private static final UUID TOUGH_ID = UUID.fromString("7e3a19c5-b8d4-4a62-9f07-c1d5e2a8b316");
 
@@ -220,18 +226,56 @@ public final class Cyberware {
       ServerLevel level = player.serverLevel();
       level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1.0F, 1.9F);
       level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ILLUSIONER_MIRROR_MOVE, SoundSource.PLAYERS, 1.0F, 0.6F);
+      level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.WARDEN_HEARTBEAT, SoundSource.PLAYERS, 1.2F, 0.6F);
+      for (ServerPlayer p : level.players()) {
+         if (p.distanceTo(player) < 96.0) {
+            Network.CHANNEL.send(PacketDistributor.PLAYER.with(() -> p), new com.bobux.vaz2109.network.SandeS2C(player.getId(), SANDE_TICKS));
+         }
+      }
+
+      // overuse: past a point the body pays for it
+      if (strain(player) > OVERUSE) {
+         player.hurt(player.damageSources().magic(), 3.0F);
+         player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 160, 0));
+         player.displayClientMessage(Component.translatable("message.vaz2109.cyber.nosebleed").withStyle(ChatFormatting.DARK_RED), true);
+      }
+
       sync(player);
    }
 
    private static void sandeTick(ServerPlayer player, ServerLevel level, long now, long end) {
+      // everything around runs at a fraction of normal speed: mobs crawl, falls hang in the air
       for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(SANDE_RADIUS), e -> e != player && e.isAlive())) {
-         e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 6, e instanceof Player ? 3 : 5, false, false));
+         e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 6, e instanceof Player ? 3 : 6, false, false));
          e.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 6, 3, false, false));
+         e.getPersistentData().putLong(SLOWED, now + 2L);
+         if (!(e instanceof Player)) {
+            e.setDeltaMovement(e.getDeltaMovement().scale(SLOWMO));
+            e.hurtMarked = true;
+         }
       }
 
+      // bullets and arrows nearly stop in the air and fly on at full speed once time runs again
       for (Projectile p : level.getEntitiesOfClass(Projectile.class, player.getBoundingBox().inflate(SANDE_RADIUS), p -> p.getOwner() != player)) {
-         p.setDeltaMovement(p.getDeltaMovement().scale(0.85));
+         CompoundTag tag = p.getPersistentData();
+         if (!tag.contains(FROZEN)) {
+            Vec3 v = p.getDeltaMovement();
+            tag.putDouble(FROZEN + "X", v.x);
+            tag.putDouble(FROZEN + "Y", v.y);
+            tag.putDouble(FROZEN + "Z", v.z);
+            FROZEN_PROJECTILES.add(p);
+         }
+
+         tag.putLong(FROZEN, now + 2L);
+         Vec3 v = new Vec3(tag.getDouble(FROZEN + "X"), tag.getDouble(FROZEN + "Y"), tag.getDouble(FROZEN + "Z"));
+         p.setDeltaMovement(v.scale(0.04));
          p.hurtMarked = true;
+      }
+
+      if (strain(player) > OVERUSE && now % 40L == 0L) {
+         player.hurt(player.damageSources().magic(), 1.0F);
+         Vec3 nose = player.getEyePosition().add(player.getLookAngle().scale(0.3)).add(0.0, -0.2, 0.0);
+         level.sendParticles(new DustParticleOptions(new Vector3f(0.6F, 0.0F, 0.02F), 1.0F), nose.x, nose.y, nose.z, 6, 0.05, 0.1, 0.05, 0.0);
       }
 
       // the afterimage: a trail of colour that shifts through the hues
@@ -245,6 +289,39 @@ public final class Cyberware {
       if (now == end - 1L) {
          level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BEACON_DEACTIVATE, SoundSource.PLAYERS, 1.0F, 1.6F);
          sync(player);
+      }
+   }
+
+   /** Projectiles stopped by a Sandevistan get their speed back when time runs again. */
+   @SubscribeEvent
+   public static void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
+      if (event.phase != Phase.END || FROZEN_PROJECTILES.isEmpty()) {
+         return;
+      }
+
+      FROZEN_PROJECTILES.removeIf(p -> {
+         if (p.isRemoved()) {
+            return true;
+         }
+
+         CompoundTag tag = p.getPersistentData();
+         if (p.level().getGameTime() < tag.getLong(FROZEN)) {
+            return false;
+         }
+
+         p.setDeltaMovement(tag.getDouble(FROZEN + "X"), tag.getDouble(FROZEN + "Y"), tag.getDouble(FROZEN + "Z"));
+         p.hurtMarked = true;
+         tag.remove(FROZEN);
+         return true;
+      });
+   }
+
+   /** Someone in slow motion can't keep up with the Sandevistan's owner: their hits miss. */
+   @SubscribeEvent(priority = EventPriority.HIGH)
+   public static void onSandeHit(LivingAttackEvent event) {
+      if (event.getEntity() instanceof ServerPlayer player && sandevistan(player) && event.getSource().getEntity() instanceof LivingEntity attacker
+         && attacker != player && attacker.level().getGameTime() < attacker.getPersistentData().getLong(SLOWED)) {
+         event.setCanceled(true);
       }
    }
 

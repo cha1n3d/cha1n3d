@@ -97,7 +97,7 @@ OFFERS = [
  ('weapons', 'minecraft:diamond_leggings', 1, 1900), ('weapons', 'minecraft:diamond_boots', 1, 1100),
 
  ('misc', 'vaz2109:computer', 1, None), ('misc', 'vaz2109:garage_bench', 1, None), ('misc', 'vaz2109:armory_bench', 1, None),
- ('misc', 'vaz2109:mask_table', 1, None), ('misc', 'vaz2109:cursed_altar', 1, None),
+ ('misc', 'vaz2109:mask_table', 1, None), ('misc', 'vaz2109:cursed_altar', 1, None), ('misc', 'vaz2109:ripperdoc', 1, None),
  ('misc', 'vaz2109:party_hat_red', 1, None), ('misc', 'vaz2109:party_hat_blue', 1, None), ('misc', 'vaz2109:party_hat_green', 1, None),
  ('misc', 'vaz2109:party_hat_yellow', 1, None), ('misc', 'vaz2109:party_hat_pink', 1, None), ('misc', 'vaz2109:party_hat_purple', 1, None),
  ('misc', 'minecraft:name_tag', 1, 150), ('misc', 'minecraft:spyglass', 1, 40), ('misc', 'minecraft:compass', 1, 120),
