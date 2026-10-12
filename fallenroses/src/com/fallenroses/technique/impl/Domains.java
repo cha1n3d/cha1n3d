@@ -42,7 +42,10 @@ public final class Domains {
         float radius = RADIUS[type];
         PlayerAnims.play(p, "domain");
         p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 22, 4, false, false));
-        Combat.sound(p, p.position(), ModSounds.DOMAIN_EXPAND, 6.0F, type >= 2 ? 0.85F : 1.0F);
+        // the barrier sound's sealing boom lands as the dome closes (20 ticks after it appears)
+        Combat.sound(p, p.position(), ModSounds.DOMAIN_SIGN, 4.0F, 1.0F);
+        Combat.sound(p, p.position(), ModSounds.DOMAIN_BARRIER, 6.0F, 1.0F);
+        Vfx.play(level, VfxKind.DOMAIN_SIGN, p.position(), Vec3.ZERO, radius, DomainEntity.EDGE[type], p.getId(), type);
 
         for (ServerPlayer other : level.players()) {
             if (other.distanceTo(p) < 48.0F) {
@@ -55,6 +58,7 @@ public final class Domains {
                 DomainEntity domain = new DomainEntity(ModEntities.DOMAIN.get(), level);
                 domain.setup(p, type, radius, type == 7 ? 110 : 220, power);
                 domain.setPos(p.getX(), p.getY(), p.getZ());
+                domain.setYRot(p.getYRot());
                 level.addFreshEntity(domain);
                 Vfx.play(level, VfxKind.DOMAIN_OPEN, p.position().add(0.0, 1.0, 0.0), Vec3.ZERO, radius, color, p.getId(), type);
                 Combat.flash(level, p.position(), FLASH[type], 16, 0.9F, 40.0);

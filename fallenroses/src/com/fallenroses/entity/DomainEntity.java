@@ -70,6 +70,10 @@ public class DomainEntity extends Entity {
     private final Map<Integer, Vec3> lastPos = new HashMap<>();
     @Nullable
     private UUID defendant;
+    private boolean breaking;
+    private boolean shattered;
+    /** Barrier veins and rim colour per domain type (also the client renderer's palette). */
+    public static final int[] EDGE = new int[]{15266047, 16722480, 16738832, 8044728, 9099519, 10133600, 6987898, 15259808, 8050920, 16746560};
 
     public DomainEntity(EntityType<? extends DomainEntity> type, Level level) {
         super(type, level);
@@ -134,24 +138,48 @@ public class DomainEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level().isClientSide) {
+        if (this.level().isClientSide) {
+            this.ambience();
+        } else {
             ServerLevel level = (ServerLevel)this.level();
             Entity owner = this.ownerId == null ? null : level.getEntity(this.ownerId);
-            if (this.tickCount < this.life() && owner != null && owner.isAlive() && owner.level() == level) {
+            boolean held = owner != null && owner.isAlive() && owner.level() == level;
+            if (!held && !this.breaking) {
+                this.endIn(15);
+            }
+
+            int life = this.life();
+            if (this.tickCount >= life) {
+                this.discard();
+                return;
+            }
+
+            if (!this.breaking && this.tickCount >= life - 15) {
+                this.breaking = true;
+                Combat.sound(this, this.position(), ModSounds.DOMAIN_SHATTER, 5.0F, 1.0F);
+            }
+
+            if (this.breaking) {
+                if (!this.shattered && this.tickCount >= life - 7) {
+                    this.shattered = true;
+                    Vfx.play(level, VfxKind.DOMAIN_BREAK, this.position(), Vec3.ZERO, this.radius(), EDGE[Mth.clamp(this.domainType(), 0, 9)], this.getId(), this.domainType());
+                    Combat.shake(level, this.position(), 1.4F, 14, (double)(this.radius() * 2.5F));
+                }
+            } else {
                 int type = this.domainType();
                 if (this.tickCount % 60 == 1) {
                     Combat.sound(this, this.position(), switch (type) {
                         case 1 -> ModSounds.DOMAIN_SHRINE;
-                        case 2 -> ModSounds.FIRE_ROAR;
-                        case 3 -> ModSounds.SOUL_TOUCH;
-                        case 4 -> ModSounds.WAVE;
-                        case 5 -> ModSounds.COFFIN_BELL;
-                        case 6 -> ModSounds.FRAME;
-                        case 7 -> ModSounds.COFFIN_BELL;
-                        case 8 -> ModSounds.FRAME;
-                        case 9 -> ModSounds.DOMAIN_VOID;
+                        case 2 -> ModSounds.DOMAIN_AMBIENT_FLAMES;
+                        case 3 -> ModSounds.DOMAIN_AMBIENT_FLESH;
+                        case 4 -> ModSounds.DOMAIN_AMBIENT_SEA;
+                        case 5 -> ModSounds.DOMAIN_AMBIENT_CEMETERY;
+                        case 6 -> ModSounds.DOMAIN_AMBIENT_PACHINKO;
+                        case 7 -> ModSounds.DOMAIN_AMBIENT_COURT;
+                        case 8 -> ModSounds.DOMAIN_AMBIENT_FILM;
+                        case 9 -> ModSounds.DOMAIN_AMBIENT_STATION;
                         default -> ModSounds.DOMAIN_VOID;
-                    }, 2.5F, type == 7 ? 0.6F : 1.0F);
+                    }, 2.5F, 1.0F);
                 }
 
                 float r = this.radius();
@@ -165,7 +193,6 @@ public class DomainEntity extends Entity {
                     }
 
                     this.insiders.add(owner.getUUID());
-                    Combat.sound(this, this.position(), ModSounds.DOMAIN_EXPAND, 2.0F, 0.6F);
                 }
 
                 if (this.tickCount >= 15) {
@@ -330,9 +357,58 @@ public class DomainEntity extends Entity {
                             this.station(level, owner, targets);
                     }
                 }
-            } else {
-                Combat.sound(this, this.position(), ModSounds.DOMAIN_END, 3.0F, 1.0F);
-                this.discard();
+            }
+        }
+    }
+
+    /** Client side: the air inside the domain (ash, embers, souls, spray...). */
+    private void ambience() {
+        float open = this.openness(0.0F);
+        if (!(open < 0.6F)) {
+            Level level = this.level();
+            float r = this.radius();
+            int type = this.domainType();
+
+            for (int i = 0; i < 4; i++) {
+                double a = this.random.nextDouble() * Math.PI * 2.0;
+                double d = Math.sqrt(this.random.nextDouble()) * (double)r * 0.9;
+                double x = this.getX() + Math.cos(a) * d;
+                double z = this.getZ() + Math.sin(a) * d;
+                double y = this.getY() + this.random.nextDouble() * Math.sqrt(Math.max(1.0, (double)(r * r) - d * d)) * 0.8;
+                double ground = this.getY() + 0.2;
+                switch (type) {
+                    case 0:
+                        level.addParticle(ModParticles.glow(i % 2 == 0 ? 15266047 : 12572927, 0.25F, 40), x, y, z, 0.0, 0.0, 0.0);
+                        break;
+                    case 1:
+                        level.addParticle(ModParticles.ember(i % 2 == 0 ? 16722480 : 4194312, 0.3F, 50), x, y, z, 0.0, -0.03, 0.0);
+                        break;
+                    case 2:
+                        level.addParticle(ModParticles.ember(16738832, 0.35F, 40), x, ground, z, 0.0, 0.12 + this.random.nextDouble() * 0.1, 0.0);
+                        break;
+                    case 3:
+                        level.addParticle(ModParticles.glow(i % 2 == 0 ? 11192575 : 8044728, 0.3F, 50), x, ground, z, 0.0, 0.04, 0.0);
+                        break;
+                    case 4:
+                        level.addParticle(ModParticles.glow(i % 2 == 0 ? 14743807 : 9099519, 0.25F, 40), x, ground, z, 0.0, 0.05, 0.0);
+                        break;
+                    case 5:
+                        level.addParticle(ModParticles.smoke(i % 2 == 0 ? 5002832 : 3158064, 1.6F, 60), x, ground, z, 0.01, 0.005, 0.0);
+                        break;
+                    case 6:
+                        level.addParticle(
+                            ModParticles.star(i % 3 == 0 ? 16769088 : (i % 3 == 1 ? 6987898 : 16738954), 0.3F, 30), x, y, z, 0.0, 0.02, 0.0
+                        );
+                        break;
+                    case 7:
+                        level.addParticle(ModParticles.glow(15259808, 0.2F, 60), x, y, z, 0.0, -0.01, 0.0);
+                        break;
+                    case 8:
+                        level.addParticle(ModParticles.star(i % 2 == 0 ? 15266047 : 8050920, 0.25F, 40), x, y, z, 0.0, 0.0, 0.0);
+                        break;
+                    default:
+                        level.addParticle(ModParticles.smoke(3810322, 1.0F, 50), x, ground, z, 0.0, 0.01, 0.0);
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -57,7 +58,7 @@ public class CursedToolItem extends SwordItem implements GeoItem {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public CursedToolItem(CursedToolItem.Kind kind, int attackDamage, float attackSpeed, Properties properties) {
-        super(kind == CursedToolItem.Kind.SLAUGHTER_DEMON ? GRADE4_TIER : CURSED_TIER, attackDamage, attackSpeed, properties);
+        super(kind == CursedToolItem.Kind.SLAUGHTER_DEMON || kind == CursedToolItem.Kind.MOMO_BROOM ? GRADE4_TIER : CURSED_TIER, attackDamage, attackSpeed, properties);
         this.kind = kind;
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
@@ -70,10 +71,17 @@ public class CursedToolItem extends SwordItem implements GeoItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (this.kind == CursedToolItem.Kind.MOMO_BROOM) {
+            if (!level.isClientSide && player instanceof ServerPlayer sp && !CursedObjects.broomCanStart(sp)) {
+                return InteractionResultHolder.fail(stack);
+            } else {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.consume(stack);
+            }
+        } else if (this.kind == CursedToolItem.Kind.BLACK_ROPE) {
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(stack);
         } else if (this.kind != CursedToolItem.Kind.MIWA_KATANA && this.kind != CursedToolItem.Kind.MAI_REVOLVER) {
-            if (this.kind != CursedToolItem.Kind.CHAIN_OF_THOUSAND_MILES && this.kind != CursedToolItem.Kind.BLACK_ROPE) {
+            if (this.kind != CursedToolItem.Kind.CHAIN_OF_THOUSAND_MILES) {
                 if (this.kind != CursedToolItem.Kind.KAMUTOKE) {
                     return super.use(level, player, hand);
                 } else {
@@ -89,11 +97,7 @@ public class CursedToolItem extends SwordItem implements GeoItem {
                 }
             } else {
                 if (!level.isClientSide && player instanceof ServerPlayer sp && CursedObjects.toolSkill(sp, this.kind)) {
-                    player.getCooldowns().addCooldown(this, switch (this.kind) {
-                        case CHAIN_OF_THOUSAND_MILES -> 60;
-                        case BLACK_ROPE -> 100;
-                        default -> 600;
-                    });
+                    player.getCooldowns().addCooldown(this, this.kind == CursedToolItem.Kind.CHAIN_OF_THOUSAND_MILES ? 60 : 600);
                     stack.hurtAndBreak(2, player, p -> p.broadcastBreakEvent(hand));
                 }
 
@@ -101,7 +105,7 @@ public class CursedToolItem extends SwordItem implements GeoItem {
             }
         } else {
             if (!level.isClientSide && player instanceof ServerPlayer sp) {
-                int cd = this.kind == CursedToolItem.Kind.MIWA_KATANA ? CursedObjects.iaiStance(sp) : CursedObjects.revolverShot(sp, stack);
+                int cd = this.kind == CursedToolItem.Kind.MIWA_KATANA ? CursedObjects.iaiStance(sp) : CursedObjects.revolverUse(sp, stack);
                 if (cd > 0) {
                     player.getCooldowns().addCooldown(this, cd);
                 }
@@ -132,6 +136,10 @@ public class CursedToolItem extends SwordItem implements GeoItem {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+        if (this.kind == CursedToolItem.Kind.MOMO_BROOM && !level.isClientSide && entity instanceof Player pl && pl.getUseItem() != stack && slot == pl.getInventory().findSlotMatchingItem(stack)) {
+            CursedObjects.broomRest(pl);
+        }
+
         if (this.kind == CursedToolItem.Kind.EXECUTIONER_SWORD && !level.isClientSide && executionerExpired(stack, level, entity)) {
             stack.setCount(0);
             if (entity instanceof Player p) {
@@ -180,32 +188,66 @@ public class CursedToolItem extends SwordItem implements GeoItem {
 
     @Override
     public UseAnim getUseAnimation(ItemStack stack) {
-        return this.kind == CursedToolItem.Kind.MOMO_BROOM ? UseAnim.NONE : super.getUseAnimation(stack);
+        return this.kind != CursedToolItem.Kind.MOMO_BROOM && this.kind != CursedToolItem.Kind.BLACK_ROPE ? super.getUseAnimation(stack) : UseAnim.NONE;
     }
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return this.kind == CursedToolItem.Kind.MOMO_BROOM ? 72000 : super.getUseDuration(stack);
+        return this.kind != CursedToolItem.Kind.MOMO_BROOM && this.kind != CursedToolItem.Kind.BLACK_ROPE ? super.getUseDuration(stack) : 72000;
     }
+
+    /** Ticks held so far; a Black Rope held this long spins instead of lashing. */
+    private static final int SPIN_AFTER = 8;
+    private static final int SPIN_MAX = 100;
 
     @Override
     public void onUseTick(Level level, LivingEntity user, ItemStack stack, int remaining) {
-        if (this.kind == CursedToolItem.Kind.MOMO_BROOM) {
-            if (user instanceof Player p) {
-                if (!level.isClientSide && p instanceof ServerPlayer sp && !CursedObjects.broomFuel(sp)) {
-                    sp.stopUsingItem();
-                    return;
-                }
+        int held = this.getUseDuration(stack) - remaining;
+        if (this.kind == CursedToolItem.Kind.MOMO_BROOM && user instanceof Player p) {
+            if (!level.isClientSide && p instanceof ServerPlayer sp && !CursedObjects.broomServerTick(sp, stack, held)) {
+                return;
+            }
 
-                Vec3 look = p.getViewVector(1.0F);
-                Vec3 v = p.getDeltaMovement().scale(0.6).add(look.scale(0.45)).add(0.0, 0.06, 0.0);
-                p.setDeltaMovement(v);
-                p.fallDistance = 0.0F;
-                if (level.isClientSide && level.random.nextInt(2) == 0) {
-                    level.addParticle(ModParticles.glow(13168848, 0.4F, 12), p.getX(), p.getY() + 0.3, p.getZ(), -v.x * 0.2, -0.02, -v.z * 0.2);
+            CursedObjects.broomPhysics(p);
+            if (level.isClientSide) {
+                Vec3 v = p.getDeltaMovement();
+                Vec3 tail = p.position().add(0.0, 0.35, 0.0).subtract(v.scale(0.8));
+                level.addParticle(ModParticles.glow(level.random.nextInt(3) == 0 ? 16777215 : 13168848, 0.35F, 12), tail.x, tail.y, tail.z, -v.x * 0.1, -0.01, -v.z * 0.1);
+                if (v.length() > 0.4 && level.random.nextInt(3) == 0) {
+                    level.addParticle(ParticleTypes.CLOUD, tail.x, tail.y, tail.z, -v.x * 0.1, 0.0, -v.z * 0.1);
                 }
             }
+        } else if (this.kind == CursedToolItem.Kind.BLACK_ROPE && !level.isClientSide && user instanceof ServerPlayer sp && held >= SPIN_AFTER) {
+            if (held >= SPIN_MAX) {
+                sp.stopUsingItem();
+                sp.getCooldowns().addCooldown(this, 80);
+            } else {
+                CursedObjects.ropeSpin(sp, stack, held);
+            }
         }
+    }
+
+    @Override
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int remaining) {
+        int held = this.getUseDuration(stack) - remaining;
+        if (!level.isClientSide && user instanceof ServerPlayer sp) {
+            if (this.kind == CursedToolItem.Kind.BLACK_ROPE) {
+                if (held < SPIN_AFTER) {
+                    CursedObjects.ropeLash(sp);
+                    stack.hurtAndBreak(1, sp, x -> x.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+                    sp.getCooldowns().addCooldown(this, 40);
+                } else {
+                    sp.getCooldowns().addCooldown(this, 60);
+                }
+            } else if (this.kind == CursedToolItem.Kind.MOMO_BROOM) {
+                CursedObjects.landBroom(sp, null);
+            }
+        }
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged || !ItemStack.isSameItem(oldStack, newStack);
     }
 
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {

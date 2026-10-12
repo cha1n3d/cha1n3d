@@ -4,6 +4,7 @@ import com.fallenroses.client.anim.PlayerAnimClient;
 import com.fallenroses.client.hud.AbilityHud;
 import com.fallenroses.client.particle.FRParticle;
 import com.fallenroses.client.render.CurseRenderer;
+import com.fallenroses.client.render.DomainRenderer;
 import com.fallenroses.client.render.TechniqueRenderers;
 import com.fallenroses.client.vfx.MangaFx;
 import com.fallenroses.client.vfx.ScreenFx;
@@ -102,7 +103,7 @@ public final class ClientSetup {
         event.registerEntityRenderer(ModEntities.SLASH.get(), TechniqueRenderers.Slash::new);
         event.registerEntityRenderer(ModEntities.FUGA_ARROW.get(), TechniqueRenderers.Fuga::new);
         event.registerEntityRenderer(ModEntities.CURSE_ORB.get(), TechniqueRenderers.Orb::new);
-        event.registerEntityRenderer(ModEntities.DOMAIN.get(), TechniqueRenderers.Domain::new);
+        event.registerEntityRenderer(ModEntities.DOMAIN.get(), DomainRenderer::new);
     }
 
     private ClientSetup() {

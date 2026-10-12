@@ -92,6 +92,9 @@ final class VfxTechniques3 {
                 break;
             case SWARM_STORM:
                 VfxEffects.add(new VfxTechniques3.SwarmFx(p.entity(), pos, s, Math.max(20, p.extra())));
+                break;
+            default:
+                VfxExtra.play(p);
         }
     }
 
@@ -365,8 +368,8 @@ final class VfxTechniques3 {
 
     private static void chain(Vec3 from, Vec3 vec, int target) {
         Supplier<Vec3> to = VfxClient.follow(target, from.add(vec), 0.5);
-        VfxEffects.add(new VfxEffects.Beam(VfxClient.fixed(from), to, 0.12F, 13158608, 12));
-        VfxEffects.add(new VfxEffects.Beam(VfxClient.fixed(from), to, 0.04F, 16777215, 10));
+        VfxExtra.chainLinks(VfxClient.fixed(from), to, 14);
+        VfxEffects.add(new VfxEffects.Beam(VfxClient.fixed(from), to, 0.04F, 16777215, 6));
         VfxEffects.add(new VfxEffects.Flash(to, 0.3F, 1.2F, 14737640, 8));
         VfxClient.burst(from.add(vec), Vec3.ZERO, 12, 0.3, ModParticles.spark(14737640, 0.4F, 8));
     }

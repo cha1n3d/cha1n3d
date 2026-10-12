@@ -5,7 +5,6 @@ import com.fallenroses.client.vfx.VfxDraw;
 import com.fallenroses.client.vfx.VfxEffects;
 import com.fallenroses.entity.BlueOrbEntity;
 import com.fallenroses.entity.CurseOrbEntity;
-import com.fallenroses.entity.DomainEntity;
 import com.fallenroses.entity.FugaArrowEntity;
 import com.fallenroses.entity.HollowPurpleEntity;
 import com.fallenroses.entity.RedBlastEntity;
@@ -91,227 +90,6 @@ public final class TechniqueRenderers {
             }
 
             VfxDraw.ring(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.SHOCK)), c, eye, 3.2F * grow, 1.6F, VfxDraw.argb(0.18F, 6987007), 40);
-        }
-    }
-
-    public static class Domain extends TechniqueRenderers.Base<DomainEntity> {
-        public Domain(Context ctx) {
-            super(ctx);
-        }
-
-        static int edgeColor(int type) {
-            return switch (type) {
-                case 0 -> 15266047;
-                default -> 16719920;
-                case 2 -> 16738832;
-                case 3 -> 8044728;
-                case 4 -> 9099519;
-                case 5 -> 10133600;
-                case 6 -> 7004282;
-                case 7 -> 15259808;
-                case 8 -> 8050920;
-                case 9 -> 16747072;
-            };
-        }
-
-        void draw(DomainEntity e, Matrix4f m, MultiBufferSource buf, Vec3 eye, float age, float partial) {
-            float open = e.openness(partial);
-            if (!(open <= 0.0F)) {
-                float r = e.radius() * VfxEffects.easeOut(open);
-                Vec3 c = Vec3.ZERO;
-                boolean inside = eye.length() < (double)r;
-                int type = e.domainType();
-                int edge = edgeColor(type);
-                VertexConsumer trans = buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE));
-                VertexConsumer add = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.WHITE));
-                VertexConsumer glow = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW));
-                if (!inside) {
-                    VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.985F * open, 0), VfxDraw.argb(0.97F * open, 328968), eye, 18, 28, 1.0F);
-                    VfxDraw.sphere(m, add, c, r * 1.01F, 0, VfxDraw.argb(0.55F * open, edge), eye, 18, 28, 4.0F);
-                    VfxDraw.ring(
-                        m,
-                        buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.RING)),
-                        new Vec3(0.0, 0.05, 0.0),
-                        new Vec3(0.0, 1.0, 0.0),
-                        r,
-                        0.8F,
-                        VfxDraw.argb(0.5F * open, edge),
-                        72
-                    );
-                } else {
-                    switch (type) {
-                        case 0:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.93F * open, 5), VfxDraw.argb(0.93F * open, 5), eye, 18, 28, 1.0F);
-                            VfxDraw.sphere(
-                                m,
-                                buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.STARS)),
-                                c,
-                                r * 0.98F,
-                                VfxDraw.argb(open, 16777215),
-                                VfxDraw.argb(open, 12572927),
-                                eye,
-                                18,
-                                28,
-                                1.0F
-                            );
-                            break;
-                        case 1:
-                        default:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.6F * open, 2752516), VfxDraw.argb(0.85F * open, 4194312), eye, 18, 28, 1.4F);
-                            break;
-                        case 2:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.8F * open, 2099202), VfxDraw.argb(0.95F * open, 5904900), eye, 18, 28, 1.3F);
-                            VfxDraw.sphere(m, add, c, r * 0.99F, 0, VfxDraw.argb(0.9F * open, 16738832), eye, 18, 28, 2.6F);
-                            VfxDraw.ring(
-                                m,
-                                buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.SHOCK)),
-                                new Vec3(0.0, 0.1, 0.0),
-                                new Vec3(0.0, 1.0, 0.0),
-                                r * 0.9F,
-                                r * 0.5F,
-                                VfxDraw.argb(0.35F * open * (0.8F + 0.2F * Mth.sin(age * 0.3F)), 16730632),
-                                72
-                            );
-                            break;
-                        case 3:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.8F * open, 660500), VfxDraw.argb(0.95F * open, 1717298), eye, 18, 28, 1.2F);
-
-                            for (int i = 0; i < 24; i++) {
-                                double a = (double)i * 0.7 + (double)age * 0.01 * (double)(i % 2 == 0 ? 1 : -1);
-                                double b = (double)i * 0.37 % 1.2 + 0.15;
-                                Vec3 p = new Vec3(Math.cos(a) * Math.cos(b), Math.sin(b), Math.sin(a) * Math.cos(b)).scale((double)r * 0.96);
-                                VfxDraw.billboard(m, glow, this.cam(), p, 1.4F, (float)a, VfxDraw.argb(0.35F * open, 12116184));
-                            }
-                            break;
-                        case 4: {
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.75F * open, 5946600), VfxDraw.argb(0.95F * open, 674426), eye, 18, 28, 1.1F);
-                            VertexConsumer tr = buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.RING));
-                            VfxDraw.ring(
-                                m, tr, new Vec3(0.0, 0.08, 0.0), new Vec3(0.0, 1.0, 0.0), r * 0.45F, r * 0.45F, VfxDraw.argb(0.55F * open, 15259808), 72
-                            );
-                            VfxDraw.ring(
-                                m,
-                                tr,
-                                new Vec3(0.0, 0.1, 0.0),
-                                new Vec3(0.0, 1.0, 0.0),
-                                r * 0.92F,
-                                r * 0.42F,
-                                VfxDraw.argb(0.5F * open * (0.85F + 0.15F * Mth.sin(age * 0.12F)), 1735360),
-                                72
-                            );
-                            VfxDraw.billboard(
-                                m, glow, this.cam(), new Vec3(0.0, (double)r * 0.55, (double)(-r) * 0.7), r * 0.35F, 0.0F, VfxDraw.argb(0.55F * open, 16773296)
-                            );
-                            break;
-                        }
-                        case 5:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.85F * open, 1316366), VfxDraw.argb(0.97F * open, 2764314), eye, 18, 28, 1.2F);
-                            VfxDraw.ring(
-                                m,
-                                buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.RING)),
-                                new Vec3(0.0, 0.08, 0.0),
-                                new Vec3(0.0, 1.0, 0.0),
-                                r * 0.9F,
-                                r * 0.6F,
-                                VfxDraw.argb(0.5F * open, 3815976),
-                                72
-                            );
-
-                            for (int i = 0; i < 18; i++) {
-                                double a = (double)i * 1.1;
-                                double d = (double)r * (0.25 + (double)i * 0.37 % 0.65);
-                                Vec3 p = new Vec3(Math.cos(a) * d, 1.2 + 0.3 * Math.sin((double)age * 0.1 + (double)i), Math.sin(a) * d);
-                                VfxDraw.billboard(m, glow, this.cam(), p, 0.5F, 0.0F, VfxDraw.argb(0.5F * open, 13164704));
-                            }
-                            break;
-                        case 6:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.85F * open, 268810), VfxDraw.argb(0.97F * open, 932376), eye, 18, 28, 1.2F);
-
-                            for (int i = 0; i < 40; i++) {
-                                double a = (double)((float)i * (float) (Math.PI * 2) / 40.0F) + (double)age * 0.05;
-                                int col = (i + (int)(age * 0.5F)) % 3 == 0 ? 16769088 : (i % 2 == 0 ? 7004282 : 16738970);
-
-                                for (int k = 0; k < 3; k++) {
-                                    double h = 1.5 + (double)k * 2.5;
-                                    double rr = Math.sqrt(Math.max(0.0, (double)(r * r) * 0.9 - h * h));
-                                    VfxDraw.billboard(
-                                        m,
-                                        glow,
-                                        this.cam(),
-                                        new Vec3(Math.cos(a + (double)k) * rr, h, Math.sin(a + (double)k) * rr),
-                                        0.45F,
-                                        0.0F,
-                                        VfxDraw.argb(0.8F * open, col)
-                                    );
-                                }
-                            }
-                            break;
-                        case 7: {
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.9F * open, 919558), VfxDraw.argb(0.98F * open, 2759180), eye, 18, 28, 1.2F);
-                            VertexConsumer tr = buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.RING));
-                            VfxDraw.ring(m, tr, new Vec3(0.0, 0.08, 0.0), new Vec3(0.0, 1.0, 0.0), r * 0.85F, r * 0.85F, VfxDraw.argb(0.6F * open, 3810322), 72);
-                            VfxDraw.ring(
-                                m,
-                                buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.RING)),
-                                new Vec3(0.0, 0.1, 0.0),
-                                new Vec3(0.0, 1.0, 0.0),
-                                r * 0.35F,
-                                0.3F,
-                                VfxDraw.argb(0.7F * open, 15259808),
-                                64
-                            );
-                            VfxDraw.billboard(m, glow, this.cam(), new Vec3(0.0, (double)r * 0.75, 0.0), 3.0F, 0.0F, VfxDraw.argb(0.6F * open, 16773312));
-                            break;
-                        }
-                        case 8:
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.88F * open, 132110), VfxDraw.argb(0.97F * open, 660528), eye, 18, 28, 1.2F);
-                            VfxDraw.billboard(
-                                m,
-                                glow,
-                                this.cam(),
-                                new Vec3((double)r * 0.4, (double)r * 0.6, (double)(-r) * 0.5),
-                                r * 0.32F,
-                                0.0F,
-                                VfxDraw.argb(0.75F * open, 15266047)
-                            );
-                            VertexConsumer beam = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM));
-
-                            for (int i = 0; i < 24; i++) {
-                                double a = (double)((float)i * (float) (Math.PI * 2) / 24.0F) + (double)age * 0.01;
-                                Vec3 p = new Vec3(Math.cos(a) * (double)r * 0.85, 2.2, Math.sin(a) * (double)r * 0.85);
-                                VfxDraw.beam(
-                                    m, beam, p, p.add(0.0, 1.6, 0.0), 0.6F, 0.6F, VfxDraw.argb(0.18F * open, 8050920), VfxDraw.argb(0.18F * open, 8050920), eye
-                                );
-                            }
-                            break;
-                        case 9: {
-                            VfxDraw.sphere(m, trans, c, r, VfxDraw.argb(0.8F * open, 2757672), VfxDraw.argb(0.95F * open, 12607530), eye, 18, 28, 1.6F);
-                            VertexConsumer tr = buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.RING));
-                            VfxDraw.ring(m, tr, new Vec3(0.0, 0.08, 0.0), new Vec3(0.0, 1.0, 0.0), r * 0.5F, r * 0.2F, VfxDraw.argb(0.7F * open, 9077888), 72);
-                            VfxDraw.ring(m, tr, new Vec3(0.0, 0.09, 0.0), new Vec3(0.0, 1.0, 0.0), r * 0.31F, 0.25F, VfxDraw.argb(0.8F * open, 15257664), 72);
-                            VfxDraw.billboard(
-                                m, glow, this.cam(), new Vec3(0.0, (double)r * 0.12, (double)(-r) * 0.85), r * 0.3F, 0.0F, VfxDraw.argb(0.8F * open, 16756832)
-                            );
-                        }
-                    }
-
-                    VfxDraw.sphere(m, add, c, r * 0.995F, 0, VfxDraw.argb(0.7F * open, edge), eye, 18, 28, 3.0F);
-                    VfxDraw.ring(
-                        m,
-                        buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.RING)),
-                        new Vec3(0.0, 0.05, 0.0),
-                        new Vec3(0.0, 1.0, 0.0),
-                        r,
-                        0.8F,
-                        VfxDraw.argb(0.6F * open, edge),
-                        72
-                    );
-                }
-            }
-        }
-
-        protected int getBlockLightLevel(DomainEntity entity, BlockPos pos) {
-            return 15;
         }
     }
 
@@ -436,19 +214,18 @@ public final class TechniqueRenderers {
             Vec3 c = Vec3.ZERO;
             Vec3 vel = e.getDeltaMovement();
             Vec3 dir = vel.lengthSqr() < 1.0E-6 ? new Vec3(0.0, 0.0, 1.0) : vel.normalize();
-            VertexConsumer glow = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW));
             switch (e.getKind()) {
                 case BLOOD_DISC:
                     Vec3 up = new Vec3(0.0, 1.0, 0.0);
                     VfxDraw.ring(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.RING)), c, up, 0.75F, 0.35F, VfxDraw.argb(0.95F, 13635632), 32);
                     VfxDraw.ring(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.RING)), c, up, 0.85F, 0.08F, VfxDraw.argb(1.0F, 16769256), 32);
                     VfxDraw.ring(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.RING)), c, up, 0.5F, 0.3F, VfxDraw.argb(0.8F, 3801096), 32);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 1.2F, 0.0F, VfxDraw.argb(0.4F, 13635632));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 1.2F, 0.0F, VfxDraw.argb(0.4F, 13635632));
                     break;
                 case BLOOD_ORB:
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 0.28F, -265289720, -2141192176, eye, 8, 12, 1.4F);
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.WHITE)), c, 0.32F, 0, -53184, eye, 8, 12, 2.0F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 1.1F, 0.0F, VfxDraw.argb(0.6F, 13635632));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 1.1F, 0.0F, VfxDraw.argb(0.6F, 13635632));
                     break;
                 case NAIL: {
                     VertexConsumer beam = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM));
@@ -458,8 +235,8 @@ public final class TechniqueRenderers {
                 }
                 case EMBER_INSECT: {
                     float flick = 1.0F + 0.25F * Mth.sin(age * 3.1F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.7F * flick, 0.0F, VfxDraw.argb(0.85F, 16738832));
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.25F, 0.0F, VfxDraw.argb(1.0F, 16773312));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.7F * flick, 0.0F, VfxDraw.argb(0.85F, 16738832));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.25F, 0.0F, VfxDraw.argb(1.0F, 16773312));
                     VertexConsumer beam = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM));
                     VfxDraw.beam(m, beam, c, dir.scale(-0.9), 0.2F, 0.02F, VfxDraw.argb(0.8F, 16747040), VfxDraw.argb(0.0F, 16730632), eye);
                     break;
@@ -478,21 +255,21 @@ public final class TechniqueRenderers {
                 case METEOR: {
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 2.2F, -15070716, -11920888, eye, 12, 18, 1.2F);
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.WHITE)), c, 2.4F, 1090472456, -20416, eye, 12, 18, 2.2F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 8.0F, 0.0F, VfxDraw.argb(0.7F, 16738832));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 8.0F, 0.0F, VfxDraw.argb(0.7F, 16738832));
                     VertexConsumer beam = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM));
                     VfxDraw.beam(m, beam, c, dir.scale(-9.0), 2.2F, 0.4F, VfxDraw.argb(0.8F, 16747040), VfxDraw.argb(0.0F, 16726536), eye);
                     break;
                 }
                 case SPIRIT_SWARM:
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 0.25F, -268171258, -1609553376, eye, 8, 12, 1.4F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.8F, 0.0F, VfxDraw.argb(0.45F, 3844744));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.8F, 0.0F, VfxDraw.argb(0.45F, 3844744));
                     break;
                 case ICE_SHARD: {
                     VertexConsumer beam = buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM));
                     VfxDraw.beam(m, beam, dir.scale(0.5), dir.scale(-0.5), 0.16F, 0.02F, VfxDraw.argb(1.0F, 13168895), VfxDraw.argb(0.9F, 5941472), eye);
                     VfxDraw.beam(m, beam, dir.scale(0.45), dir.scale(-0.3), 0.06F, 0.01F, VfxDraw.argb(1.0F, 16777215), VfxDraw.argb(1.0F, 14743807), eye);
                     VfxDraw.beam(m, beam, c, dir.scale(-1.8), 0.1F, 0.01F, VfxDraw.argb(0.5F, 11067647), VfxDraw.argb(0.0F, 11067647), eye);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.7F, 0.0F, VfxDraw.argb(0.4F, 11067647));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.7F, 0.0F, VfxDraw.argb(0.4F, 11067647));
                     break;
                 }
                 case FISH: {
@@ -512,16 +289,16 @@ public final class TechniqueRenderers {
                         1613400784,
                         eye
                     );
-                    VfxDraw.billboard(m, glow, this.cam(), dir.scale(0.3), 0.18F, 0.0F, VfxDraw.argb(1.0F, 14221296));
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.9F, 0.0F, VfxDraw.argb(0.3F, 2788048));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), dir.scale(0.3), 0.18F, 0.0F, VfxDraw.argb(1.0F, 14221296));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.9F, 0.0F, VfxDraw.argb(0.3F, 2788048));
                     break;
                 }
                 case GRAVESTONE:
-                    VfxDraw.billboard(m, glow, this.cam(), new Vec3(0.0, 0.6, 0.0), 1.6F, 0.0F, VfxDraw.argb(0.25F, 10133600));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), new Vec3(0.0, 0.6, 0.0), 1.6F, 0.0F, VfxDraw.argb(0.25F, 10133600));
                     break;
                 case PACHINKO_BALL:
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 0.13F, -7696232, -1511176, eye, 6, 10, 1.2F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.35F, 0.0F, VfxDraw.argb(0.5F, 7004282));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.35F, 0.0F, VfxDraw.argb(0.5F, 7004282));
                     VfxDraw.beam(
                         m,
                         buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM)),
@@ -546,21 +323,21 @@ public final class TechniqueRenderers {
                     VfxDraw.beam(m, beam, c, wr, 0.45F, 0.05F, VfxDraw.argb(0.9F, 16767088), VfxDraw.argb(0.2F, 16748576), eye);
                     VfxDraw.beam(m, beam, dir.scale(0.5), dir.scale(-2.4), 0.3F, 0.02F, VfxDraw.argb(0.8F, 16773312), VfxDraw.argb(0.0F, 16762960), eye);
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.WHITE)), c, 0.4F, -1824, -2130726848, eye, 8, 12, 1.6F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 2.2F, 0.0F, VfxDraw.argb(0.5F, 16762960));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 2.2F, 0.0F, VfxDraw.argb(0.5F, 16762960));
                     break;
                 }
                 case GAVEL:
-                    VfxDraw.billboard(m, glow, this.cam(), new Vec3(0.0, 0.4, 0.0), 1.1F, 0.0F, VfxDraw.argb(0.3F, 15259808));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), new Vec3(0.0, 0.4, 0.0), 1.1F, 0.0F, VfxDraw.argb(0.3F, 15259808));
                     break;
                 case TRUESPHERE:
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 0.9F, -10855832, -1513224, eye, 14, 20, 1.8F);
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.WHITE)), c, 0.95F, 0, -1057949441, eye, 14, 20, 3.0F);
-                    VfxDraw.billboard(m, glow, this.cam(), new Vec3(-0.3, 0.4, 0.0), 0.35F, 0.0F, VfxDraw.argb(0.9F, 16777215));
-                    VfxDraw.billboard(m, glow, this.cam(), c, 2.4F, 0.0F, VfxDraw.argb(0.25F, 13158655));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), new Vec3(-0.3, 0.4, 0.0), 0.35F, 0.0F, VfxDraw.argb(0.9F, 16777215));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 2.4F, 0.0F, VfxDraw.argb(0.25F, 13158655));
                     break;
                 case ENERGY_SHOT:
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.9F, 0.0F, VfxDraw.argb(0.8F, 15786160));
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.35F, 0.0F, VfxDraw.argb(1.0F, 16777215));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.9F, 0.0F, VfxDraw.argb(0.8F, 15786160));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.35F, 0.0F, VfxDraw.argb(1.0F, 16777215));
                     VfxDraw.beam(
                         m,
                         buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.BEAM)),
@@ -575,7 +352,7 @@ public final class TechniqueRenderers {
                     break;
                 case ROT_BLOOD:
                     VfxDraw.sphere(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.WHITE)), c, 0.22F, -265676284, -1067827184, eye, 8, 12, 1.4F);
-                    VfxDraw.billboard(m, glow, this.cam(), c, 0.7F, 0.0F, VfxDraw.argb(0.4F, 10123824));
+                    VfxDraw.billboard(m, buf.getBuffer(FRRenderTypes.additive(FRRenderTypes.GLOW)), this.cam(), c, 0.7F, 0.0F, VfxDraw.argb(0.4F, 10123824));
                     VfxDraw.beam(m, buf.getBuffer(FRRenderTypes.translucent(FRRenderTypes.BEAM)), c, dir.scale(-1.1), 0.16F, 0.02F, -1069929976, 5914640, eye);
             }
         }

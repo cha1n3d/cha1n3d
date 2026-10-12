@@ -146,6 +146,88 @@ public final class VfxDraw {
         v(vc, m, to.x - s1.x, to.y - s1.y, to.z - s1.z, argb1, 1.0F, 0.0F);
     }
 
+    /** Per-vertex colour of a sphere from its outward normal. */
+    public interface Shade {
+        int color(double nx, double ny, double nz);
+    }
+
+    /**
+     * Sphere band between latitudes lat0..lat1 (radians: -PI/2 bottom, PI/2 top). UVs wrap uRepeat times around and
+     * vRepeat times pole to pole, shifted by uOff/vOff, so tiling textures can flow over the surface.
+     */
+    public static void sphereBand(
+        Matrix4f m, VertexConsumer vc, Vec3 c, float r, double lat0, double lat1, int lon, int lat, float uOff, float vOff, float uRepeat, float vRepeat, Shade shade
+    ) {
+        if (lat1 <= lat0) {
+            return;
+        }
+
+        for (int i = 0; i < lat; i++) {
+            double p0 = lat0 + (lat1 - lat0) * i / lat;
+            double p1 = lat0 + (lat1 - lat0) * (i + 1) / lat;
+
+            for (int j = 0; j < lon; j++) {
+                double t0 = Math.PI * 2 * j / lon;
+                double t1 = Math.PI * 2 * (j + 1) / lon;
+                bandVertex(m, vc, c, r, p0, t0, uOff, vOff, uRepeat, vRepeat, shade);
+                bandVertex(m, vc, c, r, p1, t0, uOff, vOff, uRepeat, vRepeat, shade);
+                bandVertex(m, vc, c, r, p1, t1, uOff, vOff, uRepeat, vRepeat, shade);
+                bandVertex(m, vc, c, r, p0, t1, uOff, vOff, uRepeat, vRepeat, shade);
+            }
+        }
+    }
+
+    private static void bandVertex(
+        Matrix4f m, VertexConsumer vc, Vec3 c, float r, double phi, double theta, float uOff, float vOff, float uRepeat, float vRepeat, Shade shade
+    ) {
+        double nx = Math.cos(phi) * Math.cos(theta);
+        double ny = Math.sin(phi);
+        double nz = Math.cos(phi) * Math.sin(theta);
+        float u = (float)(theta / (Math.PI * 2)) * uRepeat + uOff;
+        float vv = (float)((Math.PI / 2 - phi) / Math.PI) * vRepeat + vOff;
+        v(vc, m, c.x + nx * r, c.y + ny * r, c.z + nz * r, shade.color(nx, ny, nz), u, vv);
+    }
+
+    /** Rim-lit shade: core colour facing the eye, rim colour at grazing angles. */
+    public static Shade fresnel(Vec3 c, float r, Vec3 eye, int core, int rim, float power) {
+        return (nx, ny, nz) -> {
+            double vx = eye.x - (c.x + nx * r);
+            double vy = eye.y - (c.y + ny * r);
+            double vz = eye.z - (c.z + nz * r);
+            double vl = Math.sqrt(vx * vx + vy * vy + vz * vz) + 1.0E-6;
+            double facing = Math.abs((nx * vx + ny * vy + nz * vz) / vl);
+            return lerpColor(core, rim, (float)Math.pow(1.0 - facing, power));
+        };
+    }
+
+    /** Vertical gradient: horizon colour at ny = 0, blending to top above and to bottom below. */
+    public static Shade gradient(int top, int horizon, int bottom) {
+        return (nx, ny, nz) -> ny >= 0.0 ? lerpColor(horizon, top, (float)Math.pow(ny, 0.6)) : lerpColor(horizon, bottom, (float)Math.pow(-ny, 0.5));
+    }
+
+    /**
+     * Textured cylinder wall around c (u = 0.5 faces the yaw direction + 180 degrees, i.e. behind a caster with that yaw;
+     * v = 0 at y1, 1 at y0), seen from inside without mirroring.
+     */
+    public static void cylinder(Matrix4f m, VertexConsumer vc, Vec3 c, float r, float y0, float y1, int segments, float yawDeg, int argb) {
+        double base = Math.toRadians(yawDeg) + Math.PI;
+
+        for (int i = 0; i < segments; i++) {
+            float u0 = (float)i / segments;
+            float u1 = (float)(i + 1) / segments;
+            double a0 = base + (u0 - 0.5) * Math.PI * 2;
+            double a1 = base + (u1 - 0.5) * Math.PI * 2;
+            double x0 = -Math.sin(a0) * r;
+            double z0 = Math.cos(a0) * r;
+            double x1 = -Math.sin(a1) * r;
+            double z1 = Math.cos(a1) * r;
+            v(vc, m, c.x + x0, c.y + y0, c.z + z0, argb, u0, 1.0F);
+            v(vc, m, c.x + x0, c.y + y1, c.z + z0, argb, u0, 0.0F);
+            v(vc, m, c.x + x1, c.y + y1, c.z + z1, argb, u1, 0.0F);
+            v(vc, m, c.x + x1, c.y + y0, c.z + z1, argb, u1, 1.0F);
+        }
+    }
+
     public static void bolt(Matrix4f m, VertexConsumer vc, List<Vec3> points, float width, int argb, Vec3 eye) {
         int n = points.size();
 

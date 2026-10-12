@@ -1,6 +1,17 @@
 package com.fallenroses.item;
 
 import com.fallenroses.entity.ShotEntity;
+import com.fallenroses.entity.BlueOrbEntity;
+import com.fallenroses.entity.HollowPurpleEntity;
+import com.fallenroses.entity.TechniqueProjectile;
+import com.fallenroses.entity.curse.CurseEntity;
+import java.util.Optional;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import com.fallenroses.entity.curse.CursedSpirit;
 import com.fallenroses.player.FRAdvancements;
 import com.fallenroses.player.PlayerClass;
@@ -116,40 +127,12 @@ public final class CursedObjects {
 
                 Vec3 from = p.getEyePosition().add(p.getViewVector(1.0F).scale(0.6));
                 Vfx.play(level, VfxKind.CHAIN_PULL, from, t.getBoundingBox().getCenter().subtract(from), 1.0F, 13158608, t.getId(), 0);
-                Combat.sound(p, p.position(), ModSounds.SWAP, 1.0F, 0.6F);
+                Combat.sound(p, p.position(), ModSounds.WEAPON_CHAIN, 1.2F, 0.9F);
                 Vec3 pull = p.position().subtract(t.position());
                 double dist = pull.length();
                 t.setDeltaMovement(pull.normalize().scale(Math.min(2.4, 0.35 + dist * 0.12)).add(0.0, 0.35, 0.0));
                 t.hurtMarked = true;
                 Combat.hurt(t, p, p, 4.0F * power);
-                return true;
-            case BLACK_ROPE:
-                Vec3 look = p.getViewVector(1.0F);
-                Vfx.play(level, VfxKind.ROPE_LASH, p.getEyePosition().add(look.scale(2.0)), look, 1.4F, 2763312, -1, 0);
-                Combat.sound(p, p.position(), ModSounds.BLOOD_WHOOSH, 1.0F, 0.6F);
-                boolean any = false;
-
-                for (LivingEntity e : Combat.cone(p, 6.0, 0.6)) {
-                    any = true;
-
-                    for (MobEffectInstance eff : new ArrayList<>(e.getActiveEffects())) {
-                        if (eff.getEffect().getCategory() == MobEffectCategory.BENEFICIAL) {
-                            e.removeEffect(eff.getEffect());
-                        }
-                    }
-
-                    if (e instanceof ServerPlayer tp) {
-                        PlayerData td = PlayerDataCap.get(tp);
-                        if (td != null) {
-                            td.setInfinity(false);
-                            td.setReinforced(false);
-                        }
-                    }
-
-                    e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0), p);
-                    Combat.hurt(e, p, p, 5.0F * power);
-                }
-
                 return true;
             case EXECUTIONER_SWORD:
                 LivingEntity tgt = Combat.lookTarget(p, 10.0);
@@ -227,35 +210,322 @@ public final class CursedObjects {
         }
     }
 
-    static int revolverShot(ServerPlayer p, ItemStack stack) {
+    /** Mai's revolver: six rounds in the cylinder; the sixth is a bullet Mai builds with Construction. */
+    static int revolverUse(ServerPlayer p, ItemStack stack) {
         CompoundTag tag = stack.getOrCreateTag();
-        int fired = tag.getInt("Fired");
-        boolean last = fired >= 5;
-        PlayerData d = PlayerDataCap.get(p);
-        float power = (d == null ? 1.0F : d.power()) * (last ? 2.2F : 1.0F);
-        Vec3 look = p.getViewVector(1.0F);
-        Vec3 from = p.getEyePosition().add(look.scale(0.8)).add(0.0, -0.15, 0.0);
-        new ShotEntity(ModEntities.SHOT.get(), p.level()).kind(ShotEntity.Kind.ENERGY_SHOT).launch(p, from, look.scale(last ? 2.6 : 2.8), power);
-        Vfx.play(p.serverLevel(), VfxKind.HIT_SPARK, from, look, last ? 1.4F : 0.7F, 16769184, -1, 0);
-        Combat.sound(p, p.position(), ModSounds.THUNDER, last ? 1.4F : 0.8F, last ? 1.4F : 2.0F);
-        stack.hurtAndBreak(1, p, x -> x.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-        if (last) {
-            tag.putInt("Fired", 0);
-            p.displayClientMessage(Component.translatable("message.fallenroses.revolver_last").withStyle(ChatFormatting.GOLD), true);
-            return 80;
+        if (!tag.contains("Rounds")) {
+            tag.putInt("Rounds", 6);
+        }
+
+        int rounds = tag.getInt("Rounds");
+        if (rounds <= 0 || p.isShiftKeyDown() && rounds < 6) {
+            if (rounds <= 0) {
+                Combat.sound(p, p.position(), ModSounds.WEAPON_REVOLVER_EMPTY, 0.8F, 1.0F);
+            }
+
+            Combat.sound(p, p.position(), ModSounds.WEAPON_REVOLVER_RELOAD, 0.9F, 1.0F);
+            tag.putInt("Rounds", 6);
+            p.displayClientMessage(Component.translatable("message.fallenroses.revolver_reload").withStyle(ChatFormatting.GRAY), true);
+            return 28;
         } else {
-            tag.putInt("Fired", fired + 1);
-            p.displayClientMessage(Component.translatable("message.fallenroses.revolver_ammo", 5 - fired).withStyle(ChatFormatting.GRAY), true);
-            return 6;
+            PlayerData d = PlayerDataCap.get(p);
+            boolean construct = rounds == 1 && (p.getAbilities().instabuild || d != null && d.consume(20.0F));
+            float power = d == null ? 1.0F : d.power();
+            revolverFire(p, construct, power);
+            stack.hurtAndBreak(1, p, x -> x.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+            tag.putInt("Rounds", rounds - 1);
+            p.displayClientMessage(
+                construct
+                    ? Component.translatable("message.fallenroses.revolver_last").withStyle(ChatFormatting.GOLD)
+                    : Component.translatable("message.fallenroses.revolver_ammo", cylinder(rounds - 1)).withStyle(ChatFormatting.GRAY),
+                true
+            );
+            return construct ? 20 : 7;
         }
     }
 
-    static boolean broomFuel(ServerPlayer p) {
+    /** "●●●◆○○": rounds left, the constructed sixth as a diamond. */
+    private static String cylinder(int rounds) {
+        StringBuilder b = new StringBuilder();
+
+        for (int i = 6; i >= 1; i--) {
+            b.append(i > rounds ? "○" : (i == 1 ? "◆" : "●"));
+        }
+
+        return b.toString();
+    }
+
+    /** Hitscan: a bullet stops at the first body (the constructed one pierces three) or a wall; headshots deal 1.5x. */
+    private static void revolverFire(ServerPlayer p, boolean construct, float power) {
+        ServerLevel level = p.serverLevel();
+        Vec3 eye = p.getEyePosition();
+        Vec3 look = p.getViewVector(1.0F);
+        Vec3 end = eye.add(look.scale(48.0));
+        BlockHitResult wall = level.clip(new ClipContext(eye, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p));
+        if (wall.getType() != HitResult.Type.MISS) {
+            end = wall.getLocation();
+        }
+
+        List<LivingEntity> hits = new ArrayList<>();
+        List<Vec3> points = new ArrayList<>();
+        for (Entity e : level.getEntities(p, p.getBoundingBox().expandTowards(end.subtract(eye)).inflate(1.0), ex -> Combat.valid(ex, p))) {
+            Optional<Vec3> at = e.getBoundingBox().inflate(0.25).clip(eye, end);
+            if (at.isPresent()) {
+                int i = 0;
+                double dist = at.get().distanceToSqr(eye);
+                while (i < points.size() && points.get(i).distanceToSqr(eye) < dist) {
+                    i++;
+                }
+
+                hits.add(i, (LivingEntity)e);
+                points.add(i, at.get());
+            }
+        }
+
+        int pierce = construct ? 3 : 1;
+        Vec3 stop = end;
+
+        for (int i = 0; i < Math.min(pierce, hits.size()); i++) {
+            LivingEntity t = hits.get(i);
+            Vec3 at = points.get(i);
+            boolean head = t.getBbHeight() > 1.0F && at.y > t.getEyeY() - 0.3;
+            float dmg = (construct ? 13.0F : 5.5F) * power * (head ? 1.5F : 1.0F);
+            Combat.hurt(t, p, p, dmg);
+            if (construct) {
+                Combat.knock(t, look, 0.9, 0.25);
+            }
+
+            Vfx.play(level, VfxKind.HIT_SPARK, at, look.reverse(), head ? 1.3F : 0.8F, construct ? 13421823 : 16769184, -1, 0);
+            if (head) {
+                Combat.sound(p, at, ModSounds.RATIO_CRIT, 0.7F, 1.7F);
+                p.displayClientMessage(Component.translatable("message.fallenroses.revolver_headshot").withStyle(ChatFormatting.RED), true);
+            }
+
+            stop = i == pierce - 1 ? at : end;
+        }
+
+        Vec3 right = look.cross(new Vec3(0.0, 1.0, 0.0));
+        right = right.lengthSqr() < 1.0E-4 ? new Vec3(1.0, 0.0, 0.0) : right.normalize();
+        Vec3 barrel = eye.add(look.scale(0.9)).add(right.scale(0.32)).add(0.0, -0.22, 0.0);
+        Vfx.play(level, VfxKind.MUZZLE_FLASH, barrel, stop.subtract(barrel), 1.0F, 16769184, p.getId(), construct ? 1 : 0);
+        Combat.sound(p, p.position(), construct ? ModSounds.WEAPON_REVOLVER_CONSTRUCT : ModSounds.WEAPON_REVOLVER, construct ? 3.0F : 2.4F, 0.95F + p.getRandom().nextFloat() * 0.1F);
+        if (construct) {
+            Combat.shake(level, p.position(), 0.5F, 6, 4.0);
+        }
+    }
+
+    // ---------------------------------------------------------------- Black Rope
+
+    /**
+     * Black Rope: a cursed tool that unravels cursed techniques on contact. Strips buffs, breaks reinforcement
+     * and Infinity; a lash also drains cursed energy, jams the target's techniques for a moment and wounds summons.
+     */
+    public static void unravel(ServerPlayer p, LivingEntity t, float power, boolean lash) {
+        for (MobEffectInstance eff : new ArrayList<>(t.getActiveEffects())) {
+            if (eff.getEffect().getCategory() == MobEffectCategory.BENEFICIAL) {
+                t.removeEffect(eff.getEffect());
+            }
+        }
+
+        if (t instanceof ServerPlayer tp) {
+            PlayerData td = PlayerDataCap.get(tp);
+            if (td != null) {
+                td.setInfinity(false);
+                td.setReinforced(false);
+                if (lash) {
+                    td.setEnergy(Math.max(0.0F, td.getEnergy() - 15.0F));
+
+                    for (int i = 0; i < 5; i++) {
+                        td.setCooldown(i, Math.max(td.getCooldown(i), 30));
+                    }
+                }
+            }
+        }
+
+        if (lash && t instanceof CurseEntity ce && ce.isSummon()) {
+            Combat.hurt(t, p, p, t.getMaxHealth() * 0.35F);
+        }
+
+        Vfx.play(p.serverLevel(), VfxKind.UNRAVEL, t.getBoundingBox().getCenter(), Vec3.ZERO, Math.max(1.0F, t.getBbHeight() * 0.7F), 11579647, t.getId(), 0);
+        Combat.sound(p, t.position(), ModSounds.WEAPON_ROPE_UNRAVEL, lash ? 1.2F : 0.7F, 1.0F + p.getRandom().nextFloat() * 0.2F);
+    }
+
+    /** Tap: a long lash in front; it also cuts technique projectiles out of the air. */
+    static void ropeLash(ServerPlayer p) {
+        PlayerData d = PlayerDataCap.get(p);
+        float power = d == null ? 1.0F : d.power();
+        Vec3 look = p.getViewVector(1.0F);
+        Vec3 hand = p.getEyePosition().add(look.scale(0.6)).add(0.0, -0.3, 0.0);
+        Vfx.play(p.serverLevel(), VfxKind.ROPE_WHIP, hand, look.scale(7.5), 1.0F, 1052696, p.getId(), 0);
+        Combat.sound(p, p.position(), ModSounds.WEAPON_ROPE_WHIP, 1.3F, 0.9F + p.getRandom().nextFloat() * 0.2F);
+
+        for (LivingEntity e : Combat.cone(p, 7.5, 0.72)) {
+            Combat.hurt(e, p, p, 6.0F * power);
+            e.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30, 1), p);
+            unravel(p, e, power, true);
+        }
+
+        cutProjectiles(p, hand, look, 7.5, 1.4);
+    }
+
+    /** Hold: the rope whirls around its holder, shredding techniques that come close and lashing whoever steps in. */
+    static void ropeSpin(ServerPlayer p, ItemStack stack, int ticks) {
+        ServerLevel level = p.serverLevel();
+        Vec3 c = p.position().add(0.0, 1.0, 0.0);
+        if (ticks % 10 == 8) {
+            Vfx.play(level, VfxKind.ROPE_SPIN, c, Vec3.ZERO, 1.0F, 1052696, p.getId(), 11);
+        }
+
+        if (ticks % 24 == 8) {
+            Combat.sound(p, p.position(), ModSounds.WEAPON_ROPE_SPIN, 1.0F, 1.0F);
+        }
+
+        p.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 0, false, false));
+        cutProjectiles(p, c, Vec3.ZERO, 3.4, 3.4);
+        if (ticks % 10 == 0) {
+            PlayerData d = PlayerDataCap.get(p);
+            float power = d == null ? 1.0F : d.power();
+
+            for (LivingEntity e : Combat.around(p, c, 3.0)) {
+                Combat.hurt(e, p, p, 3.0F * power);
+                Combat.knock(e, e.position().subtract(p.position()), 0.7, 0.2);
+                unravel(p, e, power, false);
+            }
+
+            stack.hurtAndBreak(1, p, x -> x.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+        }
+    }
+
+    /** Destroys technique projectiles (not Hollow Purple) within reach of a line from `from` along `dir`, or of a point. */
+    private static void cutProjectiles(ServerPlayer p, Vec3 from, Vec3 dir, double length, double radius) {
+        ServerLevel level = p.serverLevel();
+        Vec3 to = from.add(dir.scale(length));
+        AABB box = new AABB(from, to).inflate(radius);
+
+        for (Entity e : level.getEntities(p, box, ex -> ex instanceof TechniqueProjectile || ex instanceof BlueOrbEntity || ex instanceof Projectile)) {
+            if (e instanceof HollowPurpleEntity || e instanceof Projectile pr && pr.getOwner() == p) {
+                continue;
+            }
+
+            Vec3 at = e.position();
+            Vec3 seg = to.subtract(from);
+            double len2 = seg.lengthSqr();
+            double k = len2 < 1.0E-6 ? 0.0 : Mth.clamp(at.subtract(from).dot(seg) / len2, 0.0, 1.0);
+            if (at.distanceTo(from.add(seg.scale(k))) <= radius) {
+                Vfx.play(level, VfxKind.UNRAVEL, at, Vec3.ZERO, 0.8F, 11579647, -1, 0);
+                Combat.sound(p, at, ModSounds.WEAPON_ROPE_UNRAVEL, 0.8F, 1.4F);
+                e.discard();
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------- Momo's broom
+
+    public static final int BROOM_MAX = 240;
+    private static final String BROOM = "fr_broom";
+
+    /** Flight time left (ticks), kept on the player: a full broom flies 12 seconds, then needs rest. */
+    public static int broomCharge(Player p) {
+        CompoundTag t = p.getPersistentData();
+        return t.contains(BROOM) ? t.getInt(BROOM) : BROOM_MAX;
+    }
+
+    static void setBroomCharge(Player p, int v) {
+        p.getPersistentData().putInt(BROOM, Mth.clamp(v, 0, BROOM_MAX));
+    }
+
+    /** Take-off needs a quarter of the charge and the cursed energy to lift off. */
+    static boolean broomCanStart(ServerPlayer p) {
+        if (p.getAbilities().instabuild) {
+            return true;
+        } else if (broomCharge(p) < BROOM_MAX / 4) {
+            p.displayClientMessage(Component.translatable("message.fallenroses.broom_tired").withStyle(ChatFormatting.GRAY), true);
+            return false;
+        } else {
+            PlayerData d = PlayerDataCap.get(p);
+            if (d != null && d.getPlayerClass() != null && d.getEnergy() >= 5.0F) {
+                return true;
+            } else {
+                p.displayClientMessage(Component.translatable("message.fallenroses.broom_no_energy").withStyle(ChatFormatting.GRAY), true);
+                return false;
+            }
+        }
+    }
+
+    /** Server, every flying tick: cursed energy, flight charge, the wind. False = the broom gives out. */
+    static boolean broomServerTick(ServerPlayer p, ItemStack stack, int ticks) {
         if (p.getAbilities().instabuild) {
             return true;
         } else {
             PlayerData d = PlayerDataCap.get(p);
-            return d != null && d.getPlayerClass() != null ? d.consume(0.3F) : false;
+            int charge = broomCharge(p) - 1;
+            setBroomCharge(p, charge);
+            if (ticks % 40 == 0) {
+                stack.hurtAndBreak(1, p, x -> x.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+            }
+
+            if (ticks % 10 == 0) {
+                p.displayClientMessage(Component.translatable("message.fallenroses.broom_charge", broomBar(charge)).withStyle(ChatFormatting.AQUA), true);
+            }
+
+            if (ticks % 36 == 1) {
+                Combat.sound(p, p.position(), ModSounds.WEAPON_BROOM, 0.6F, 0.9F + (float)p.getDeltaMovement().length() * 0.4F);
+            }
+
+            if (charge > 0 && d != null && d.getPlayerClass() != null && d.consume(0.25F)) {
+                return true;
+            } else {
+                landBroom(p, charge > 0 ? "message.fallenroses.broom_no_energy" : "message.fallenroses.broom_tired");
+                return false;
+            }
+        }
+    }
+
+    /** Ends a flight: a short glide down instead of a fall, and the broom rests a moment. */
+    public static void landBroom(ServerPlayer p, String message) {
+        p.stopUsingItem();
+        p.getCooldowns().addCooldown(ModItems.MOMO_BROOM.get(), 30);
+        p.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 50, 0, false, false));
+        if (message != null) {
+            p.displayClientMessage(Component.translatable(message).withStyle(ChatFormatting.GRAY), true);
+        }
+    }
+
+    private static String broomBar(int charge) {
+        int n = Math.round(10.0F * (float)charge / (float)BROOM_MAX);
+        return "▮".repeat(n) + "▯".repeat(10 - n);
+    }
+
+    /**
+     * Both sides, every flying tick: steer toward where the player looks with some inertia, at most ~11 blocks per
+     * second, climbing at most ~6; above 22 blocks over the ground the broom refuses to climb and sinks.
+     */
+    static void broomPhysics(Player p) {
+        Vec3 look = p.getViewVector(1.0F);
+        Vec3 want = look.scale(1.05);
+        double wy = Mth.clamp(want.y, -1.0, 0.36);
+        if (heightAboveGround(p, 24) > 22.0) {
+            wy = Math.min(wy, -0.15);
+        }
+
+        Vec3 v = p.getDeltaMovement();
+        double k = 0.12;
+        p.setDeltaMovement(v.x + (want.x - v.x) * k, v.y + (wy - v.y) * k + 0.08, v.z + (want.z - v.z) * k);
+        p.fallDistance = 0.0F;
+    }
+
+    private static double heightAboveGround(Player p, int max) {
+        Level level = p.level();
+        Vec3 from = p.position();
+        BlockHitResult hit = level.clip(new ClipContext(from, from.add(0.0, -(double)max - 1.0, 0.0), ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, p));
+        return hit.getType() == HitResult.Type.MISS ? (double)max + 1.0 : from.y - hit.getLocation().y;
+    }
+
+    /** Off the broom: the charge comes back, faster on the ground. */
+    static void broomRest(Player p) {
+        int c = broomCharge(p);
+        if (c < BROOM_MAX) {
+            setBroomCharge(p, c + (p.onGround() ? 3 : 1));
         }
     }
 

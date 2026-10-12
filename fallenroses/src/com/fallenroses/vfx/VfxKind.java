@@ -107,7 +107,15 @@ public enum VfxKind {
     VERDICT,
     GRANITE_BEAM,
     JUDGEMAN,
-    SWARM_STORM;
+    SWARM_STORM,
+    DOMAIN_SIGN,
+    DOMAIN_BREAK,
+    MUZZLE_FLASH,
+    ROPE_WHIP,
+    ROPE_SPIN,
+    UNRAVEL,
+    BROOM_TRAIL,
+    IMPACT_HEAVY;
 
     public static VfxKind byOrdinal(int i) {
         VfxKind[] v = values();

@@ -3,6 +3,7 @@ package com.fallenroses.event;
 import com.fallenroses.config.FRConfig;
 import com.fallenroses.entity.curse.CurseEntity;
 import com.fallenroses.entity.curse.CursedSpirit;
+import com.fallenroses.item.CursedObjects;
 import com.fallenroses.item.CursedToolItem;
 import com.fallenroses.player.FRAdvancements;
 import com.fallenroses.player.PlayerClass;
@@ -307,21 +308,7 @@ public final class CombatEvents {
                 }
                 break;
             case BLACK_ROPE:
-                for (MobEffectInstance effect : new ArrayList<>(target.getActiveEffects())) {
-                    if (effect.getEffect().getCategory() == MobEffectCategory.BENEFICIAL) {
-                        target.removeEffect(effect.getEffect());
-                    }
-                }
-
-                if (target instanceof ServerPlayer tp) {
-                    PlayerData td = PlayerDataCap.get(tp);
-                    if (td != null) {
-                        td.setInfinity(false);
-                        td.setReinforced(false);
-                    }
-                }
-
-                Vfx.play(attacker.serverLevel(), VfxKind.ROPE_LASH, target.getBoundingBox().getCenter(), dir, 1.0F, 2763312, target.getId(), 0);
+                CursedObjects.unravel(attacker, target, data.power(), false);
                 break;
             case CHAIN_OF_THOUSAND_MILES:
                 target.knockback(0.4, -dir.x, -dir.z);
@@ -380,6 +367,15 @@ public final class CombatEvents {
 
     @SubscribeEvent
     public static void damage(LivingDamageEvent event) {
+        // a real hit knocks a rider off Momo's broom
+        if (event.getEntity() instanceof ServerPlayer rider
+            && event.getAmount() >= 2.0F
+            && rider.isUsingItem()
+            && rider.getUseItem().getItem() instanceof CursedToolItem broom
+            && broom.kind() == CursedToolItem.Kind.MOMO_BROOM) {
+            CursedObjects.landBroom(rider, "message.fallenroses.broom_knocked");
+        }
+
         ServerPlayer attacker = meleeAttacker(event.getSource());
         if (attacker != null) {
             PlayerData data = PlayerDataCap.get(attacker);

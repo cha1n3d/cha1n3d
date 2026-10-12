@@ -44,6 +44,7 @@ public final class VfxClient {
             MangaFx.onVfx(p);
             switch (p.kind()) {
                 case MANGA_CAST:
+                    VfxExtra.onCast(p);
                     break;
                 case HIT_SPARK:
                     hitSpark(pos, dir, s, p.color());
@@ -518,25 +519,19 @@ public final class VfxClient {
         }
     }
 
+    /** The moment the barrier appears: a shockwave of ink across the ground (the dome itself is DomainRenderer). */
     private static void domainOpen(Vec3 pos, float radius, int color, int type) {
-        int core = switch (type) {
-            case 1 -> 809500680;
-            case 2 -> 1077940224;
-            case 3 -> 806363168;
-            case 4 -> 805976666;
-            default -> 1090519039;
-        };
+        Vec3 feet = pos.add(0.0, -0.9, 0.0);
+        VfxEffects.add(new VfxEffects.Ring(fixed(feet.add(0.0, 0.1, 0.0)), new Vec3(0.0, 1.0, 0.0), 1.0F, radius * 1.15F, 2.4F, color, 26, FRRenderTypes.SHOCK));
+        VfxEffects.add(new VfxEffects.Ring(fixed(feet.add(0.0, 0.12, 0.0)), new Vec3(0.0, 1.0, 0.0), 0.8F, radius, 0.6F, 16777215, 18, FRRenderTypes.RING).delay(2));
+        VfxEffects.add(new VfxEffects.Flash(fixed(pos), 1.0F, radius * 0.5F, type == 0 ? 16777215 : color, 12));
 
-        int rim = switch (type) {
-            case 1 -> -253743044;
-            case 2 -> -251696624;
-            case 3 -> -260390728;
-            case 4 -> -259335937;
-            default -> -251658241;
-        };
-        VfxEffects.add(new VfxEffects.Sphere(fixed(pos), 0.5F, radius, core, rim, 26, true, 3.0F));
-        VfxEffects.add(new VfxEffects.Ring(fixed(pos.add(0.0, -0.9, 0.0)), new Vec3(0.0, 1.0, 0.0), 1.0F, radius * 1.1F, 2.0F, color, 30, FRRenderTypes.SHOCK));
-        VfxEffects.add(new VfxEffects.Flash(fixed(pos), 2.0F, radius, type == 0 ? 16777215 : color, 14));
+        for (int i = 0; i < 90; i++) {
+            double a = random.nextDouble() * (float) (Math.PI * 2);
+            double sp = 0.4 + random.nextDouble() * 0.5;
+            add(ModParticles.smoke(i % 4 == 0 ? 1315860 : 263172, 2.2F, 30), feet.x, feet.y + 0.3, feet.z, Math.cos(a) * sp, 0.02, Math.sin(a) * sp);
+        }
+
         if (type == 2) {
             burst(pos, Vec3.ZERO, 120, 0.8, ModParticles.ember(16738832, 0.7F, 50));
         }
@@ -548,6 +543,10 @@ public final class VfxClient {
         if (type == 4) {
             burst(pos, Vec3.ZERO, 80, 0.6, ModParticles.glow(9099519, 0.8F, 40));
             burst(pos, new Vec3(0.0, 1.0, 0.0), 120, 0.9, ParticleTypes.SPLASH);
+        }
+
+        if (type == 1) {
+            burst(pos, Vec3.ZERO, 60, 0.6, ModParticles.ember(16722480, 0.5F, 40));
         }
     }
 

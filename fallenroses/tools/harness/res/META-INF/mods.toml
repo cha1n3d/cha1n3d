@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="frtest"
+version="1"
+displayName="Fallen Roses test director"
+description='''Dev only: creates a flat world, plays scripted scenes and saves screenshots.'''

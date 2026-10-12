@@ -20,6 +20,9 @@ public final class FRRenderTypes extends RenderType {
     public static final ResourceLocation SEAL = FallenRoses.id("textures/vfx/seal.png");
     public static final ResourceLocation CRACKS = FallenRoses.id("textures/vfx/cracks.png");
     public static final ResourceLocation SHOCK = FallenRoses.id("textures/vfx/shock.png");
+    public static final ResourceLocation BARRIER = FallenRoses.id("textures/vfx/barrier.png");
+    public static final ResourceLocation VEINS = FallenRoses.id("textures/vfx/veins.png");
+    public static final ResourceLocation SHARD = FallenRoses.id("textures/vfx/shard.png");
     private static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
         tex -> create(
                 "fallenroses_additive",
@@ -56,6 +59,25 @@ public final class FRRenderTypes extends RenderType {
                     .createCompositeState(false)
             )
     );
+    /** Like translucent but writes depth: a domain barrier hides the clouds, particles and water behind it. */
+    private static final Function<ResourceLocation, RenderType> SHELL = Util.memoize(
+        tex -> create(
+                "fallenroses_shell",
+                DefaultVertexFormat.POSITION_COLOR_TEX,
+                Mode.QUADS,
+                4096,
+                false,
+                false,
+                CompositeState.builder()
+                    .setShaderState(POSITION_COLOR_TEX_SHADER)
+                    .setTextureState(new TextureStateShard(tex, false, false))
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .setDepthTestState(LEQUAL_DEPTH_TEST)
+                    .createCompositeState(false)
+            )
+    );
     public static final RenderType GUI_SHAPES = create(
         "fallenroses_gui_shapes",
         DefaultVertexFormat.POSITION_COLOR,
@@ -77,6 +99,10 @@ public final class FRRenderTypes extends RenderType {
 
     public static RenderType translucent(ResourceLocation texture) {
         return TRANSLUCENT.apply(texture);
+    }
+
+    public static RenderType shell(ResourceLocation texture) {
+        return SHELL.apply(texture);
     }
 
     private FRRenderTypes(String name, VertexFormat format, Mode mode, int size, boolean crumbling, boolean sort, Runnable setup, Runnable clear) {
