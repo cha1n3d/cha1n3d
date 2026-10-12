@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      },
+                "I":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "  I",
+                    " E ",
+                    "S  "
+                ],
+    "result":  {
+                   "item":  "fallenroses:slaughter_demon"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

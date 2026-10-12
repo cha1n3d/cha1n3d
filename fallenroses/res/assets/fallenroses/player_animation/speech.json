@@ -1,0 +1,41 @@
+{
+    "name":  "speech",
+    "author":  "Fallen Roses",
+    "description":  "speech",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  12,
+                  "stopTick":  18,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -2.0944,
+                                                     "yaw":  -0.6981,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  0.0873
+                                             }
+                                },
+                                {
+                                    "tick":  8,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  -0.1396
+                                             }
+                                }
+                            ]
+              }
+}

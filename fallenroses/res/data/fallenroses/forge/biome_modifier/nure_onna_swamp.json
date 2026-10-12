@@ -1,0 +1,15 @@
+{
+    "spawners":  [
+                     {
+                         "maxCount":  2,
+                         "weight":  14,
+                         "minCount":  1,
+                         "type":  "fallenroses:nure_onna"
+                     }
+                 ],
+    "type":  "forge:add_spawns",
+    "biomes":  [
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ]
+}

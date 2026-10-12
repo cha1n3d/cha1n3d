@@ -1,0 +1,91 @@
+{
+    "name":  "blood_beam",
+    "author":  "Fallen Roses",
+    "description":  "blood_beam",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  16,
+                  "stopTick":  22,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.4835,
+                                                    "yaw":  0.384,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.4835,
+                                                     "yaw":  -0.384,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.1396
+                                             }
+                                },
+                                {
+                                    "tick":  9,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.5708,
+                                                    "yaw":  0.1047,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  9,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.5708,
+                                                     "yaw":  -0.1047,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.6755,
+                                                    "yaw":  0.0698,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6755,
+                                                     "yaw":  -0.0698,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  -0.1047
+                                             }
+                                }
+                            ]
+              }
+}

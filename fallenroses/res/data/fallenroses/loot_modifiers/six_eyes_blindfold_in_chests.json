@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.004,
+    "item":  "fallenroses:six_eyes_blindfold",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

@@ -1,0 +1,40 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.split_soul_katana",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2,
+				"visible_bounds_offset": [0, 0, 0]
+			},
+			"bones": [
+				{
+					"name": "katana",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-0.8, -10, -0.9], "size": [1.6, 0.8, 1.8], "uv": {"north": {"uv": [65, 52], "uv_size": [6, 3]}, "south": {"uv": [57, 52], "uv_size": [6, 3]}, "east": {"uv": [48, 52], "uv_size": [7, 3]}, "west": {"uv": [39, 52], "uv_size": [7, 3]}, "up": {"uv": [67, 32], "uv_size": [6, 7]}, "down": {"uv": [59, 32], "uv_size": [6, 7]}}},
+						{"origin": [-0.65, -9.2, -0.75], "size": [1.3, 7.2, 1.5], "uv": {"north": {"uv": [24, 1], "uv_size": [5, 29]}, "south": {"uv": [17, 1], "uv_size": [5, 29]}, "east": {"uv": [9, 1], "uv_size": [6, 29]}, "west": {"uv": [1, 1], "uv_size": [6, 29]}, "up": {"uv": [95, 32], "uv_size": [5, 6]}, "down": {"uv": [102, 32], "uv_size": [5, 6]}}},
+						{"origin": [-2.2, -2, -2.2], "size": [4.4, 0.6, 4.4], "uv": {"north": {"uv": [41, 59], "uv_size": [18, 2]}, "south": {"uv": [21, 59], "uv_size": [18, 2]}, "east": {"uv": [103, 52], "uv_size": [18, 2]}, "west": {"uv": [1, 59], "uv_size": [18, 2]}, "up": {"uv": [1, 32], "uv_size": [18, 18]}, "down": {"uv": [105, 1], "uv_size": [18, 18]}}},
+						{"origin": [-0.55, -1.4, -0.9], "size": [1.1, 1.2, 1.8], "uv": {"north": {"uv": [19, 52], "uv_size": [4, 5]}, "south": {"uv": [25, 52], "uv_size": [4, 5]}, "east": {"uv": [10, 52], "uv_size": [7, 5]}, "west": {"uv": [1, 52], "uv_size": [7, 5]}, "up": {"uv": [81, 32], "uv_size": [4, 7]}, "down": {"uv": [75, 32], "uv_size": [4, 7]}}},
+						{"origin": [-0.25, -0.2, -0.85], "size": [0.5, 5.5, 1.7], "uv": {"north": {"uv": [73, 1], "uv_size": [2, 22]}, "south": {"uv": [77, 1], "uv_size": [2, 22]}, "east": {"uv": [40, 1], "uv_size": [7, 22]}, "west": {"uv": [31, 1], "uv_size": [7, 22]}, "up": {"uv": [91, 32], "uv_size": [2, 7]}, "down": {"uv": [87, 32], "uv_size": [2, 7]}}},
+						{"origin": [-0.25, 5.2, -0.75], "size": [0.5, 5.5, 1.6], "pivot": [0, 5.2, 0.05], "rotation": [-3, 0, 0], "uv": {"north": {"uv": [69, 1], "uv_size": [2, 22]}, "south": {"uv": [65, 1], "uv_size": [2, 22]}, "east": {"uv": [49, 1], "uv_size": [6, 22]}, "west": {"uv": [57, 1], "uv_size": [6, 22]}, "up": {"uv": [117, 32], "uv_size": [2, 6]}, "down": {"uv": [121, 32], "uv_size": [2, 6]}}},
+						{"origin": [-0.25, 10.5, -0.6], "size": [0.5, 5.2, 1.5], "pivot": [0, 10.5, 0.15], "rotation": [-6, 0, 0], "uv": {"north": {"uv": [97, 1], "uv_size": [2, 21]}, "south": {"uv": [101, 1], "uv_size": [2, 21]}, "east": {"uv": [81, 1], "uv_size": [6, 21]}, "west": {"uv": [89, 1], "uv_size": [6, 21]}, "up": {"uv": [109, 32], "uv_size": [2, 6]}, "down": {"uv": [113, 32], "uv_size": [2, 6]}}},
+						{"origin": [-0.25, 15.5, -0.4], "size": [0.5, 3.5, 1.2], "pivot": [0, 15.5, 0.2], "rotation": [-10, 0, 0], "uv": {"north": {"uv": [35, 32], "uv_size": [2, 14]}, "south": {"uv": [39, 32], "uv_size": [2, 14]}, "east": {"uv": [28, 32], "uv_size": [5, 14]}, "west": {"uv": [21, 32], "uv_size": [5, 14]}, "up": {"uv": [31, 52], "uv_size": [2, 5]}, "down": {"uv": [35, 52], "uv_size": [2, 5]}}}
+					]
+				},
+				{
+					"name": "cord",
+					"parent": "katana",
+					"pivot": [0.7, -2, 1.2],
+					"cubes": [
+						{"origin": [0.5, -5, 1], "size": [0.4, 3, 0.4], "uv": {"north": {"uv": [47, 32], "uv_size": [2, 12]}, "south": {"uv": [51, 32], "uv_size": [2, 12]}, "east": {"uv": [55, 32], "uv_size": [2, 12]}, "west": {"uv": [43, 32], "uv_size": [2, 12]}, "up": {"uv": [61, 59], "uv_size": [2, 2]}, "down": {"uv": [65, 59], "uv_size": [2, 2]}}},
+						{"origin": [0.3, -5.6, 0.8], "size": [0.8, 0.8, 0.8], "uv": {"north": {"uv": [78, 52], "uv_size": [3, 3]}, "south": {"uv": [73, 52], "uv_size": [3, 3]}, "east": {"uv": [93, 52], "uv_size": [3, 3]}, "west": {"uv": [88, 52], "uv_size": [3, 3]}, "up": {"uv": [83, 52], "uv_size": [3, 3]}, "down": {"uv": [98, 52], "uv_size": [3, 3]}}}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/root",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:scroll_limitless"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.chose_class.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.chose_class.description"
+                                    },
+                    "frame":  "task",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

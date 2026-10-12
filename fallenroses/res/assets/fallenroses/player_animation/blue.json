@@ -1,0 +1,43 @@
+{
+    "name":  "blue",
+    "author":  "Fallen Roses",
+    "description":  "blue",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  12,
+                  "stopTick":  18,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.3963,
+                                                     "yaw":  -0.1745,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2618
+                                             }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.4312,
+                                                     "yaw":  -0.1745,
+                                                     "roll":  0
+                                                 }
+                                }
+                            ]
+              }
+}

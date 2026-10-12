@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_ratio"
+                 },
+    "parent":  "minecraft:item/generated"
+}

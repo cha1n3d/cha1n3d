@@ -1,0 +1,22 @@
+{
+    "key":  {
+                "Y":  {
+                          "item":  "minecraft:ender_eye"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "W":  {
+                          "item":  "minecraft:black_wool"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "WWW",
+                    "EYE"
+                ],
+    "result":  {
+                   "item":  "fallenroses:six_eyes_blindfold"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

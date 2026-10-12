@@ -1,0 +1,63 @@
+{
+    "name":  "domain",
+    "author":  "Fallen Roses",
+    "description":  "domain",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  24,
+                  "stopTick":  32,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.1345,
+                                                     "yaw":  -0.5585,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.1345,
+                                                    "yaw":  0.5585,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  0.1745
+                                             }
+                                },
+                                {
+                                    "tick":  20,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.1345,
+                                                     "yaw":  -0.5585,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  20,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.1345,
+                                                    "yaw":  0.5585,
+                                                    "roll":  0
+                                                }
+                                }
+                            ]
+              }
+}

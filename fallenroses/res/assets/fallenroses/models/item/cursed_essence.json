@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/cursed_essence"
+                 },
+    "parent":  "minecraft:item/generated"
+}

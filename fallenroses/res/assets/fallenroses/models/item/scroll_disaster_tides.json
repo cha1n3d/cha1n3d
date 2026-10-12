@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_disaster_tides"
+                 },
+    "parent":  "minecraft:item/generated"
+}

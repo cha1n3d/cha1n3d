@@ -1,0 +1,51 @@
+{
+    "name":  "sweep",
+    "author":  "Fallen Roses",
+    "description":  "sweep",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  10,
+                  "stopTick":  16,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.5708,
+                                                     "yaw":  1.2217,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.6109
+                                             }
+                                },
+                                {
+                                    "tick":  6,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.5708,
+                                                     "yaw":  -1.2217,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  6,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.6981
+                                             }
+                                }
+                            ]
+              }
+}

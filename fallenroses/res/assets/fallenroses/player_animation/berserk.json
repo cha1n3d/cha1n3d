@@ -1,0 +1,71 @@
+{
+    "name":  "berserk",
+    "author":  "Fallen Roses",
+    "description":  "berserk",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  22,
+                  "stopTick":  30,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.5236,
+                                                    "yaw":  0,
+                                                    "roll":  -1.0472
+                                                }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.5236,
+                                                     "yaw":  0,
+                                                     "roll":  1.0472
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  -0.5236
+                                             }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  -0.1396
+                                             }
+                                },
+                                {
+                                    "tick":  20,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.5236,
+                                                    "yaw":  0,
+                                                    "roll":  -1.0472
+                                                }
+                                },
+                                {
+                                    "tick":  20,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.5236,
+                                                     "yaw":  0,
+                                                     "roll":  1.0472
+                                                 }
+                                }
+                            ]
+              }
+}

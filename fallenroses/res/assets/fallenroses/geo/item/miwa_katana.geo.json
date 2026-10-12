@@ -1,0 +1,35 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.miwa_katana",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0, 0]
+			},
+			"bones": [
+				{
+					"name": "katana",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-0.6, -9, -0.6], "size": [1.2, 8, 1.2], "uv": {"north": {"uv": [25, 1], "uv_size": [5, 32]}, "south": {"uv": [32, 1], "uv_size": [5, 32]}, "east": {"uv": [46, 1], "uv_size": [5, 32]}, "west": {"uv": [39, 1], "uv_size": [5, 32]}, "up": {"uv": [1, 83], "uv_size": [5, 5]}, "down": {"uv": [8, 83], "uv_size": [5, 5]}}},
+						{"origin": [-1.4, -1, -1.4], "size": [2.8, 0.8, 2.8], "uv": {"north": {"uv": [36, 83], "uv_size": [11, 3]}, "south": {"uv": [23, 83], "uv_size": [11, 3]}, "east": {"uv": [62, 83], "uv_size": [11, 3]}, "west": {"uv": [49, 83], "uv_size": [11, 3]}, "up": {"uv": [69, 1], "uv_size": [11, 11]}, "down": {"uv": [82, 1], "uv_size": [11, 11]}}},
+						{"origin": [-0.25, -0.2, -0.7], "size": [0.5, 20, 1.4], "uv": {"north": {"uv": [21, 1], "uv_size": [2, 80]}, "south": {"uv": [17, 1], "uv_size": [2, 80]}, "east": {"uv": [9, 1], "uv_size": [6, 80]}, "west": {"uv": [1, 1], "uv_size": [6, 80]}, "up": {"uv": [119, 1], "uv_size": [2, 6]}, "down": {"uv": [115, 1], "uv_size": [2, 6]}}},
+						{"origin": [-0.25, 19.8, -0.5], "size": [0.5, 1.5, 1], "uv": {"north": {"uv": [111, 1], "uv_size": [2, 6]}, "south": {"uv": [107, 1], "uv_size": [2, 6]}, "east": {"uv": [95, 1], "uv_size": [4, 6]}, "west": {"uv": [101, 1], "uv_size": [4, 6]}, "up": {"uv": [19, 83], "uv_size": [2, 4]}, "down": {"uv": [15, 83], "uv_size": [2, 4]}}}
+					]
+				},
+				{
+					"name": "tassel",
+					"parent": "katana",
+					"pivot": [0, -9, 0],
+					"cubes": [
+						{"origin": [-0.2, -14, -0.2], "size": [0.4, 5, 0.4], "uv": {"north": {"uv": [53, 1], "uv_size": [2, 20]}, "south": {"uv": [65, 1], "uv_size": [2, 20]}, "east": {"uv": [57, 1], "uv_size": [2, 20]}, "west": {"uv": [61, 1], "uv_size": [2, 20]}, "up": {"uv": [79, 83], "uv_size": [2, 2]}, "down": {"uv": [75, 83], "uv_size": [2, 2]}}}
+					]
+				}
+			]
+		}
+	]
+}

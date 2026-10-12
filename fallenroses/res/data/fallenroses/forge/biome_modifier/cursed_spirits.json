@@ -1,0 +1,138 @@
+{
+    "spawners":  [
+                     {
+                         "maxCount":  4,
+                         "weight":  40,
+                         "minCount":  2,
+                         "type":  "fallenroses:fly_head"
+                     },
+                     {
+                         "maxCount":  2,
+                         "weight":  25,
+                         "minCount":  1,
+                         "type":  "fallenroses:rotten_mouth"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  10,
+                         "minCount":  1,
+                         "type":  "fallenroses:hand_spider"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  8,
+                         "minCount":  1,
+                         "type":  "fallenroses:hanged"
+                     },
+                     {
+                         "maxCount":  3,
+                         "weight":  22,
+                         "minCount":  1,
+                         "type":  "fallenroses:transfigured_human"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  12,
+                         "minCount":  1,
+                         "type":  "fallenroses:eye_cluster"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  6,
+                         "minCount":  1,
+                         "type":  "fallenroses:cursed_womb"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  1,
+                         "minCount":  1,
+                         "type":  "fallenroses:finger_bearer"
+                     },
+                     {
+                         "maxCount":  3,
+                         "weight":  18,
+                         "minCount":  1,
+                         "type":  "fallenroses:grasshopper"
+                     },
+                     {
+                         "maxCount":  2,
+                         "weight":  10,
+                         "minCount":  1,
+                         "type":  "fallenroses:cursed_moth"
+                     },
+                     {
+                         "maxCount":  2,
+                         "weight":  12,
+                         "minCount":  1,
+                         "type":  "fallenroses:cursed_doll"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  3,
+                         "minCount":  1,
+                         "type":  "fallenroses:kuchisake"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  4,
+                         "minCount":  1,
+                         "type":  "fallenroses:hannya_mask"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  3,
+                         "minCount":  1,
+                         "type":  "fallenroses:cursed_oni"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  1,
+                         "minCount":  1,
+                         "type":  "fallenroses:smallpox_deity"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  4,
+                         "minCount":  1,
+                         "type":  "fallenroses:kurourushi"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  5,
+                         "minCount":  1,
+                         "type":  "fallenroses:rokurokubi"
+                     },
+                     {
+                         "maxCount":  2,
+                         "weight":  12,
+                         "minCount":  1,
+                         "type":  "fallenroses:ittan_momen"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  2,
+                         "minCount":  1,
+                         "type":  "fallenroses:eso"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  1,
+                         "minCount":  1,
+                         "type":  "fallenroses:gashadokuro"
+                     },
+                     {
+                         "maxCount":  3,
+                         "weight":  14,
+                         "minCount":  1,
+                         "type":  "fallenroses:kasa_obake"
+                     },
+                     {
+                         "maxCount":  1,
+                         "weight":  10,
+                         "minCount":  1,
+                         "type":  "fallenroses:nopperabo"
+                     }
+                 ],
+    "type":  "forge:add_spawns",
+    "biomes":  "#minecraft:is_overworld"
+}

@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.002,
+    "item":  "fallenroses:scroll_rebirth",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

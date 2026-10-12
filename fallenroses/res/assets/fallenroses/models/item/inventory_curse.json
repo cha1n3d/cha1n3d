@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/inventory_curse"
+                 },
+    "parent":  "minecraft:item/generated"
+}

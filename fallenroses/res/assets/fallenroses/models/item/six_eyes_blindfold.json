@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/six_eyes_blindfold"
+                 },
+    "parent":  "minecraft:item/generated"
+}

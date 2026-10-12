@@ -1,0 +1,190 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 2,
+			"bones": {
+				"arm_l": {
+					"rotation": ["math.sin(query.anim_time*180)*3", 0, "math.sin(query.anim_time*180)*3"]
+				},
+				"arm_r": {
+					"rotation": ["0-math.sin(query.anim_time*180)*3", 0, "0-math.sin(query.anim_time*180)*3"]
+				},
+				"head": {
+					"rotation": [0, "math.sin(query.anim_time*90)*7", 0]
+				},
+				"jaw": {
+					"rotation": ["4+math.sin(query.anim_time*180+30)*7", 0, 0]
+				},
+				"tongue": {
+					"rotation": ["math.sin(query.anim_time*360)*5", 0, 0]
+				},
+				"torso": {
+					"rotation": ["math.sin(query.anim_time*180)*2", 0, 0]
+				}
+			}
+		},
+		"walk": {
+			"loop": true,
+			"animation_length": 1,
+			"bones": {
+				"arm_l": {
+					"rotation": ["0-math.sin(query.anim_time*360)*24", 0, 0]
+				},
+				"arm_r": {
+					"rotation": ["math.sin(query.anim_time*360)*24", 0, 0]
+				},
+				"head": {
+					"rotation": ["math.sin(query.anim_time*720)*4", 0, 0]
+				},
+				"hips": {
+					"position": [0, "math.abs(math.sin(query.anim_time*360))*0.9", 0]
+				},
+				"jaw": {
+					"rotation": ["8+math.sin(query.anim_time*720)*7", 0, 0]
+				},
+				"leg_l": {
+					"rotation": ["math.sin(query.anim_time*360)*26", 0, 0]
+				},
+				"leg_r": {
+					"rotation": ["0-math.sin(query.anim_time*360)*26", 0, 0]
+				},
+				"shin_l": {
+					"rotation": ["math.max(0,0-math.sin(query.anim_time*360))*28", 0, 0]
+				},
+				"shin_r": {
+					"rotation": ["math.max(0,math.sin(query.anim_time*360))*28", 0, 0]
+				},
+				"torso": {
+					"rotation": ["math.sin(query.anim_time*720)*3", 0, "math.sin(query.anim_time*360)*4"]
+				}
+			}
+		},
+		"attack": {
+			"loop": false,
+			"animation_length": 0.7,
+			"bones": {
+				"arm_l": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.35": {"vector": [-70, 0, -10], "easing": "easeOutQuad"},
+						"0.7": [0, 0, 0]
+					}
+				},
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.4": {"vector": [-70, 0, 10], "easing": "easeOutQuad"},
+						"0.7": [0, 0, 0]
+					}
+				},
+				"head": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.25": [-22, 0, 0],
+						"0.4": [12, 0, 0],
+						"0.7": [0, 0, 0]
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.22": [42, 0, 0],
+						"0.42": {"vector": [-12, 0, 0], "easing": "easeInQuad"},
+						"0.7": [0, 0, 0]
+					}
+				},
+				"torso": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.25": [-14, 0, 0],
+						"0.4": {"vector": [22, 0, 0], "easing": "easeOutQuad"},
+						"0.7": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"special": {
+			"loop": false,
+			"animation_length": 0.8,
+			"bones": {
+				"arm_l": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.25": [30, 0, 0],
+						"0.5": [-80, 0, -15],
+						"0.8": [0, 0, 0]
+					}
+				},
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.25": [30, 0, 0],
+						"0.5": [-80, 0, 15],
+						"0.8": [0, 0, 0]
+					}
+				},
+				"hips": {
+					"position": {
+						"0": [0, 0, 0],
+						"0.2": [0, -2.2, 0],
+						"0.4": [0, 1, 0],
+						"0.8": [0, 0, 0]
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.3": [48, 0, 0],
+						"0.7": [48, 0, 0],
+						"0.8": [0, 0, 0]
+					}
+				},
+				"torso": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.2": [12, 0, 0],
+						"0.45": [-10, 0, 0],
+						"0.8": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"death": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 1.5,
+			"bones": {
+				"arm_l": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.9": [-40, 0, -30]
+					}
+				},
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.9": [-40, 0, 30]
+					}
+				},
+				"jaw": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"1": [38, 0, 0]
+					}
+				},
+				"root": {
+					"position": {
+						"0": [0, 0, 0],
+						"0.8": [0, -1.5, 0]
+					},
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.8": {"vector": [82, 0, 6], "easing": "easeInQuad"}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

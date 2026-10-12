@@ -1,0 +1,37 @@
+{
+    "pools":  [
+                  {
+                      "entries":  [
+                                      {
+                                          "functions":  [
+                                                            {
+                                                                "function":  "minecraft:set_count",
+                                                                "count":  {
+                                                                              "min":  0,
+                                                                              "type":  "minecraft:uniform",
+                                                                              "max":  1
+                                                                          }
+                                                            },
+                                                            {
+                                                                "function":  "minecraft:looting_enchant",
+                                                                "count":  {
+                                                                              "min":  0,
+                                                                              "type":  "minecraft:uniform",
+                                                                              "max":  1
+                                                                          }
+                                                            }
+                                                        ],
+                                          "name":  "fallenroses:cursed_essence",
+                                          "type":  "minecraft:item"
+                                      }
+                                  ],
+                      "rolls":  1,
+                      "conditions":  [
+                                         {
+                                             "condition":  "minecraft:killed_by_player"
+                                         }
+                                     ]
+                  }
+              ],
+    "type":  "minecraft:entity"
+}

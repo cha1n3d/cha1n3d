@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/first_exorcism",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:hand_spider_spawn_egg"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.grade_2.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.grade_2.description"
+                                    },
+                    "frame":  "goal",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

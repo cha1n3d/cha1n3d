@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "C":  {
+                          "item":  "minecraft:chain"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " CE",
+                    "CEC",
+                    "SC "
+                ],
+    "result":  {
+                   "item":  "fallenroses:chain_of_thousand_miles"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

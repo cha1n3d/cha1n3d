@@ -1,0 +1,25 @@
+{
+    "key":  {
+                "G":  {
+                          "item":  "minecraft:gunpowder"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "W":  {
+                          "item":  "minecraft:dark_oak_planks"
+                      },
+                "I":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "III",
+                    "EGW"
+                ],
+    "result":  {
+                   "item":  "fallenroses:mai_revolver"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

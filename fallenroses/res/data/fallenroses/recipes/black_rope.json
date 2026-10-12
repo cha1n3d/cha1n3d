@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:string"
+                      },
+                "B":  {
+                          "item":  "minecraft:black_dye"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "SBS",
+                    "BEB",
+                    "SBS"
+                ],
+    "result":  {
+                   "item":  "fallenroses:black_rope"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

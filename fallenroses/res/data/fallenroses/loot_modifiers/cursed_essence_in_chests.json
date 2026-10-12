@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.08,
+    "item":  "fallenroses:cursed_essence",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

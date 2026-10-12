@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_idle_transfiguration"
+                 },
+    "parent":  "minecraft:item/generated"
+}

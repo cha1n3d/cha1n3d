@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "G":  {
+                          "item":  "minecraft:gold_block"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "L":  {
+                          "item":  "minecraft:lightning_rod"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " LG",
+                    "EGL",
+                    "GE "
+                ],
+    "result":  {
+                   "item":  "fallenroses:kamutoke"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

@@ -1,0 +1,51 @@
+{
+    "name":  "dash",
+    "author":  "Fallen Roses",
+    "description":  "dash",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  7,
+                  "stopTick":  12,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  0.5236
+                                             }
+                                },
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  0.8727,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  0.8727,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  -0.3491
+                                             }
+                                }
+                            ]
+              }
+}

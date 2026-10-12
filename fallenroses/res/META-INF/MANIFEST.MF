@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: fallenroses
+Specification-Vendor: bobux
+Specification-Version: 1
+Implementation-Title: fallen-roses-mod
+Implementation-Version: 0.8.0
+Implementation-Vendor: bobux
+Implementation-Timestamp: 2026-10-12T00:17:38+0200
+

@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "C":  {
+                          "item":  "minecraft:chest"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "L":  {
+                          "item":  "minecraft:leather"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "LEL",
+                    "ECE",
+                    "LEL"
+                ],
+    "result":  {
+                   "item":  "fallenroses:inventory_curse"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

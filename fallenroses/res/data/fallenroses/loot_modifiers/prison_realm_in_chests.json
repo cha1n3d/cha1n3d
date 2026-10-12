@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.003,
+    "item":  "fallenroses:prison_realm",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

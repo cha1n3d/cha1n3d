@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.025,
+    "item":  "fallenroses:sukuna_finger",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

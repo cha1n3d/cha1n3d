@@ -1,0 +1,163 @@
+{
+    "pools":  [
+                  {
+                      "entries":  [
+                                      {
+                                          "functions":  [
+                                                            {
+                                                                "function":  "minecraft:set_count",
+                                                                "count":  {
+                                                                              "min":  2,
+                                                                              "type":  "minecraft:uniform",
+                                                                              "max":  4
+                                                                          }
+                                                            },
+                                                            {
+                                                                "function":  "minecraft:looting_enchant",
+                                                                "count":  {
+                                                                              "min":  0,
+                                                                              "type":  "minecraft:uniform",
+                                                                              "max":  1
+                                                                          }
+                                                            }
+                                                        ],
+                                          "name":  "fallenroses:cursed_essence",
+                                          "type":  "minecraft:item"
+                                      }
+                                  ],
+                      "rolls":  1,
+                      "conditions":  [
+                                         {
+                                             "condition":  "minecraft:killed_by_player"
+                                         }
+                                     ]
+                  },
+                  {
+                      "entries":  [
+                                      {
+                                          "name":  "fallenroses:sukuna_finger",
+                                          "type":  "minecraft:item"
+                                      }
+                                  ],
+                      "rolls":  1,
+                      "conditions":  [
+                                         {
+                                             "condition":  "minecraft:killed_by_player"
+                                         },
+                                         {
+                                             "chance":  0.05,
+                                             "condition":  "minecraft:random_chance_with_looting",
+                                             "looting_multiplier":  0.025
+                                         }
+                                     ]
+                  },
+                  {
+                      "entries":  [
+                                      {
+                                          "name":  "fallenroses:scroll_limitless",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_cursed_speech",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_boogie_woogie",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_blood_manipulation",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_ratio",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_straw_doll",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_ten_shadows",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_projection",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_ice_formation",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_idle_death_gamble",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_lightning",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_star_rage",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_granite_blast",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_disaster_flames",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_idle_transfiguration",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_disaster_plants",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_disaster_tides",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_smallpox",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_death_painting",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_swarm",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_construction",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_sky_manipulation",
+                                          "type":  "minecraft:item"
+                                      },
+                                      {
+                                          "name":  "fallenroses:scroll_rika",
+                                          "type":  "minecraft:item"
+                                      }
+                                  ],
+                      "rolls":  1,
+                      "conditions":  [
+                                         {
+                                             "condition":  "minecraft:killed_by_player"
+                                         },
+                                         {
+                                             "chance":  0.03,
+                                             "condition":  "minecraft:random_chance_with_looting",
+                                             "looting_multiplier":  0.015
+                                         }
+                                     ]
+                  }
+              ],
+    "type":  "minecraft:entity"
+}

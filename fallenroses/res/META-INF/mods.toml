@@ -1,0 +1,39 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="fallenroses"
+version="0.8.0"
+displayName="Fallen Roses"
+authors="bobux"
+credits="Made for the JJK! Fallen Roses modpack"
+description='''Cursed energy, innate techniques, cursed spirits and cursed tools for the JJK! Fallen Roses modpack.'''
+
+[[dependencies.fallenroses]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.fallenroses]]
+    modId="geckolib"
+    mandatory=true
+    versionRange="[4.4,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.fallenroses]]
+    modId="playeranimator"
+    mandatory=true
+    versionRange="[1.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.fallenroses]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"

@@ -1,0 +1,12 @@
+{
+    "spawners":  [
+                     {
+                         "maxCount":  1,
+                         "weight":  1,
+                         "minCount":  1,
+                         "type":  "fallenroses:sakura_boss"
+                     }
+                 ],
+    "type":  "forge:add_spawns",
+    "biomes":  "minecraft:cherry_grove"
+}

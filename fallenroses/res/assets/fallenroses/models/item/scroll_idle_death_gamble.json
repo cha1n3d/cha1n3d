@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_idle_death_gamble"
+                 },
+    "parent":  "minecraft:item/generated"
+}

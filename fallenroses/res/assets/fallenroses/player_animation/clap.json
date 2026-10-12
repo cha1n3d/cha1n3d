@@ -1,0 +1,55 @@
+{
+    "name":  "clap",
+    "author":  "Fallen Roses",
+    "description":  "clap",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  7,
+                  "stopTick":  12,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.2217,
+                                                    "yaw":  -0.6981,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.2217,
+                                                     "yaw":  0.6981,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.309,
+                                                    "yaw":  0.2094,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.309,
+                                                     "yaw":  -0.2094,
+                                                     "roll":  0
+                                                 }
+                                }
+                            ]
+              }
+}

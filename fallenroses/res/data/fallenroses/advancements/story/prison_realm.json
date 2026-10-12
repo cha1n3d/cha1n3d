@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/first_exorcism",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:prison_realm"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.prison_realm.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.prison_realm.description"
+                                    },
+                    "frame":  "goal",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

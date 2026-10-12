@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 4,
+			"bones": {
+				"link2": {
+					"rotation": ["math.sin(query.anim_time*90+0)*3", 0, "math.cos(query.anim_time*120+0)*2"]
+				},
+				"link4": {
+					"rotation": ["math.sin(query.anim_time*90+70)*5", 0, "math.cos(query.anim_time*120+50)*4"]
+				},
+				"tip": {
+					"rotation": ["math.sin(query.anim_time*90+140)*7", 0, "math.cos(query.anim_time*120+100)*6"]
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

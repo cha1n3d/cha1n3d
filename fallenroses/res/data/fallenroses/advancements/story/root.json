@@ -1,0 +1,23 @@
+{
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:sukuna_finger"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.root.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.root.description"
+                                    },
+                    "frame":  "task",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false,
+                    "background":  "minecraft:textures/block/crimson_nylium_side.png"
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

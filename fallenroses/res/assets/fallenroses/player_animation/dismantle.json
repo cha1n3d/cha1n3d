@@ -1,0 +1,51 @@
+{
+    "name":  "dismantle",
+    "author":  "Fallen Roses",
+    "description":  "dismantle",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  8,
+                  "stopTick":  14,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.2217,
+                                                     "yaw":  -0.8727,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  1,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.2618
+                                             }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.309,
+                                                     "yaw":  0.9599,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.4363
+                                             }
+                                }
+                            ]
+              }
+}

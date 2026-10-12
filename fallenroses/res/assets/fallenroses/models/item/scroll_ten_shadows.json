@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_ten_shadows"
+                 },
+    "parent":  "minecraft:item/generated"
+}

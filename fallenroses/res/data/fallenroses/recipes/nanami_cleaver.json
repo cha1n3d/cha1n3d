@@ -1,0 +1,26 @@
+{
+    "key":  {
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      },
+                "W":  {
+                          "item":  "minecraft:white_wool"
+                      },
+                "I":  {
+                          "item":  "minecraft:iron_ingot"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " IW",
+                    "EIW",
+                    "SE "
+                ],
+    "result":  {
+                   "item":  "fallenroses:nanami_cleaver"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

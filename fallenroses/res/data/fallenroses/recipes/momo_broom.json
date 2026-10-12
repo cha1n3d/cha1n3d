@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      },
+                "H":  {
+                          "item":  "minecraft:hay_block"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "  E",
+                    " S ",
+                    "HS "
+                ],
+    "result":  {
+                   "item":  "fallenroses:momo_broom"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

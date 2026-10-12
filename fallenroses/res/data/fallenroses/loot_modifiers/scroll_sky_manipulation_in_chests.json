@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.012,
+    "item":  "fallenroses:scroll_sky_manipulation",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_straw_doll"
+                 },
+    "parent":  "minecraft:item/generated"
+}

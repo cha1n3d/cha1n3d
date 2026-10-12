@@ -1,0 +1,43 @@
+{
+    "name":  "snap",
+    "author":  "Fallen Roses",
+    "description":  "snap",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  8,
+                  "stopTick":  12,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.7453,
+                                                     "yaw":  -0.4363,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.8326,
+                                                     "yaw":  -0.3491,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  0.0873
+                                             }
+                                }
+                            ]
+              }
+}

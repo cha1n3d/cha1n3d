@@ -1,0 +1,116 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 3,
+			"bones": {
+				"arm_l": {
+					"rotation": ["math.sin(query.anim_time*120+60)*4", 0, 0]
+				},
+				"arm_r": {
+					"rotation": ["math.sin(query.anim_time*120)*3", 0, 0]
+				},
+				"body": {
+					"scale": [1, "1+math.sin(query.anim_time*120)*0.015", 1]
+				},
+				"head": {
+					"rotation": ["math.sin(query.anim_time*60)*3", "math.sin(query.anim_time*40)*12", 0]
+				}
+			}
+		},
+		"walk": {
+			"loop": true,
+			"animation_length": 1.4,
+			"bones": {
+				"arm_l": {
+					"rotation": ["0-math.sin(query.anim_time*257)*18", 0, 0]
+				},
+				"arm_r": {
+					"rotation": ["math.sin(query.anim_time*257)*10", 0, 0]
+				},
+				"body": {
+					"position": [0, "0-math.abs(math.sin(query.anim_time*257)*1.2)", 0],
+					"rotation": [4, "math.sin(query.anim_time*257)*6", "math.sin(query.anim_time*257)*3"]
+				},
+				"leg_l": {
+					"rotation": ["math.sin(query.anim_time*257)*22", 0, 0]
+				},
+				"leg_r": {
+					"rotation": ["0-math.sin(query.anim_time*257)*22", 0, 0]
+				}
+			}
+		},
+		"attack": {
+			"loop": false,
+			"animation_length": 0.9,
+			"bones": {
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.35": {"vector": [-160, 0, 10], "easing": "easeOutQuad"},
+						"0.55": {"vector": [-20, 0, 0], "easing": "easeInQuad"},
+						"0.9": [0, 0, 0]
+					}
+				},
+				"body": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.35": [-10, 10, 0],
+						"0.55": [15, -5, 0],
+						"0.9": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"special": {
+			"loop": false,
+			"animation_length": 1.4,
+			"bones": {
+				"arm_l": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.5": [-150, 0, 0],
+						"0.75": [-10, 0, 0],
+						"1.4": [0, 0, 0]
+					}
+				},
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.5": {"vector": [-175, 0, 0], "easing": "easeOutQuad"},
+						"0.75": {"vector": [10, 0, 0], "easing": "easeInQuad"},
+						"1.4": [0, 0, 0]
+					}
+				},
+				"body": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"0.5": [-15, 0, 0],
+						"0.75": [25, 0, 0],
+						"1.4": [0, 0, 0]
+					}
+				}
+			}
+		},
+		"death": {
+			"loop": "hold_on_last_frame",
+			"animation_length": 1.8,
+			"bones": {
+				"arm_r": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"1.2": [-60, 0, 0]
+					}
+				},
+				"root": {
+					"rotation": {
+						"0": [0, 0, 0],
+						"1.2": {"vector": [88, 0, -6], "easing": "easeInQuad"}
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

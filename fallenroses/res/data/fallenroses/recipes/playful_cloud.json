@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "C":  {
+                          "item":  "minecraft:chain"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "I":  {
+                          "item":  "minecraft:iron_block"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    "EIE",
+                    "ECE",
+                    "EIE"
+                ],
+    "result":  {
+                   "item":  "fallenroses:playful_cloud"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

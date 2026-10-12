@@ -1,0 +1,43 @@
+{
+    "name":  "cleave",
+    "author":  "Fallen Roses",
+    "description":  "cleave",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  10,
+                  "stopTick":  16,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  3,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -2.8798,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  7,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.6981,
+                                                     "yaw":  -0.1745,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  7,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  0.2618
+                                             }
+                                }
+                            ]
+              }
+}

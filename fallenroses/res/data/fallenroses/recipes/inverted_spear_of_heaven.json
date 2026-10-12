@@ -1,0 +1,26 @@
+{
+    "key":  {
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:chain"
+                      },
+                "H":  {
+                          "item":  "minecraft:echo_shard"
+                      },
+                "N":  {
+                          "item":  "minecraft:netherite_ingot"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " EN",
+                    "EHE",
+                    "SE "
+                ],
+    "result":  {
+                   "item":  "fallenroses:inverted_spear_of_heaven"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

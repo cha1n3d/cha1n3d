@@ -1,0 +1,23 @@
+{
+    "key":  {
+                "D":  {
+                          "item":  "minecraft:diamond"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " ED",
+                    "EDE",
+                    "SE "
+                ],
+    "result":  {
+                   "item":  "fallenroses:split_soul_katana"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

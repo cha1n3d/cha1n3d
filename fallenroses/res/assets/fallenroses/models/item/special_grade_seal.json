@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/special_grade_seal"
+                 },
+    "parent":  "minecraft:item/generated"
+}

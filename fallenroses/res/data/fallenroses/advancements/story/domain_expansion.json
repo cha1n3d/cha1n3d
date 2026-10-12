@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/level_20",
+    "display":  {
+                    "icon":  {
+                                 "item":  "minecraft:end_crystal"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.domain_expansion.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.domain_expansion.description"
+                                    },
+                    "frame":  "challenge",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

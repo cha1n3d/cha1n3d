@@ -1,0 +1,267 @@
+{
+    "name":  "flurry",
+    "author":  "Fallen Roses",
+    "description":  "flurry",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  17,
+                  "stopTick":  22,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  0,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6581,
+                                                     "yaw":  -0.0873,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  0,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.3491,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  0,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.3491,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.6581,
+                                                    "yaw":  0.0873,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6581,
+                                                     "yaw":  -0.0873,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.3491,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  4,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  6,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.3491,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  6,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.6581,
+                                                    "yaw":  0.0873,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  6,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  8,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6581,
+                                                     "yaw":  -0.0873,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  8,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.3491,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  8,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  10,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.3491,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  10,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.6581,
+                                                    "yaw":  0.0873,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  10,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6581,
+                                                     "yaw":  -0.0873,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.3491,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  12,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  14,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.3491,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  14,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.6581,
+                                                    "yaw":  0.0873,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  14,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  0.2094
+                                             }
+                                },
+                                {
+                                    "tick":  16,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.6581,
+                                                     "yaw":  -0.0873,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  16,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -0.3491,
+                                                    "yaw":  0,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  16,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "yaw":  -0.2094
+                                             }
+                                }
+                            ]
+              }
+}

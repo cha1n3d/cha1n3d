@@ -1,0 +1,15 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"idle": {
+			"loop": true,
+			"animation_length": 4,
+			"bones": {
+				"cord": {
+					"rotation": ["math.sin(query.anim_time*90+0)*3", 0, "math.cos(query.anim_time*120+0)*2"]
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

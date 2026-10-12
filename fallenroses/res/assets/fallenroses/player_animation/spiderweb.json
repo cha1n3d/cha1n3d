@@ -1,0 +1,65 @@
+{
+    "name":  "spiderweb",
+    "author":  "Fallen Roses",
+    "description":  "spiderweb",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  16,
+                  "stopTick":  24,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  0.6109
+                                             }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -0.6109,
+                                                     "yaw":  0,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "head":  {
+                                                 "pitch":  0.4363
+                                             }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightLeg":  {
+                                                     "pitch":  -0.4363
+                                                 }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftLeg":  {
+                                                    "pitch":  0.3491
+                                                }
+                                },
+                                {
+                                    "tick":  14,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  0.6109
+                                             }
+                                }
+                            ]
+              }
+}

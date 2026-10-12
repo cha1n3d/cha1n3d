@@ -1,0 +1,29 @@
+{
+    "key":  {
+                "D":  {
+                          "item":  "minecraft:diamond"
+                      },
+                "E":  {
+                          "item":  "fallenroses:cursed_essence"
+                      },
+                "S":  {
+                          "item":  "minecraft:stick"
+                      },
+                "B":  {
+                          "item":  "minecraft:bone_block"
+                      },
+                "I":  {
+                          "item":  "minecraft:iron_block"
+                      }
+            },
+    "category":  "equipment",
+    "pattern":  [
+                    " DI",
+                    "BEI",
+                    "SB "
+                ],
+    "result":  {
+                   "item":  "fallenroses:dragon_bone"
+               },
+    "type":  "minecraft:crafting_shaped"
+}

@@ -1,0 +1,53 @@
+{
+    "name":  "hammer",
+    "author":  "Fallen Roses",
+    "description":  "hammer",
+    "emote":  {
+                  "isLoop":  "false",
+                  "returnTick":  0,
+                  "beginTick":  0,
+                  "endTick":  9,
+                  "stopTick":  14,
+                  "degrees":  false,
+                  "moves":  [
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "leftArm":  {
+                                                    "pitch":  -1.3963,
+                                                    "yaw":  0.2618,
+                                                    "roll":  0
+                                                }
+                                },
+                                {
+                                    "tick":  2,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -2.8798,
+                                                     "yaw":  -0.1745,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "rightArm":  {
+                                                     "pitch":  -1.309,
+                                                     "yaw":  0.2618,
+                                                     "roll":  0
+                                                 }
+                                },
+                                {
+                                    "tick":  5,
+                                    "easing":  "EASEOUTQUAD",
+                                    "turn":  0,
+                                    "body":  {
+                                                 "pitch":  0.1396
+                                             }
+                                }
+                            ]
+              }
+}

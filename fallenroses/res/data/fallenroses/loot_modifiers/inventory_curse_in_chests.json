@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.004,
+    "item":  "fallenroses:inventory_curse",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

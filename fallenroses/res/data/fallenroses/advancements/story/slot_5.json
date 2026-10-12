@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/slot_4",
+    "display":  {
+                    "icon":  {
+                                 "item":  "minecraft:nether_star"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.slot_5.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.slot_5.description"
+                                    },
+                    "frame":  "challenge",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

@@ -1,0 +1,897 @@
+{
+    "ui.intro_drone":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ui/intro_drone",
+                                              "stream":  true
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.ui"
+                       },
+    "ui.intro_flash":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ui/intro_flash",
+                                              "stream":  true
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.ui"
+                       },
+    "ui.intro_text":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:ui/intro_text"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.ui"
+                      },
+    "ui.card_hover":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:ui/card_hover"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.ui"
+                      },
+    "ui.card_select":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ui/card_select"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.ui"
+                       },
+    "ui.class_confirm":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:ui/class_confirm",
+                                                "stream":  true
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.ui"
+                         },
+    "ui.level_up":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:ui/level_up"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.ui"
+                    },
+    "ui.skill_unlock":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:ui/skill_unlock"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.ui"
+                        },
+    "ui.stat_up":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:ui/stat_up"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.ui"
+                   },
+    "ui.error":  {
+                     "sounds":  [
+                                    {
+                                        "name":  "fallenroses:ui/error"
+                                    }
+                                ],
+                     "subtitle":  "subtitles.fallenroses.ui"
+                 },
+    "ce.reinforce":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:ce/reinforce"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.technique"
+                     },
+    "ce.black_flash":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ce/black_flash"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.impact"
+                       },
+    "ce.rct":  {
+                   "sounds":  [
+                                  {
+                                      "name":  "fallenroses:ce/rct"
+                                  }
+                              ],
+                   "subtitle":  "subtitles.fallenroses.technique"
+               },
+    "limitless.blue_cast":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:limitless/blue_cast"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.technique"
+                            },
+    "limitless.blue_loop":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:limitless/blue_loop"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.technique"
+                            },
+    "limitless.red_charge":  {
+                                 "sounds":  [
+                                                {
+                                                    "name":  "fallenroses:limitless/red_charge"
+                                                }
+                                            ],
+                                 "subtitle":  "subtitles.fallenroses.technique"
+                             },
+    "limitless.red_fire":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:limitless/red_fire"
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.impact"
+                           },
+    "limitless.red_impact":  {
+                                 "sounds":  [
+                                                {
+                                                    "name":  "fallenroses:limitless/red_impact"
+                                                }
+                                            ],
+                                 "subtitle":  "subtitles.fallenroses.impact"
+                             },
+    "limitless.purple_charge":  {
+                                    "sounds":  [
+                                                   {
+                                                       "name":  "fallenroses:limitless/purple_charge"
+                                                   }
+                                               ],
+                                    "subtitle":  "subtitles.fallenroses.technique"
+                                },
+    "limitless.purple_fire":  {
+                                  "sounds":  [
+                                                 {
+                                                     "name":  "fallenroses:limitless/purple_fire",
+                                                     "stream":  true
+                                                 }
+                                             ],
+                                  "subtitle":  "subtitles.fallenroses.impact"
+                              },
+    "limitless.infinity_on":  {
+                                  "sounds":  [
+                                                 {
+                                                     "name":  "fallenroses:limitless/infinity_on"
+                                                 }
+                                             ],
+                                  "subtitle":  "subtitles.fallenroses.technique"
+                              },
+    "limitless.infinity_block":  {
+                                     "sounds":  [
+                                                    {
+                                                        "name":  "fallenroses:limitless/infinity_block"
+                                                    }
+                                                ],
+                                     "subtitle":  "subtitles.fallenroses.technique"
+                                 },
+    "shrine.dismantle":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:shrine/dismantle_1"
+                                            },
+                                            {
+                                                "name":  "fallenroses:shrine/dismantle_2"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.slash"
+                         },
+    "shrine.cleave":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:shrine/cleave"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.slash"
+                      },
+    "shrine.spiderweb":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:shrine/spiderweb"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.slash"
+                         },
+    "shrine.fuga_charge":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:shrine/fuga_charge"
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.technique"
+                           },
+    "shrine.fuga_fire":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:shrine/fuga_fire"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.impact"
+                         },
+    "shrine.fuga_impact":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:shrine/fuga_impact",
+                                                  "stream":  true
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.impact"
+                           },
+    "speech.cast":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:speech/cast_1"
+                                       },
+                                       {
+                                           "name":  "fallenroses:speech/cast_2"
+                                       },
+                                       {
+                                           "name":  "fallenroses:speech/cast_3"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.technique"
+                    },
+    "speech.explode":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:speech/explode"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.impact"
+                       },
+    "speech.twist":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:speech/twist"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.impact"
+                     },
+    "boogie.clap":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:boogie/clap_1"
+                                       },
+                                       {
+                                           "name":  "fallenroses:boogie/clap_2"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.clap"
+                    },
+    "boogie.swap":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:boogie/swap"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.technique"
+                    },
+    "heavenly.dash":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:heavenly/dash"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.technique"
+                      },
+    "heavenly.slam":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:heavenly/slam"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.impact"
+                      },
+    "heavenly.flurry":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:heavenly/flurry_1"
+                                           },
+                                           {
+                                               "name":  "fallenroses:heavenly/flurry_2"
+                                           },
+                                           {
+                                               "name":  "fallenroses:heavenly/flurry_3"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.impact"
+                        },
+    "heavenly.instinct":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:heavenly/instinct"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.technique"
+                          },
+    "heavenly.berserk":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:heavenly/berserk"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.technique"
+                         },
+    "domain.expand":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:domain/expand",
+                                             "stream":  true
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.domain"
+                      },
+    "domain.void_ambient":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:domain/void_ambient"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.domain"
+                            },
+    "domain.shrine_ambient":  {
+                                  "sounds":  [
+                                                 {
+                                                     "name":  "fallenroses:domain/shrine_ambient"
+                                                 }
+                                             ],
+                                  "subtitle":  "subtitles.fallenroses.domain"
+                              },
+    "domain.end":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:domain/end"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.domain"
+                   },
+    "ultimate.vanish":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:ultimate/vanish",
+                                               "stream":  true
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.impact"
+                        },
+    "ultimate.chaos":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ultimate/chaos"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.clap"
+                       },
+    "curse.fly_ambient":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/fly_ambient_1"
+                                             },
+                                             {
+                                                 "name":  "fallenroses:curse/fly_ambient_2"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse"
+                          },
+    "curse.fly_hurt":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:curse/fly_hurt"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.curse_hurt"
+                       },
+    "curse.fly_death":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/fly_death"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.curse_death"
+                        },
+    "curse.mouth_ambient":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:curse/mouth_ambient_1"
+                                               },
+                                               {
+                                                   "name":  "fallenroses:curse/mouth_ambient_2"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.curse"
+                            },
+    "curse.mouth_hurt":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:curse/mouth_hurt"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.curse_hurt"
+                         },
+    "curse.mouth_death":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/mouth_death"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse_death"
+                          },
+    "curse.spider_ambient":  {
+                                 "sounds":  [
+                                                {
+                                                    "name":  "fallenroses:curse/spider_ambient_1"
+                                                },
+                                                {
+                                                    "name":  "fallenroses:curse/spider_ambient_2"
+                                                }
+                                            ],
+                                 "subtitle":  "subtitles.fallenroses.curse"
+                             },
+    "curse.spider_hurt":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/spider_hurt"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse_hurt"
+                          },
+    "curse.spider_death":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:curse/spider_death"
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.curse_death"
+                           },
+    "curse.hanged_ambient":  {
+                                 "sounds":  [
+                                                {
+                                                    "name":  "fallenroses:curse/hanged_ambient_1"
+                                                },
+                                                {
+                                                    "name":  "fallenroses:curse/hanged_ambient_2"
+                                                }
+                                            ],
+                                 "subtitle":  "subtitles.fallenroses.curse"
+                             },
+    "curse.hanged_hurt":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/hanged_hurt"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse_hurt"
+                          },
+    "curse.hanged_death":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:curse/hanged_death"
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.curse_death"
+                           },
+    "curse.hanged_shoot":  {
+                               "sounds":  [
+                                              {
+                                                  "name":  "fallenroses:curse/hanged_shoot"
+                                              }
+                                          ],
+                               "subtitle":  "subtitles.fallenroses.technique"
+                           },
+    "curse.boss_roar":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/boss_roar",
+                                               "stream":  true
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.boss"
+                        },
+    "curse.boss_hurt":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/boss_hurt"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.boss"
+                        },
+    "curse.boss_death":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:curse/boss_death",
+                                                "stream":  true
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.boss"
+                         },
+    "curse.boss_roots":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:curse/boss_roots"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.impact"
+                         },
+    "weapon.cursed_hit":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:weapon/cursed_hit"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.impact"
+                          },
+    "weapon.dragon_jet":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:weapon/dragon_jet"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.impact"
+                          },
+    "weapon.thunder":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:weapon/thunder",
+                                              "stream":  true
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.impact"
+                       },
+    "blood.charge":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:blood/charge"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.blood"
+                     },
+    "blood.beam":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:blood/beam"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.impact"
+                   },
+    "blood.burst":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:blood/burst"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.impact"
+                    },
+    "blood.whoosh":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:blood/whoosh"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.blood"
+                     },
+    "ratio.crit":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:ratio/crit"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.impact"
+                   },
+    "ratio.overtime":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:ratio/overtime"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.technique"
+                       },
+    "straw.hammer":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:straw/hammer"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.impact"
+                     },
+    "straw.nail_hit":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:straw/nail_hit"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.impact"
+                       },
+    "straw.resonance":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:straw/resonance"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.impact"
+                        },
+    "flames.roar":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:flames/roar"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.impact"
+                    },
+    "soul.touch":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:soul/touch"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.technique"
+                   },
+    "plants.grow":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:plants/grow"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.technique"
+                    },
+    "manipulation.absorb":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:manipulation/absorb"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.technique"
+                            },
+    "manipulation.summon":  {
+                                "sounds":  [
+                                               {
+                                                   "name":  "fallenroses:manipulation/summon"
+                                               }
+                                           ],
+                                "subtitle":  "subtitles.fallenroses.technique"
+                            },
+    "curse.eye_beam":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:curse/eye_beam"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.technique"
+                       },
+    "curse.womb_wail":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/womb_wail_1"
+                                           },
+                                           {
+                                               "name":  "fallenroses:curse/womb_wail_2"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.curse"
+                        },
+    "curse.human_groan":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/human_groan_1"
+                                             },
+                                             {
+                                                 "name":  "fallenroses:curse/human_groan_2"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse"
+                          },
+    "shadow.summon":  {
+                          "sounds":  [
+                                         {
+                                             "name":  "fallenroses:shadow/summon"
+                                         }
+                                     ],
+                          "subtitle":  "subtitles.fallenroses.technique"
+                      },
+    "shadow.howl":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:shadow/howl"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.curse"
+                    },
+    "shadow.nue":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:shadow/nue"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.curse"
+                   },
+    "shadow.wheel":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:shadow/wheel"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.technique"
+                     },
+    "projection.frame":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:projection/frame_1"
+                                            },
+                                            {
+                                                "name":  "fallenroses:projection/frame_2"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.technique"
+                         },
+    "projection.boom":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:projection/boom"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.impact"
+                        },
+    "ice.form":  {
+                     "sounds":  [
+                                    {
+                                        "name":  "fallenroses:ice/form"
+                                    }
+                                ],
+                     "subtitle":  "subtitles.fallenroses.technique"
+                 },
+    "ice.shatter":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:ice/shatter"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.impact"
+                    },
+    "water.wave":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:water/wave"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.impact"
+                   },
+    "water.splash":  {
+                         "sounds":  [
+                                        {
+                                            "name":  "fallenroses:water/splash_1"
+                                        },
+                                        {
+                                            "name":  "fallenroses:water/splash_2"
+                                        }
+                                    ],
+                         "subtitle":  "subtitles.fallenroses.impact"
+                     },
+    "pox.grave":  {
+                      "sounds":  [
+                                     {
+                                         "name":  "fallenroses:pox/grave"
+                                     }
+                                 ],
+                      "subtitle":  "subtitles.fallenroses.impact"
+                  },
+    "pox.bell":  {
+                     "sounds":  [
+                                    {
+                                        "name":  "fallenroses:pox/bell",
+                                        "stream":  true
+                                    }
+                                ],
+                     "subtitle":  "subtitles.fallenroses.technique"
+                 },
+    "pox.plague":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:pox/plague"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.technique"
+                   },
+    "curse.grasshopper":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/grasshopper_1"
+                                             },
+                                             {
+                                                 "name":  "fallenroses:curse/grasshopper_2"
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse"
+                          },
+    "curse.moth":  {
+                       "sounds":  [
+                                      {
+                                          "name":  "fallenroses:curse/moth"
+                                      }
+                                  ],
+                       "subtitle":  "subtitles.fallenroses.curse"
+                   },
+    "curse.jelly":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:curse/jelly"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.curse"
+                    },
+    "curse.kappa":  {
+                        "sounds":  [
+                                       {
+                                           "name":  "fallenroses:curse/kappa_1"
+                                       },
+                                       {
+                                           "name":  "fallenroses:curse/kappa_2"
+                                       }
+                                   ],
+                        "subtitle":  "subtitles.fallenroses.curse"
+                    },
+    "curse.doll_laugh":  {
+                             "sounds":  [
+                                            {
+                                                "name":  "fallenroses:curse/doll_laugh"
+                                            }
+                                        ],
+                             "subtitle":  "subtitles.fallenroses.curse"
+                         },
+    "curse.kuchisake":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/kuchisake_1"
+                                           },
+                                           {
+                                               "name":  "fallenroses:curse/kuchisake_2"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.curse"
+                        },
+    "curse.mask_hiss":  {
+                            "sounds":  [
+                                           {
+                                               "name":  "fallenroses:curse/mask_hiss"
+                                           }
+                                       ],
+                            "subtitle":  "subtitles.fallenroses.curse"
+                        },
+    "curse.oni_roar":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:curse/oni_roar"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.curse"
+                       },
+    "curse.dragon_roar":  {
+                              "sounds":  [
+                                             {
+                                                 "name":  "fallenroses:curse/dragon_roar",
+                                                 "stream":  true
+                                             }
+                                         ],
+                              "subtitle":  "subtitles.fallenroses.curse"
+                          },
+    "curse.pox_moan":  {
+                           "sounds":  [
+                                          {
+                                              "name":  "fallenroses:curse/pox_moan"
+                                          }
+                                      ],
+                           "subtitle":  "subtitles.fallenroses.curse"
+                       }
+}

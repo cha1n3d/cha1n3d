@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.012,
+    "item":  "fallenroses:scroll_ten_shadows",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

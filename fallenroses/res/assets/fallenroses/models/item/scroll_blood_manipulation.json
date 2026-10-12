@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_blood_manipulation"
+                 },
+    "parent":  "minecraft:item/generated"
+}

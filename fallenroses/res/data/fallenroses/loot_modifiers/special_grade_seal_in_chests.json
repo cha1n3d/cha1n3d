@@ -1,0 +1,9 @@
+{
+    "conditions":  [
+
+                   ],
+    "chance":  0.006,
+    "item":  "fallenroses:special_grade_seal",
+    "type":  "fallenroses:add_item",
+    "path_prefix":  "chests/"
+}

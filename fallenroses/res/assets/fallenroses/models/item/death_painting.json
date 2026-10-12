@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/death_painting"
+                 },
+    "parent":  "minecraft:item/generated"
+}

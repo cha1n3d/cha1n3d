@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/prison_realm"
+                 },
+    "parent":  "minecraft:item/generated"
+}

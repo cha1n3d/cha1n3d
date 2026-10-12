@@ -1,0 +1,30 @@
+{
+    "parent":  "fallenroses:story/first_exorcism",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:split_soul_katana"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.cursed_tool.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.cursed_tool.description"
+                                    },
+                    "frame":  "task",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "has":  {
+                                 "trigger":  "minecraft:inventory_changed",
+                                 "conditions":  {
+                                                    "items":  [
+                                                                  {
+                                                                      "tag":  "fallenroses:cursed_tools"
+                                                                  }
+                                                              ]
+                                                }
+                             }
+                 }
+}

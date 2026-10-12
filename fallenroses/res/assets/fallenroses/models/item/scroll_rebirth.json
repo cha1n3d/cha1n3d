@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_rebirth"
+                 },
+    "parent":  "minecraft:item/generated"
+}

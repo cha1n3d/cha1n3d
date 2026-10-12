@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/sukuna_finger",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:sukuna_finger"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.ten_fingers.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.ten_fingers.description"
+                                    },
+                    "frame":  "challenge",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

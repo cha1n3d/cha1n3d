@@ -1,0 +1,23 @@
+{
+    "parent":  "fallenroses:story/grade_2",
+    "display":  {
+                    "icon":  {
+                                 "item":  "fallenroses:special_grade_seal"
+                             },
+                    "title":  {
+                                  "translate":  "advancements.fallenroses.special_grade.title"
+                              },
+                    "description":  {
+                                        "translate":  "advancements.fallenroses.special_grade.description"
+                                    },
+                    "frame":  "challenge",
+                    "show_toast":  true,
+                    "announce_to_chat":  true,
+                    "hidden":  false
+                },
+    "criteria":  {
+                     "done":  {
+                                  "trigger":  "minecraft:impossible"
+                              }
+                 }
+}

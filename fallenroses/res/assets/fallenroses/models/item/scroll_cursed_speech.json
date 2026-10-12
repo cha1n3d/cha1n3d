@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "layer0":  "fallenroses:item/scroll_cursed_speech"
+                 },
+    "parent":  "minecraft:item/generated"
+}
